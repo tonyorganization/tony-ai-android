@@ -1,0 +1,35 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <path
+      android:pathData="M32.144,9.535H28.67L34.918,3.236C35.685,2.445 35.624,1.221 34.778,0.502C33.931,-0.216 32.625,-0.157 31.857,0.634L24,8.591L20.582,5.067C19.815,4.276 18.507,4.217 17.662,4.935C16.816,5.653 16.753,6.878 17.521,7.668L19.33,9.534H15.856C9.017,9.535 3.454,14.743 3.454,21.145V36.39C3.454,42.792 9.017,48 15.856,48H32.144C38.982,48 44.546,42.792 44.546,36.39V21.145C44.546,14.743 38.982,9.535 32.144,9.535ZM40.413,36.39C40.413,40.659 36.703,44.131 32.144,44.131H15.856C11.297,44.131 7.587,40.659 7.587,36.39V21.145C7.587,16.876 11.297,13.405 15.856,13.405H32.144C36.703,13.405 40.413,16.876 40.413,21.145V36.39Z">
+    <aapt:attr name="android:fillColor">
+      <gradient
+          android:startX="11.169"
+          android:startY="10.529"
+          android:endX="44.462"
+          android:endY="51.822"
+          android:type="linear">
+        <item android:offset="0" android:color="#FF0098EA"/>
+        <item android:offset="1" android:color="#FF2709BD"/>
+      </gradient>
+    </aapt:attr>
+  </path>
+  <path
+      android:pathData="M31.815,18.297H16.673C13.913,18.297 12.178,21.29 13.518,23.733L22.824,39.882C23.454,40.907 24.953,40.907 25.583,39.882L34.889,23.733C36.308,21.29 34.573,18.297 31.813,18.297H31.815ZM22.904,34.999L20.854,31.06L15.965,22.315C15.649,21.764 16.044,21.055 16.753,21.055H22.904V34.999ZM32.524,22.315L27.635,31.06L25.585,34.999V21.055H31.736C32.445,21.055 32.84,21.764 32.524,22.315Z">
+    <aapt:attr name="android:fillColor">
+      <gradient
+          android:startX="11.592"
+          android:startY="8.577"
+          android:endX="46.14"
+          android:endY="51.425"
+          android:type="linear">
+        <item android:offset="0" android:color="#FF0098EA"/>
+        <item android:offset="1" android:color="#FF2709BD"/>
+      </gradient>
+    </aapt:attr>
+  </path>
+</vector>
