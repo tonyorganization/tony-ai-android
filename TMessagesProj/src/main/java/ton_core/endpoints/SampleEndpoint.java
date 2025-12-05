@@ -1,10 +1,12 @@
 package ton_core.endpoints;
 
 import retrofit2.Call;
-import retrofit2.http.GET;
-import ton_core.models.BaseResponse;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
+import ton_core.models.SampleRequest;
+import ton_core.models.SampleResponse;
 
 public interface SampleEndpoint {
-    @GET("/api/sample/endpoint")
-    Call<BaseResponse<String>> getSampleData();
+    @POST("/translate")
+    Call<SampleResponse> getSampleData(@Body SampleRequest request);
 }

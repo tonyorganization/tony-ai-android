@@ -70,6 +70,7 @@ dependencies {
     //Ton Core
     implementation 'com.squareup.retrofit2:retrofit:2.1.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:5.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
 }
 
@@ -132,7 +133,7 @@ android {
             buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "true"
             buildConfigField "boolean", "BUILD_HOST_IS_WINDOWS", isWindows
             buildConfigField "int", "VERSION_NUM", "0"
-            buildConfigField "String", "TON_API_URL", "\"https://your-correct-api-url.com/\""
+            buildConfigField "String", "TON_API_URL", "\"https://6b05edd52a82.ngrok-free.app/\""
         }
 
         HA_private {

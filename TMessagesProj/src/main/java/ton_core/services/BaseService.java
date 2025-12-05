@@ -2,6 +2,8 @@ package ton_core.services;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -15,7 +17,7 @@ public class BaseService {
         call.enqueue(new Callback<BaseResponse<T>>() {
 
             @Override
-            public void onResponse(Call<BaseResponse<T>> call, Response<BaseResponse<T>> response) {
+            public void onResponse(@NonNull Call<BaseResponse<T>> call, @NonNull Response<BaseResponse<T>> response) {
                 if (!response.isSuccessful()) {
                     callback.onError("HTTP " + response.code());
                     return;
@@ -35,7 +37,33 @@ public class BaseService {
             }
 
             @Override
-            public void onFailure(Call<BaseResponse<T>> call, Throwable t) {
+            public void onFailure(@NonNull Call<BaseResponse<T>> call, @NonNull Throwable t) {
+                callback.onError(t.getMessage());
+            }
+        });
+    }
+
+    protected static <T> void handleWithoutBaseResponse(Call<T> call, IOnApiCallback<T> callback) {
+        call.enqueue(new Callback<T>() {
+
+
+            @Override
+            public void onResponse(@NonNull Call<T> call, @NonNull Response<T> response) {
+                if (!response.isSuccessful()) {
+                    callback.onError("HTTP " + response.code());
+                    return;
+                }
+
+                T body = response.body();
+                if (body == null) {
+                    callback.onError("Empty response body");
+                    return;
+                }
+                callback.onSuccess(body);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<T> call, @NonNull Throwable t) {
                 callback.onError(t.getMessage());
             }
         });
