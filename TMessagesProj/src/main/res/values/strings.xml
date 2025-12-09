@@ -10028,7 +10028,13 @@
     <string name="Gift2AuctionsBidHasBeenIncreased">Your bid has been increased</string>
     <string name="Gift2AuctionsChangeRecipient">Change Recipient</string>
     <string name="Gift2AuctionsChangeRecipient2">You’ve already placed a bid on this gift for **%s.** Do you want to raise your bid and change the recipient to **%s?**</string>
-    <string name="TonTV">TonTV</string>
+    <string name="TonTV">Tontv</string>
+    <string name="MiniAppStore">Mini App Store</string>
+    <string name="TonWallet">Ton Wallet</string>
+    <string name="AITony">AI Tony</string>
+    <string name="CEXExchange">CEX Exchange</string>
+    <string name="P2PExchange">P2P Exchange</string>
+    <string name="ComingSoon">Coming Soon</string>
     <string name="TonTVFeatureURL">https://t.me/tontv_official_bot/app</string>
     <string name="TonGramAppStoreFeatureUrl">https://t.me/Tongram_center_bot/Tongram_Apps_Center</string>
 </resources>

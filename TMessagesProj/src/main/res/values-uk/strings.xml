@@ -276,7 +276,13 @@
     <string name="RemindTodayAt">\'Нагадати сьогодні,\' HH:mm</string>
     <string name="RemindDayAt">\'Нагадати\' d MMM\',\' HH:mm</string>
     <string name="RemindDayYearAt">\'Нагадати\' d MMM yyyy\',\' HH:mm</string>
-    <string name="TonTV">TonTV</string>
+    <string name="TonTV">Tontv</string>
+    <string name="MiniAppStore">Mini App Store</string>
+    <string name="TonWallet">Ton Wallet</string>
+    <string name="AITony">AI Tony</string>
+    <string name="CEXExchange">CEX Exchange</string>
+    <string name="P2PExchange">P2P Exchange</string>
+    <string name="ComingSoon">Coming Soon</string>
     <string name="TonTVFeatureURL">https://t.me/tontv_official_bot/app</string>
     <string name="TonGramAppStoreFeatureUrl">https://t.me/Tongram_center_bot/Tongram_Apps_Center</string>
 </resources>
