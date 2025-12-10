@@ -656,7 +656,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         private void updateAppIconTexture() {
             loadTexture(v -> {
                 Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                paint.setColor(0xFF2CA5E0); // It's logo color, it should not be colored by the theme
+                paint.setColor(0xff0A84FF); // It's logo color, it should not be colored by the theme
                 paint.setStyle(Paint.Style.STROKE);
                 paint.setStrokeWidth(AndroidUtilities.dp(4f));
                 int size = AndroidUtilities.dp(ICON_HEIGHT_DP);

@@ -143,6 +143,7 @@ import org.telegram.messenger.SRPHelper;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.SerializedData;
@@ -161,6 +162,7 @@ import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.BulletinFactory;
+import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.CustomPhoneKeyboardView;
@@ -3576,6 +3578,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         private FrameLayout bottomContainer;
         private ViewSwitcher errorViewSwitcher;
         private LoadingTextView problemText;
+        private SpannableStringBuilder openTelegramStringBuilder;
+        private ButtonWithCounterView telegramButton;
         private FrameLayout problemFrame;
         private TextView wrongCode;
         private LinearLayout openFragmentButton;
@@ -3880,6 +3884,13 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 anim.setInterpolator(Easings.easeInOutQuad);
                 errorViewSwitcher.setOutAnimation(anim);
 
+                openTelegramStringBuilder = new SpannableStringBuilder("c");
+                openTelegramStringBuilder.setSpan(new ColoredImageSpan(R.drawable.ic_plan_24), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                openTelegramStringBuilder.append("  ").append(getString(R.string.OpenTelegramApp));
+
+                telegramButton = new ButtonWithCounterView(context, resourceProvider);
+                telegramButton.setText(openTelegramStringBuilder, false);
+
                 problemText = new LoadingTextView(context) {
                     @Override
                     protected boolean isResendingCode() {
@@ -3894,7 +3905,21 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 problemText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
                 problemText.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
                 problemText.setPadding(AndroidUtilities.dp(14), AndroidUtilities.dp(8), AndroidUtilities.dp(14), AndroidUtilities.dp(16));
-                problemFrame.addView(problemText, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
+
+                LinearLayout container = new LinearLayout(context);
+                container.setOrientation(LinearLayout.VERTICAL);
+                container.setLayoutParams(
+                        new FrameLayout.LayoutParams(
+                                FrameLayout.LayoutParams.MATCH_PARENT,
+                                FrameLayout.LayoutParams.MATCH_PARENT
+                        )
+                );
+
+                container.addView(problemText, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
+                container.addView(telegramButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 50, Gravity.CENTER_HORIZONTAL));
+
+                problemFrame.addView(container);
+
                 errorViewSwitcher.addView(problemFrame, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
             } else {
                 Animation anim = AnimationUtils.loadAnimation(context, R.anim.scale_in);
@@ -4106,6 +4131,18 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                                 .setPositiveButton(getString(R.string.Close), null)
                                 .setNegativeButton(getString(R.string.DidNotGetTheCodeEditNumberButton), (dialog, which) -> setPage(VIEW_PHONE_INPUT, true, null, true))
                                 .show();
+                    }
+                });
+                telegramButton.setOnClickListener(view -> {
+                    final String telePackageId = "org.telegram.messenger";
+                    try {
+                        final PackageManager pm = context.getPackageManager();
+                        final Intent intent = pm.getLaunchIntentForPackage(telePackageId);
+                        assert intent != null;
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    } catch (Exception e) {
+                        Browser.openInExternalApp(ApplicationLoader.applicationContext, "https://play.google.com/store/apps/details?id=" + telePackageId, true);
                     }
                 });
             }
@@ -9646,62 +9683,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 setParams(currentParams, true);
             }
         }
-
-//        private void setProblemTextVisible(boolean visible) {
-//            if (problemText == null) {
-//                return;
-//            }
-//            float newAlpha = visible ? 1f : 0f;
-//            if (problemText.getAlpha() != newAlpha) {
-//                problemText.animate().cancel();
-//                problemText.animate().alpha(newAlpha).setDuration(150).start();
-//            }
-//        }
-//
-//        private void createCodeTimer() {
-//            if (codeTimer != null) {
-//                return;
-//            }
-//            codeTime = 15000;
-//            if (time > codeTime) {
-//                codeTime = time;
-//            }
-//            codeTimer = new Timer();
-//            lastCodeTime = System.currentTimeMillis();
-//            codeTimer.schedule(new TimerTask() {
-//                @Override
-//                public void run() {
-//                    AndroidUtilities.runOnUIThread(() -> {
-//                        double currentTime = System.currentTimeMillis();
-//                        double diff = currentTime - lastCodeTime;
-//                        lastCodeTime = currentTime;
-//                        codeTime -= diff;
-//                        if (codeTime <= 1000) {
-//                            setProblemTextVisible(true);
-//                            timeText.setVisibility(GONE);
-//                            if (problemText != null) {
-//                                problemText.setVisibility(VISIBLE);
-//                            }
-//                            destroyCodeTimer();
-//                        }
-//                    });
-//                }
-//            }, 0, 1000);
-//        }
-
-//
-//        private void destroyCodeTimer() {
-//            try {
-//                synchronized (timerSync) {
-//                    if (codeTimer != null) {
-//                        codeTimer.cancel();
-//                        codeTimer = null;
-//                    }
-//                }
-//            } catch (Exception e) {
-//                FileLog.e(e);
-//            }
-//        }
 
         private void createTimer() {
             if (timeTimer != null) {

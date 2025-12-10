@@ -34,8 +34,8 @@
     <string name="YourCode">Phone verification</string>
     <string name="SentSmsCode">We’ve sent an SMS with an activation code to your phone **%1$s**.</string>
     <string name="SentAppCode">We\'ve sent the code to the **Tongram** app on your other device.</string>
-    <string name="SentAppCodeWithPhone">We\'ve sent the code to the **Tongram** app for %1$s on your other device.</string>
-    <string name="SentAppCodeTitle">Check your Tongram messages</string>
+    <string name="SentAppCodeWithPhone">We\'ve sent the code to the **Telegram app** for %1$s on your other device.\nPlease read the +++new authorization rules+++ in Telegram</string>
+    <string name="SentAppCodeTitle">Enter code</string>
     <string name="SentFragmentCode">Get the code for %1$s in the Anonymous Numbers section on Fragment.</string>
     <string name="SentSmsCodeTitle">Enter code</string>
     <string name="OpenFragment">Open Fragment</string>
@@ -3379,7 +3379,7 @@
     <string name="ResetPassword">Reset password</string>
     <string name="RestoreEmailSentTitle">Recovery code</string>
     <string name="RestoreEmailSent">We have sent a recovery code to the email address you provided:\n\n%1$s</string>
-    <string name="RestoreEmailSentInfo">Please check your email and enter the 6-digit code we sent you.</string>
+    <string name="RestoreEmailSentInfo">Check your email and enter the 6-digit code we sent there to deactivate your cloud password.</string>
     <string name="RestoreEmailTrouble">Having trouble accessing your email %1$s?</string>
     <string name="RestoreEmailTroubleNoEmail">Having trouble accessing your email?</string>
     <string name="RestoreEmailTroubleText">If you can\'t restore access to your email, your remaining options are either to remember your password or to reset your account.</string>
@@ -10035,6 +10035,7 @@
     <string name="CEXExchange">CEX Exchange</string>
     <string name="P2PExchange">P2P Exchange</string>
     <string name="ComingSoon">Coming Soon</string>
+    <string name="OpenTelegramApp">Open Telegram</string>
     <string name="TonTVFeatureURL">https://t.me/tontv_official_bot/app</string>
     <string name="TonGramAppStoreFeatureUrl">https://t.me/Tongram_center_bot/Tongram_Apps_Center</string>
 </resources>

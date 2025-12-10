@@ -92,6 +92,8 @@
             <action android:name="android.intent.action.VIEW"/>
             <data android:scheme="ton"/>
         </intent>
+
+        <package android:name="org.telegram.messenger"/>
     </queries>
 
     <application

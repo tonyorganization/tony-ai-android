@@ -86,8 +86,8 @@ public class ThemeColors {
         defaultColors[key_windowBackgroundWhiteBlueText5] = 0xff4c8eca;
         defaultColors[key_windowBackgroundWhiteBlueText6] = 0xff3a8ccf;
         defaultColors[key_windowBackgroundWhiteBlueText7] = 0xff377aae;
-        defaultColors[key_windowBackgroundWhiteBlueButton] = 0xff1e88d3;
-        defaultColors[key_windowBackgroundWhiteBlueIcon] = 0xff379de5;
+        defaultColors[key_windowBackgroundWhiteBlueButton] = 0xff0A84FF;
+        defaultColors[key_windowBackgroundWhiteBlueIcon] = 0xff0A84FF;
         defaultColors[key_windowBackgroundWhiteGreenText] = 0xff26972c;
         defaultColors[key_windowBackgroundWhiteGreenText2] = 0xff37a818;
         defaultColors[key_text_RedRegular] = 0xffcc2929;
@@ -103,12 +103,12 @@ public class ThemeColors {
         defaultColors[key_windowBackgroundWhiteGrayText8] = 0xff6d6d72;
         defaultColors[key_windowBackgroundWhiteBlackText] = 0xff222222;
         defaultColors[key_windowBackgroundWhiteHintText] = 0xffa8a8a8;
-        defaultColors[key_windowBackgroundWhiteValueText] = 0xff3a95d5;
+        defaultColors[key_windowBackgroundWhiteValueText] = 0xff0A84FF;
         defaultColors[key_windowBackgroundWhiteLinkText] = 0xff2678b6;
         defaultColors[key_windowBackgroundWhiteLinkSelection] = 0x3362a9e3;
         defaultColors[key_windowBackgroundWhiteBlueHeader] = 0xff3a95d5;
         defaultColors[key_windowBackgroundWhiteInputField] = 0xffdbdbdb;
-        defaultColors[key_windowBackgroundWhiteInputFieldActivated] = 0xff37a9f0;
+        defaultColors[key_windowBackgroundWhiteInputFieldActivated] = 0xff0A84FF;
         defaultColors[key_switchTrack] = 0xffb0b5ba;
         defaultColors[key_switchTrackChecked] = 0xff52ade9;
         defaultColors[key_switchTrackBlue] = 0xff828e99;
@@ -220,7 +220,7 @@ public class ThemeColors {
         defaultColors[key_chats_unreadCounter] = 0xff4ecc5e;
         defaultColors[key_chats_unreadCounterMuted] = 0xffc6c9cc;
         defaultColors[key_chats_unreadCounterText] = 0xffffffff;
-        defaultColors[key_chats_archiveBackground] = 0xff66a9e0;
+        defaultColors[key_chats_archiveBackground] = 0xff0A84FF;
         defaultColors[key_chats_archivePinBackground] = 0xff9faab3;
         defaultColors[key_chats_archiveIcon] = 0xffffffff;
         defaultColors[key_chats_archiveText] = 0xffffffff;
@@ -259,11 +259,11 @@ public class ThemeColors {
         defaultColors[key_chats_menuPhone] = 0xffffffff;
         defaultColors[key_chats_menuPhoneCats] = 0xffc2e5ff;
         defaultColors[key_chats_actionIcon] = 0xffffffff;
-        defaultColors[key_chats_actionBackground] = 0xff65a9e0;
+        defaultColors[key_chats_actionBackground] = 0xff0A84FF;
         defaultColors[key_chats_actionPressedBackground] = 0xff569dd6;
         defaultColors[key_chats_menuTopBackgroundCats] = 0xff598fba;
         defaultColors[key_chats_archivePullDownBackground] = 0xffc6c9cc;
-        defaultColors[key_chats_archivePullDownBackgroundActive] = 0xff66a9e0;
+        defaultColors[key_chats_archivePullDownBackgroundActive] = 0xff0A84FF;
 
         defaultColors[key_chat_attachCheckBoxCheck] = 0xffffffff;
         defaultColors[key_chat_attachCheckBoxBackground] = 0xff4cb4f5;
@@ -458,7 +458,7 @@ public class ThemeColors {
         defaultColors[key_chat_emojiPanelBackspace] = 0xff8c9197;
         defaultColors[key_chat_emojiPanelTrendingTitle] = 0xff222222;
         defaultColors[key_chat_emojiPanelStickerSetName] = 0xff828b94;
-        defaultColors[key_chat_emojiPanelStickerSetNameHighlight] = 0xff278ddb;
+        defaultColors[key_chat_emojiPanelStickerSetNameHighlight] = 0xff0A84FF;
         defaultColors[key_chat_emojiPanelStickerSetNameIcon] = 0xffb1b6bc;
         defaultColors[key_chat_emojiPanelTrendingDescription] = 0xff8a8a8a;
         defaultColors[key_chat_botKeyboardButtonText] = 0xF0444444;
@@ -592,8 +592,8 @@ public class ThemeColors {
 
         defaultColors[key_featuredStickers_addedIcon] = 0xff50a8eb;
         defaultColors[key_featuredStickers_buttonProgress] = 0xffffffff;
-        defaultColors[key_featuredStickers_addButton] = 0xff50a8eb;
-        defaultColors[key_featuredStickers_addButtonPressed] = 0xff439bde;
+        defaultColors[key_featuredStickers_addButton] = 0xff0A84FF;
+        defaultColors[key_featuredStickers_addButtonPressed] = 0xff0A84FF;
         defaultColors[key_featuredStickers_removeButtonText] = 0xff5093d3;
         defaultColors[key_featuredStickers_buttonText] = 0xffffffff;
         defaultColors[key_featuredStickers_unread] = 0xff4da6ea;
@@ -620,7 +620,7 @@ public class ThemeColors {
         defaultColors[key_stickers_menu] = 0xffb6bdc5;
         defaultColors[key_stickers_menuSelector] = 0x0f000000;
 
-        defaultColors[key_changephoneinfo_image2] = 0xff50a7ea;
+        defaultColors[key_changephoneinfo_image2] = 0xff0A84FF;
 
         defaultColors[key_groupcreate_hintText] = 0xffa1aab3;
         defaultColors[key_groupcreate_cursor] = 0xff52a3db;
