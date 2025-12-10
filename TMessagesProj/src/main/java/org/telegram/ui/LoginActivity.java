@@ -162,6 +162,7 @@ import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.BulletinFactory;
+import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.CustomPhoneKeyboardView;
@@ -192,7 +193,6 @@ import org.telegram.ui.Components.TransformableLoginButtonView;
 import org.telegram.ui.Components.URLSpanNoUnderline;
 import org.telegram.ui.Components.VerticalPositionAutoAnimator;
 import org.telegram.ui.Components.spoilers.SpoilersTextView;
-import org.telegram.ui.Components.voip.CellFlickerDrawable;
 import org.telegram.ui.Stars.ExplainStarsSheet;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 import org.telegram.ui.bots.BotWebViewSheet;
@@ -3578,7 +3578,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         private FrameLayout bottomContainer;
         private ViewSwitcher errorViewSwitcher;
         private LoadingTextView problemText;
-        private TextView openTelegramButton;
+        private SpannableStringBuilder openTelegramStringBuilder;
+        private ButtonWithCounterView telegramButton;
         private FrameLayout problemFrame;
         private TextView wrongCode;
         private LinearLayout openFragmentButton;
@@ -3883,41 +3884,12 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 anim.setInterpolator(Easings.easeInOutQuad);
                 errorViewSwitcher.setOutAnimation(anim);
 
-                openTelegramButton = new TextView(context) {
-                    CellFlickerDrawable cellFlickerDrawable;
+                openTelegramStringBuilder = new SpannableStringBuilder("c");
+                openTelegramStringBuilder.setSpan(new ColoredImageSpan(R.drawable.ic_plan_24), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                openTelegramStringBuilder.append("  ").append(getString(R.string.OpenTelegramApp));
 
-                    @Override
-                    protected void onDraw(Canvas canvas) {
-                        super.onDraw(canvas);
-                        if (cellFlickerDrawable == null) {
-                            cellFlickerDrawable = new CellFlickerDrawable();
-                            cellFlickerDrawable.drawFrame = false;
-                            cellFlickerDrawable.repeatProgress = 2f;
-                        }
-                        cellFlickerDrawable.setParentWidth(getMeasuredWidth());
-                        AndroidUtilities.rectTmp.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                        cellFlickerDrawable.draw(canvas, AndroidUtilities.rectTmp, AndroidUtilities.dp(4), null);
-                        invalidate();
-                    }
-
-                    @Override
-                    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-                        int size = MeasureSpec.getSize(widthMeasureSpec);
-                        if (size > AndroidUtilities.dp(260)) {
-                            super.onMeasure(MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(320), MeasureSpec.EXACTLY), heightMeasureSpec);
-                        } else {
-                            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-                        }
-                    }
-                };
-                openTelegramButton.setText(LocaleController.getString(R.string.OpenTelegramApp));
-                openTelegramButton.setGravity(Gravity.CENTER);
-                openTelegramButton.setTypeface(AndroidUtilities.bold());
-                openTelegramButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-                openTelegramButton.setPadding(AndroidUtilities.dp(34), 0, AndroidUtilities.dp(34), 0);
-                openTelegramButton.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
-                openTelegramButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6), Theme.getColor(Theme.key_changephoneinfo_image2), Theme.getColor(Theme.key_chats_actionPressedBackground)));
-
+                telegramButton = new ButtonWithCounterView(context, resourceProvider);
+                telegramButton.setText(openTelegramStringBuilder, false);
 
                 problemText = new LoadingTextView(context) {
                     @Override
@@ -3943,7 +3915,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                         )
                 );
 
-                container.addView(openTelegramButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 56, Gravity.CENTER_HORIZONTAL));
+                container.addView(telegramButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 50, Gravity.CENTER_HORIZONTAL));
                 container.addView(problemText, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
 
                 problemFrame.addView(container);
@@ -4161,7 +4133,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                                 .show();
                     }
                 });
-                openTelegramButton.setOnClickListener(view -> {
+                telegramButton.setOnClickListener(view -> {
                     final String telePackageId = "org.telegram.messenger";
                     try {
                         final PackageManager pm = context.getPackageManager();
