@@ -142,7 +142,7 @@ android {
     buildFeatures {
         buildConfig = true
     }
-    namespace 'io.toncorp.tonmessenger.web'
+    namespace 'io.toncorp.tongram.web'
 
     lintOptions {
         checkReleaseBuilds false

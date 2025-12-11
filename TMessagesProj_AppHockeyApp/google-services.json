@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "690165177828",
-    "project_id": "ton-messenger-a8400",
-    "storage_bucket": "ton-messenger-a8400.firebasestorage.app"
+    "project_number": "38247677898",
+    "project_id": "tongram-ed97d",
+    "storage_bucket": "tongram-ed97d.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:690165177828:android:bbbb8364b4e3bb68ae7bf1",
+        "mobilesdk_app_id": "1:38247677898:android:fc4704f4815b5ae74dd933",
         "android_client_info": {
-          "package_name": "io.toncorp.tonmessenger"
+          "package_name": "io.toncorp.tongram"
         }
       },
       "oauth_client": [
         {
-          "client_id": "690165177828-344a8rjtg0lr11b6fta9046q04g0316b.apps.googleusercontent.com",
+          "client_id": "38247677898-u9stlhee6n0db0o4oejevjumd5eevru4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD1cPmXaMJDPit86h8CSa3m-GvIjVr29YA"
+          "current_key": "AIzaSyB4KAjjFaKwqaxb-r7QaSaLaj5nM8LQJi0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "690165177828-344a8rjtg0lr11b6fta9046q04g0316b.apps.googleusercontent.com",
+              "client_id": "38247677898-u9stlhee6n0db0o4oejevjumd5eevru4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -36,27 +36,27 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:690165177828:android:40df7f526dce64e0ae7bf1",
+        "mobilesdk_app_id": "1:38247677898:android:b0b3ba93cf62958b4dd933",
         "android_client_info": {
-          "package_name": "io.toncorp.tonmessenger.beta"
+          "package_name": "io.toncorp.tongram.beta"
         }
       },
       "oauth_client": [
         {
-          "client_id": "690165177828-344a8rjtg0lr11b6fta9046q04g0316b.apps.googleusercontent.com",
+          "client_id": "38247677898-u9stlhee6n0db0o4oejevjumd5eevru4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD1cPmXaMJDPit86h8CSa3m-GvIjVr29YA"
+          "current_key": "AIzaSyB4KAjjFaKwqaxb-r7QaSaLaj5nM8LQJi0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "690165177828-344a8rjtg0lr11b6fta9046q04g0316b.apps.googleusercontent.com",
+              "client_id": "38247677898-u9stlhee6n0db0o4oejevjumd5eevru4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -65,27 +65,27 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:690165177828:android:0caebb939f3fdfafae7bf1",
+        "mobilesdk_app_id": "1:38247677898:android:a0f9240d6b4bade74dd933",
         "android_client_info": {
-          "package_name": "io.toncorp.tonmessenger.web"
+          "package_name": "io.toncorp.tongram.web"
         }
       },
       "oauth_client": [
         {
-          "client_id": "690165177828-344a8rjtg0lr11b6fta9046q04g0316b.apps.googleusercontent.com",
+          "client_id": "38247677898-u9stlhee6n0db0o4oejevjumd5eevru4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD1cPmXaMJDPit86h8CSa3m-GvIjVr29YA"
+          "current_key": "AIzaSyB4KAjjFaKwqaxb-r7QaSaLaj5nM8LQJi0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "690165177828-344a8rjtg0lr11b6fta9046q04g0316b.apps.googleusercontent.com",
+              "client_id": "38247677898-u9stlhee6n0db0o4oejevjumd5eevru4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
