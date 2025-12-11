@@ -9,7 +9,7 @@ pipeline {
     }
 
     environment {
-        ANDROID_HOME = "/opt/android-sdk"
+        ANDROID_HOME = "/usr/local/android-sdk-linux"
     }
 
     stages {
