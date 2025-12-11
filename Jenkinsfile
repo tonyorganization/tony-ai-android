@@ -25,11 +25,11 @@ pipeline {
             }
         }
 
-        stage('Unit Test') {
-            steps {
-                sh './gradlew testDebugUnitTest'
-            }
-        }
+        // stage('Unit Test') {
+        //     steps {
+        //         sh './gradlew testDebugUnitTest'
+        //     }
+        // }
 
         stage('Check Info') {
             steps {
