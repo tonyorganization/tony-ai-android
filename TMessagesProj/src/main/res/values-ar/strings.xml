@@ -103,8 +103,8 @@
     <string name="MessageLifetimeRemoved">%1$s عطّل عداد التدمير الذاتي</string>
     <string name="MessageLifetimeYouRemoved">لقد عطلتَ عداد التدمير الذاتي</string>
     <string name="YouHaveNewMessage">لديك رسالة جديدة</string>
-    <string name="NotificationMessageScheduled">&#128197; أنت: %1$s</string>
-    <string name="NotificationMessageScheduledName">&#128197; أنت</string>
+    <string name="NotificationMessageScheduled">📅 أنت: %1$s</string>
+    <string name="NotificationMessageScheduledName">📅 أنت</string>
     <string name="NotificationMessageText">%1$s: %2$s</string>
     <string name="NotificationMessageFew">%2$s من %1$s</string>
     <string name="NotificationMessageAlbum">أرسل لك %1$s حُزمة وسائط</string>
@@ -148,9 +148,9 @@
     <string name="NotificationMessageGroupMusic">أرسل %1$s ملفًا صوتيًا لمجموعة %2$s</string>
     <string name="NotificationMessageGroupSticker">أرسل %1$s ملصقًا لمجموعة %2$s</string>
     <string name="NotificationMessageGroupStickerEmoji">أرسل %1$s ملصق %3$s لمجموعة %2$s</string>
-    <string name="NotificationMessageRecurringPay">%1$s|تم سحب المبلغ:&#160;%2$s</string>
-    <string name="NotificationPaidMedia_one">%1$d &#11088; للوسائط</string>
-    <string name="NotificationPaidMedia_other">%1$d &#11088; للوسائط</string>
+    <string name="NotificationMessageRecurringPay">%1$s|تم سحب المبلغ: %2$s</string>
+    <string name="NotificationPaidMedia_one">%1$d ⭐ للوسائط</string>
+    <string name="NotificationPaidMedia_other">%1$d ⭐ للوسائط</string>
     <string name="NotificationMessagePaidMedia_one">تم إرسال منشور من قبل %2$s بقيمة نجمة</string>
     <string name="NotificationMessagePaidMedia_other">تم إرسال منشور من قبل %2$s بقيمة %1$d نجمة</string>
     <string name="NotificationChannelMessagePaidMedia_one">نشر %2$s منشوراً مدفوع الأجر مقابل نجمة واحدة</string>
@@ -350,9 +350,9 @@
     <string name="BackgroundPreviewLine1">ملحوظة: بعض صور الخلفيات تبدو أفضل مع التأثير الضبابي.</string>
     <string name="BackgroundPreviewLine2">وااو! شكرًا لك</string>
     <string name="FontSizePreviewName">أيمن</string>
-    <string name="FontSizePreviewReply">صباح الخير! &#128075;</string>
+    <string name="FontSizePreviewReply">صباح الخير! 👋</string>
     <string name="FontSizePreviewLine1">ماهو الوقت الآن؟</string>
-    <string name="FontSizePreviewLine2">الوقت صباح هنا في دبي &#128526;</string>
+    <string name="FontSizePreviewLine2">الوقت صباح هنا في دبي 😎</string>
     <string name="BackgroundColorSinglePreviewLine1">يمكنك الضغط على «تعيين» لتطبيق الخلفية.</string>
     <string name="BackgroundColorSinglePreviewLine2">تبدو رائعة.</string>
     <string name="SearchByColor">بحث بواسطة اللون</string>
@@ -386,9 +386,8 @@
     <string name="PinnedMessages">الرسائل المثبتة</string>
     <string name="TranslateMessages">ترجمة الرسائل</string>
     <string name="ShowTranslateButton">إظهار زر الترجمة</string>
-    <string name="ShowTranslateChatButton">ترجمة المحادثات&#160;بأكملها</string>
+    <string name="ShowTranslateChatButton">ترجمة المحادثات بأكملها</string>
     <string name="DoNotTranslate">عدم ترجمة</string>
-    <string name="Languages_zero"></string>
     <string name="Languages_one">لغة واحدة</string>
     <string name="Languages_two">لغتين</string>
     <string name="Languages_few">%1$d لغات</string>
@@ -523,7 +522,7 @@
     <string name="PhoneNumberAlert">سيحصل المستخدمون على رقمك الجديد في حال وجوده في جهات اتصالهم أو في حال كانت إعدادات خصوصيتك تسمح لهم برؤيته. يمكنك تغيير ذلك في الإعدادات &gt; الخصوصية والأمان &gt; رقم الهاتف.</string>
     <string name="PhoneNumberChange2">تغيير الرقم</string>
     <string name="PhoneNumberChangeTitle">تغيير الرقم</string>
-    <string name="PhoneNumberKeepButton">إبقاء&#160;%1$s</string>
+    <string name="PhoneNumberKeepButton">إبقاء %1$s</string>
     <string name="ChangePhoneNewNumber">الرقم الجديد</string>
     <string name="ChangePhoneHelp">سوف يستلم رقمك الجديد رمز التفعيل عبر مكالمة أو رسالة SMS نصيّة.</string>
     <string name="ChangePhoneNumberOccupied">الرقم %1$s مرتبط بالفعل بحساب آخَر على تيليجرام. يرجى حذف ذلك الحساب قبل استخدام هذا الرقم.</string>
@@ -537,7 +536,7 @@
     <string name="SoundDefault">افتراضي</string>
     <string name="VibrationDefault">افتراضي</string>
     <string name="NotificationsDefault">الافتراضية</string>
-    <string name="NotificationsInAppDefault">الافتراضية داخل&#160;التطبيق</string>
+    <string name="NotificationsInAppDefault">الافتراضية داخل التطبيق</string>
     <string name="NotificationsChatInApp">%1$s داخل التطبيق</string>
     <string name="NotificationsSilent">صامتة</string>
     <string name="SmartNotifications">إشعارات ذكية</string>
@@ -725,7 +724,7 @@
     <string name="PermissionOpenSettings">الإعدادات</string>
     <string name="PermissionXiaomiLockscreen">يرجى السماح لتيليجرام بالظهور على شاشة القفل للتمكن من إجراء المكالمات دون مشاكل.</string>
     <string name="PermissionBackgroundLocation">"لمشاركة موقعك المباشر في هذه المحادثة؛ يحتاج تيليجرام الوصول إلى موقعك باستمرار، بما في ذلك أثناء عمل التطبيق في الخلفية.\n\n سنستخدم موقعك للمدة التي تختارها أنت فقط ويمكنك التوقف عن مشاركته في أي وقت. لن نستخدم موقعك لأي غرض بخلاف مشاركته في هذه المحادثة. "</string>
-    <string name="PermissionDrawAboveOtherAppsTitle">صورة داخل&#160;صورة</string>
+    <string name="PermissionDrawAboveOtherAppsTitle">صورة داخل صورة</string>
     <string name="PermissionDrawAboveOtherAppsGroupCallTitle">المحادثة المرئية العائمة</string>
     <!--media view-->
     <string name="January">يناير</string>
@@ -874,7 +873,7 @@
     <string name="EnterCode">أدخل الرمز</string>
     <string name="ResendCodeInfo">تم إرسال رمز التحقق إلى بريدك الإلكتروني.</string>
     <string name="EnabledPasswordText">لقد قمت بتفعيل التحقق بخطوتين.\nلتسجيل الدخول إلى حسابك هذا من أجهزة جديدةٍ ستحتاج إلى كلمة المرور التي قمت بتعيينها.</string>
-    <string name="AddEmailTitle">اختيار البريد الإلكتروني&#160;لتسجيل الدخول</string>
+    <string name="AddEmailTitle">اختيار البريد الإلكتروني لتسجيل الدخول</string>
     <string name="AddEmailSubtitle">سيكون استلامك لرموز تسجيل الدخول عبر البريد الإلكتروني وليس عبر الرسائل النصية SMS. يُرجى إدخال بريد إلكتروني يمكنك الوصول إليه.</string>
     <string name="EnterNewEmail">يرجى إدخال بريد جديد</string>
     <string name="VerificationCodeSubtitle">يرجى تفحص بريدك الإلكتروني %1$s (حتى مجلد الرسائل المزعجة) وإدخال الرمز الذي أرسلناه إليك للتو.</string>
@@ -932,12 +931,12 @@
     <string name="ActionInviteYou">انضممت إلى المجموعة عبر رابط دعوة</string>
     <string name="ActionDeletedInviteLinkClickable">حذف un1 رابط الدعوة un2</string>
     <string name="ActionEditedInviteLinkClickable">عدّل un1 رابط الدعوة un2 إلى un3</string>
-    <string name="ActionVolumeChanged">غيّر un1 مستوى صوت un2إلى&#160;%1$d%%.</string>
+    <string name="ActionVolumeChanged">غيّر un1 مستوى صوت un2إلى %1$d%%.</string>
     <string name="ActionRevokedInviteLinkClickable">عطّل un1 رابط الدعوة un2</string>
     <string name="ActionEditedInviteLinkToSameClickable">عدّل un1 رابط الدعوة un2</string>
-    <string name="ActionTTLChanged">عيّن un1 الحذف التلقائي للرسائل بعد&#160;%1$s</string>
-    <string name="ActionTTLYouChanged">قمت بتعيين الحذف التلقائي للرسائل بعد&#160;%1$s</string>
-    <string name="ActionTTLChannelChanged">سيتم حذف الرسائل تلقائيًا في هذه القناة بعد&#160;%1$s</string>
+    <string name="ActionTTLChanged">عيّن un1 الحذف التلقائي للرسائل بعد %1$s</string>
+    <string name="ActionTTLYouChanged">قمت بتعيين الحذف التلقائي للرسائل بعد %1$s</string>
+    <string name="ActionTTLChannelChanged">سيتم حذف الرسائل تلقائيًا في هذه القناة بعد %1$s</string>
     <string name="ActionTTLChannelDisabled">لن يتم حذف الرسائل تلقائيًا في هذه القناة</string>
     <string name="ActionTTLDisabled">عطّل un1 مؤقت الحذف التلقائي</string>
     <string name="ActionTTLYouDisabled">أنت عطّلت مؤقت الحذف التلقائي</string>
@@ -976,8 +975,8 @@
     <string name="ActionUserWithinOtherRadius">الآن un1 على بعد %1$s منك un2</string>
     <string name="ActionUserInvitedToGroup">دعاك un1 إلى هذه المجموعة</string>
     <string name="ActionUserInvitedToChannel">دعاك un1 إلى هذه القناة</string>
-    <string name="ActionGroupCallStarted">بدأ un1 محادثة&#160;مرئية</string>
-    <string name="ActionGroupCallStartedByYou">أنت بدأت محادثة&#160;مرئية</string>
+    <string name="ActionGroupCallStarted">بدأ un1 محادثة مرئية</string>
+    <string name="ActionGroupCallStartedByYou">أنت بدأت محادثة مرئية</string>
     <string name="ActionGroupCallScheduled">تمت جدولة المحادثة المرئية إلى %1$s</string>
     <string name="ActionChannelCallJustStarted">البث المباشر بدأ</string>
     <string name="ActionChannelCallScheduled">تمت جدولة البث المباشر إلى %1$s</string>
