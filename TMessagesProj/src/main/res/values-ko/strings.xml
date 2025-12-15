@@ -6,7 +6,7 @@
     <string name="ChannelAntiSpamFalsePositiveReported">텔레그램 모더레이터가 신고내역을 검토할 예정입니다. 감사합니다!</string>
     <string name="BoostingGiveawayShortStatusEnded">경품 이벤트가 종료되었습니다.</string>
     <string name="SavedOpenGroup">그룹 열기</string>
-    <string name="formatDateSchedule">M'월' d'일'</string>
+    <string name="formatDateSchedule">M\'월\' d\'일\'</string>
     <string name="VoipChatRecentCalls">최근 통화 내역</string>
     <string name="PaymentPasswordTitle">비밀번호</string>
     <string name="NoEmojiOrStickersFound">이모지 또는 스티커를 찾지 못했습니다</string>
@@ -213,7 +213,7 @@
     <string name="SubscriptionsCount">구독권 %1$s개</string>
     <string name="ArchiveStory">프로필에서 제거</string>
     <string name="LoginEmailResetPleaseWait">이메일을 재설정하는 중입니다. 잠시만 기다려 주세요...</string>
-    <string name="BackgroundColorSinglePreviewLine1">'설정'을 눌러 배경화면을 적용하세요.</string>
+    <string name="BackgroundColorSinglePreviewLine1">\'설정\'을 눌러 배경화면을 적용하세요.</string>
     <string name="BackgroundColorSinglePreviewLine2">멋져 보이네</string>
     <string name="ChatSetNewPhoto">새 사진 설정</string>
     <string name="DebugMenuDisablePauseMusic">녹화 시 음악 멈춤 사용 안 함</string>
@@ -293,13 +293,13 @@
 
 텔레그램에 대한 모든 접속 권한을 상실하시게 됩니다.
 비밀번호 분실시 복구는 불가능 합니다.</string>
-    <string name="NearbyCreateGroupInfo">이 근처에 있는 사람들(이웃이나 직장 동료, 친구, 학생, 행사 참석자)이 회원님의 그룹을 '주변 사람' 탭에서 볼 수 있습니다.</string>
+    <string name="NearbyCreateGroupInfo">이 근처에 있는 사람들(이웃이나 직장 동료, 친구, 학생, 행사 참석자)이 회원님의 그룹을 \'주변 사람\' 탭에서 볼 수 있습니다.</string>
     <string name="AutoDeleteNever">안 함</string>
     <string name="DeleteAccountIfAwayFor">자동 회원 탈퇴</string>
     <string name="ViewersWatching_other">시청자 %1$d 명</string>
     <string name="AllChats">모든 대화방</string>
     <string name="FragmentChannelUsername">사용자명 **%1$s**는 %2$s에 **%3$s** %4$s에 **Fragment**에서 취득했습니다.</string>
-    <string name="StartsDayYearAt">yyyy'년' MMM d'일' HH:mm에 시작</string>
+    <string name="StartsDayYearAt">yyyy\'년\' MMM d\'일\' HH:mm에 시작</string>
     <string name="EventLogAllAdmins">모든 관리자</string>
     <string name="NotificationMessageMap">%1$s님이 위치를 보냈습니다</string>
     <string name="GoToSettings">설정으로 이동</string>
@@ -963,7 +963,7 @@ un2에게 사용자를 공유함</string>
     <string name="ExpireAfter">이후 만료</string>
     <string name="February">2월</string>
     <string name="ChatDistanceToPeer">%1$s님이 %2$s에 있음</string>
-    <string name="EnableProxyAlert2">프록시 서버는 나중에 '설정' &gt; '데이터 및 저장 공간'에서 변경하실 수 있습니다.</string>
+    <string name="EnableProxyAlert2">프록시 서버는 나중에 \'설정\' &gt; \'데이터 및 저장 공간\'에서 변경하실 수 있습니다.</string>
     <string name="ActionPinnedPhoto">un1 님이 사진을 고정했습니다</string>
     <string name="ChannelMessageContact">%1$s에서 연락처를 게시했습니다</string>
     <string name="DebugMenuDisableSmoothKeyboard">부드러운 키보드 사용 안 함</string>
@@ -1046,8 +1046,7 @@ un2에게 사용자를 공유함</string>
     <string name="VoipRequesting">요청 중</string>
     <string name="BoostingDateWhenGiveawayEnds">경품 이벤트 종료 날짜</string>
     <string name="ChatThemeChangedTo">%1$s 님이 대화 테마를 %2$s 으로 변경</string>
-    <string name="PsaInfo_covid">이 메시지는 세계적 유행 중인 코로나19 감염 질환에 관한 공공 서비스 발표를 제공드립니다. 아래 링크에서 이 계획에 대해 더 알아보세요.
-https://telegram.org/blog/coronavirus</string>
+    <string name="PsaInfo_covid">이 메시지는 세계적 유행 중인 코로나19 감염 질환에 관한 공공 서비스 발표를 제공드립니다. 아래 링크에서 이 계획에 대해 더 알아보세요.\nhttps://telegram.org/blog/coronavirus</string>
     <string name="NoStoriesSubtitle2">프로필에 표시할 사진과 영상을 게시하세요.</string>
     <string name="CreateTopicTitle">주제 이름 및 아이콘 선택</string>
     <string name="LiteOptionsSpoiler">움직이는 스포일러 효과</string>
@@ -1651,7 +1650,7 @@ https://telegram.org/blog/coronavirus</string>
     <string name="PassportAddPassportInfo">회원님 여권의 공증된 영문 번역본을 스캔하여 업로드하세요.</string>
     <string name="StoryNotificationHidden_other">%d개의 스토리가 게시되었음</string>
     <string name="ClearSearchAlertTitle">검색 기록 비우기</string>
-    <string name="StartTodayAt">'오늘' HH:mm '에 시작'</string>
+    <string name="StartTodayAt">\'오늘\' HH:mm \'에 시작\'</string>
     <string name="ChatPerFolderLimitSubtitle">폴더마다 최대 %d개의 대화방을 추가할 수 있어요</string>
     <string name="UnconfirmedAuthDeniedTitle_other">새로운 로그인 차단됨</string>
     <string name="PassportSelfRequest">개인 데이터에 접근하려면 비밀번호를 입력해 주세요.</string>
@@ -1674,7 +1673,7 @@ https://telegram.org/blog/coronavirus</string>
     <string name="ProfileBirthdayValueYear_other">%2$s (%1$d 살)</string>
     <string name="AccDescrMsgNotPlayed">미재생</string>
     <string name="SelectChatsForAutoDelete">자동 삭제 타이머를 적용합니다</string>
-    <string name="SendTodayAt">'오늘' HH:mm '에 보내기'</string>
+    <string name="SendTodayAt">\'오늘\' HH:mm \'에 보내기\'</string>
     <string name="VoipVideoScreenStopSharing">공유 중지하기</string>
     <string name="StoryPrivacyButtonExcludeContacts">제외할 연락처</string>
     <string name="BoostingSelectUpTo">최대 %1$d개의 채널을 선택해주세요</string>
@@ -1931,7 +1930,7 @@ https://telegram.org/blog/coronavirus</string>
     <string name="BotWebViewRequestDontAllow">허용하지 않음</string>
     <string name="ChannelUserCantAdd">죄송합니다. 이 사용자를 채널에 추가하실 수 없습니다.</string>
     <string name="NoBlockedGroup">차단된 사용자는 그룹에서 추방되며 관리자가 추가해 주는 경우에만 돌아올 수 있습니다. 이 사용자에게는 초대 링크도 작동하지 않습니다.</string>
-    <string name="formatDateScheduleYear">yyyy'년' M'월' d'일'</string>
+    <string name="formatDateScheduleYear">yyyy\'년\' M\'월\' d\'일\'</string>
     <string name="AccDescrAspectRatio">종횡비</string>
     <string name="NotificationsPriorityMedium">중간</string>
     <string name="ExpiredViewsStubPremiumDescription">**텔레그램 프리미엄**에 구독하여 만료되거나 게시한 스토리를 읽은 내역을 볼 수 있습니다.</string>
@@ -1989,7 +1988,7 @@ https://telegram.org/blog/coronavirus</string>
     <string name="StoryDisableKeep">만료 후 스토리가 사라집니다.</string>
     <string name="SharedContentTitle">공유하는 콘텐츠</string>
     <string name="SharedLinks">링크</string>
-    <string name="formatDateScheduleDay">M'월' d'일' EEE</string>
+    <string name="formatDateScheduleDay">M\'월\' d\'일\' EEE</string>
     <string name="NewGroup">그룹 만들기</string>
     <string name="BoostingConfirm">확인</string>
     <string name="NoAudioFoundPlayerInfo">**%1$s**에 해당하는 결과가 없습니다.</string>
@@ -2212,7 +2211,7 @@ a부터 z 사이 글자, 0부터 9 사이 숫자와 밑줄을 사용하실 수 �
     <string name="VoipOffline">회원님은 현재 오프라인이십니다. 전화를 걸려면 인터넷에 연결해 주세요.</string>
     <string name="PaintFramed">프레임</string>
     <string name="ActionPinnedGeo">un1 님이 위치를 고정했습니다</string>
-    <string name="RemindDayYearAt">yyyy'년' M'월' d'일' HH:mm'에 알림'</string>
+    <string name="RemindDayYearAt">yyyy\'년\' M\'월\' d\'일\' HH:mm\'에 알림\'</string>
     <string name="UserColorUnsavedMessage">색상 혹은 아이콘 설정을 변경하였습니다. 적용하겠습니까?</string>
     <string name="WhoCanAddMe">나를 그룹 대화방에 추가할 수 있는 사람</string>
     <string name="SmsHistorySubtitle">여기에 내 기기에서 자동으로 보낸 모든 문자를 볼 수 있습니다.</string>
@@ -2751,7 +2750,7 @@ a부터 z 사이 글자, 0부터 9 사이 숫자와 밑줄을 사용하실 수 �
     <string name="RemovedUser_other">%1$d 님이 사용자를 추방했습니다</string>
     <string name="SyncContactsDeleteText">텔레그램 서버에서 모든 연락처가 제거됩니다.
 
-'**연락처 동기화**'를 켜시면, 현재 전화번호부가 다시 동기화됩니다.</string>
+\'**연락처 동기화**\'를 켜시면, 현재 전화번호부가 다시 동기화됩니다.</string>
     <string name="SdCardAlert">SD 카드에 저장시 텔레그램이 느려집니다. 그래도 진행하겠습니까?</string>
     <string name="LimitReachedPublicLinksPremium">너무 많은 공개 링크를 지정했습니다. 예전 그룹 혹은 채널의 링크를 폐기해보세요.</string>
     <string name="ThisMedia">이 미디어</string>
@@ -2824,7 +2823,7 @@ a부터 z 사이 글자, 0부터 9 사이 숫자와 밑줄을 사용하실 수 �
     <string name="BoostingEnableStories">스토리 활성화</string>
     <string name="UnconfirmedAuthDeny">아니요, 아닙니다!</string>
     <string name="VoipInVideoCallBrandingWithName">%s님으로 부터의 영상 통화</string>
-    <string name="EditTopicHideInfo">'일반' 주제가 가려진 경우, 그룹 참가자는 주제 목록에서 아래로 당겨 주제를 볼 수 있습니다.</string>
+    <string name="EditTopicHideInfo">\'일반\' 주제가 가려진 경우, 그룹 참가자는 주제 목록에서 아래로 당겨 주제를 볼 수 있습니다.</string>
     <string name="EventLogRestrictedInviteUsers">사용자 추가</string>
     <string name="LeaveCommunities_other">커뮤니티 %d개 떠나기</string>
     <string name="SendingSms">SMS 전송중...</string>
@@ -2932,7 +2931,7 @@ telegram.org에서 자세히 알아보세요.</string>
     <string name="SmartNotificationsAlert">소리 알림 간격</string>
     <string name="BoostingBoostsChannelByUserServiceMsg">%s님이 채널을 부스트했습니다</string>
     <string name="ViewsPerPost">게시글당 조회수</string>
-    <string name="EventLogEmptyTextSearch">'**%1$s**'에 관한 최근 활동을 찾지 못했습니다.</string>
+    <string name="EventLogEmptyTextSearch">\'**%1$s**\'에 관한 최근 활동을 찾지 못했습니다.</string>
     <string name="NewThemePreviewLine1">지금 몇 시인지 아세요?</string>
     <string name="AreYouSureClearHistory">정말 이 대화방의 모든 메시지를 삭제하시겠습니까?</string>
     <string name="NewThemePreviewLine2">도쿄는 이제 아침이죠 😎</string>
@@ -3503,7 +3502,7 @@ telegram.org에서 자세히 알아보세요.</string>
     <string name="ActionChannelCallJustStarted">실시간 방송 시작</string>
     <string name="TypePrivate">비공개</string>
     <string name="PrivacyForwards">전달된 메시지</string>
-    <string name="NoHandleAppInstalled">'%1$s' 파일 유형을 처리할 수 있는 응용 프로그램이 없습니다. 계속하려면 프로그램을 설치해 주세요</string>
+    <string name="NoHandleAppInstalled">\'%1$s\' 파일 유형을 처리할 수 있는 응용 프로그램이 없습니다. 계속하려면 프로그램을 설치해 주세요</string>
     <string name="NotificationsPrioritySettings">설정과 동일</string>
     <string name="TranslateLanguageRO">루마니아어어</string>
     <string name="PinnedMessagesHiddenInfo">새로운 메시지가 고정되면 고정된 메시지가 다시 보입니다.</string>
@@ -3593,7 +3592,7 @@ telegram.org에서 자세히 알아보세요.</string>
     <string name="ShareLocationAlertText">알림을 작동시키려면, 이 대화방에 회원님의 실시간 위치를 공유해주세요.</string>
     <string name="ViewPackPreview">스티커 묶음 보기</string>
     <string name="MessageScheduledLimitReached">죄송합니다. 메시지를 100개 이상 예약하실 수 없습니다.</string>
-    <string name="formatterMonth">M'월' d'일'</string>
+    <string name="formatterMonth">M\'월\' d\'일\'</string>
     <string name="AddAdminErrorNotAMember">이 사용자는 그룹의 참가자가 아니며 회원님에게 사용자를 초대할 권한이 없기에 관리자에 추가하실 수 없습니다.</string>
     <string name="TranslateLanguageHU">헝가리어</string>
     <string name="TranslateLanguageHR">크로아티아어</string>
@@ -3610,7 +3609,7 @@ telegram.org에서 자세히 알아보세요.</string>
     <string name="FilterShareFolder">폴더 공유</string>
     <string name="EventLogRemovedLinkedGroup">un1 님이 un2 토론 그룹을 제거했습니다</string>
     <string name="PermissionNoLocationPosition">텔레그램이 위치 접근 권한이 필요합니다.</string>
-    <string name="SendDayAt">M'월' d'일' HH:mm '에 보내기'</string>
+    <string name="SendDayAt">M\'월\' d\'일\' HH:mm \'에 보내기\'</string>
     <string name="ChannelAddedByNotification">%1$s 님이 나를 %2$s 채널에 초대했습니다</string>
     <string name="EnableSomeReactionsInfo">이 그룹에 있는 참가자들은 메시지에 몇 개의 허용된 반응만 추가할 수 있습니다.</string>
     <string name="VoipPhoneScreen">휴대폰 화면</string>
@@ -3711,7 +3710,7 @@ telegram.org에서 자세히 알아보세요.</string>
     <string name="FolderLinkSubtitle">새 대화 폴더 **%s**를 추가하고 해당 그룹 및 채널에 가입하시겠습니까?</string>
     <string name="JoinByPeekChannelText">비공개 채널입니다. 대화 내용을 이어 보려면 채널에 들어가 주세요.</string>
     <string name="PreviewFeedback2">레이아웃이 잘못되었나요?</string>
-    <string name="chatDate">M'월' d'일'</string>
+    <string name="chatDate">M\'월\' d\'일\'</string>
     <string name="AppUpdateRemindMeLater">나중에 알려주기</string>
     <string name="ProfileEditBio">자기소개 변경</string>
     <string name="UserRestrictionsNoSendRound">영상 메시지 없음</string>
@@ -4594,7 +4593,7 @@ telegram.org에서 자세히 알아보세요.</string>
     <string name="BotAddToMenu">메뉴에 추가</string>
     <string name="VoipNeedMicPermissionWithHint">**텔레그램**이 통화를 하려면 마이크 접근 권한이 필요합니다. 설정 &gt; 권한을 탭하고 **마이크**를 활성화 해주세요.</string>
     <string name="ImportFileTooLarge">파일이 너무 커서 가져올 수 없습니다.</string>
-    <string name="ChannelJoinTo">'%1$s' 채널에 들어가시겠습니까?</string>
+    <string name="ChannelJoinTo">\'%1$s\' 채널에 들어가시겠습니까?</string>
     <string name="BoostFeatureVoiceToTextConversion">음성-텍스트 변환</string>
     <string name="StoryPrivacyOptionContacts">내 연락처</string>
     <string name="ContactsPermissionAlertNotNow">지금 안 함</string>
@@ -4711,7 +4710,7 @@ telegram.org에서 자세히 알아보세요.</string>
     <string name="YourPasswordRememberYes">네, 확실합니다</string>
     <string name="PhotoEditorTypefaceCourierNew">Courier New</string>
     <string name="DiceInfo2">대화방에 **:dice:**를 보내어 주사위를 굴리세요.</string>
-    <string name="StartShortDayYearAt">yyyy'년' MMM d'일,' HH:mm</string>
+    <string name="StartShortDayYearAt">yyyy\'년\' MMM d\'일,\' HH:mm</string>
     <string name="DiscussionUnlinkChannelAlert">정말 이 채널에서 **%1$s** 그룹을 끊어내시겠습니까?</string>
     <string name="NotificationsPermissionContinue">계속</string>
     <string name="ReplaceBoostChannelDescription">현재 **%1$s** 부스트하고 있습니다. 대신 **%2$s**을(를) 부스트하시겠습니까?</string>
@@ -5429,7 +5428,7 @@ un1 님이 스팸방지를 활성화함</string>
     <string name="InviteTextNum_other">안녕하세요, %1$d명의 친구와 텔레그램이라는 메신저를 사용하고 있어요. 함께 사용해요! 여기서 다운로드하세요: %2$s</string>
     <string name="BoostingFromOtherChannel_other">다른 대화  %d개</string>
     <string name="RoamingUsage">로밍 데이터 사용량</string>
-    <string name="RemindTodayAt">'오늘' HH:mm'에 알리기'</string>
+    <string name="RemindTodayAt">\'오늘\' HH:mm\'에 알리기\'</string>
     <string name="BoostingGiveawayShowWinners">당첨자 보기</string>
     <string name="AttachContact">연락처</string>
     <string name="BoostingAllMembers">모든 참가자</string>
@@ -5777,7 +5776,7 @@ un1 님이 스팸방지를 활성화함</string>
     <string name="UnknownErrorCode">알 수 없는 에러: %s</string>
     <string name="VoipGroupRecording">음성 방송이 녹음되고 있습니다</string>
     <string name="EventLogEditedGroupDescription">un1 님이 그룹 설명을 바꿨습니다:</string>
-    <string name="UpdateContactsMessage">텔레그램이 아직 동기화되지 않은 여러 연락처를 찾아냈습니다. 연락처를 동기화하시겠습니까? 본인의 기기, SIM 카드와 Google 계정을 사용하는 중이라면 '확인'을 누르십시오.</string>
+    <string name="UpdateContactsMessage">텔레그램이 아직 동기화되지 않은 여러 연락처를 찾아냈습니다. 연락처를 동기화하시겠습니까? 본인의 기기, SIM 카드와 Google 계정을 사용하는 중이라면 \'확인\'을 누르십시오.</string>
     <string name="LocalLogsCache">로그</string>
     <string name="ActionsChartTitle">활동</string>
     <string name="StoryEditing">수정본 업로드 중...</string>
@@ -6003,7 +6002,7 @@ un1 님이 스팸방지를 활성화함</string>
     <string name="GrowthChartTitle">성장</string>
     <string name="LiveLocationContext">실시간 위치</string>
     <string name="FolderShowTagsInfoPremium">**텔레그램 프리미엄**을 구독하시면 대화 목록에 각 대화의 폴더 이름이 표시됩니다.</string>
-    <string name="SyncContactsDeleteInfo">텔레그램 서버에서 모든 연락처가 제거됩니다. '연락처 동기화'를  켜시면, 연락처가 다시 동기화됩니다.</string>
+    <string name="SyncContactsDeleteInfo">텔레그램 서버에서 모든 연락처가 제거됩니다. \'연락처 동기화\'를  켜시면, 연락처가 다시 동기화됩니다.</string>
     <string name="TranslationBarHiddenForChat">대화에서 번역바가 숨겨졌습니다.</string>
     <string name="ChannelBackgroundMessageReplyName">Du Rove님의 채널</string>
     <string name="RateCallDropped">통화가 예기치 않게 종료되었습니다</string>
@@ -6041,7 +6040,7 @@ un1 님이 스팸방지를 활성화함</string>
     <string name="HoldToAudio">꾹 눌러 녹음하세요. 살짝 눌러 동영상으로 전환하세요.</string>
     <string name="WhoCanAddMembersAdmins">관리자만</string>
     <string name="PermissionDrawAboveOtherApps">화면속화면 모드로 동영상을 재생하려면 텔레그램에게 다른 앱 위에 그릴 수 있는 권한을 부여하셔야 합니다.</string>
-    <string name="StartsTodayAt">'오늘' HH:mm'에 시작'</string>
+    <string name="StartsTodayAt">\'오늘\' HH:mm\'에 시작\'</string>
     <string name="AttachOnceRound">일회용 영상 메시지</string>
     <string name="NoCallLog">아직 전화 내역이 없습니다...</string>
     <string name="AdminWillBeRemoved">%1$s 님을 제한하시면 이 사용자가 관리자에서 제명됩니다.</string>
@@ -6443,9 +6442,7 @@ un1 님이 스팸방지를 활성화함</string>
     <string name="DeleteReportSpam">스팸 신고</string>
     <string name="ChatWithGroupAdmin">%1$s님은 입장 요청을 한 그룹 %2$s의 관리자입니다.</string>
     <string name="SelectSendAsPeerPremiumHint">**텔레그램 프리미엄**을 구독하면 그룹 대화에서 채널을 대신하여 댓글을 달 수 있습니다.</string>
-    <string name="NoExceptions">기본과 다르게 알림 설정이 된 대화방이 이 부분에 모두 나열됩니다.
-
-대화방의 프로필을 열고 '알림'을 선택하여 알림 설정을 맞춤하실 수 있습니다.</string>
+    <string name="NoExceptions">기본과 다르게 알림 설정이 된 대화방이 이 부분에 모두 나열됩니다.\n\n대화방의 프로필을 열고 \'알림\'을 선택하여 알림 설정을 맞춤하실 수 있습니다.</string>
     <string name="MigrateOldFolder">옛날 폴더를 범위지정 저장소로 옮기기</string>
     <string name="TodoTaskCompletedOutUnknown">업무를 완료 표시하셨습니다</string>
     <string name="UsersCountTitle_other">사용자 %1$d명</string>
@@ -7514,7 +7511,7 @@ un2에게 채널을 공유함</string>
     <string name="DeleteChatUser">대화방 삭제</string>
     <string name="SwipeDeleteChat">삭제</string>
     <string name="MessageNotFound">메시지가 존재하지 않습니다</string>
-    <string name="FilterInviteErrorTypes">특정 대화 유형을 포함하거나 '그룹', '연락처' 등을 제외하는 폴더는 공유할 수 없습니다.</string>
+    <string name="FilterInviteErrorTypes">특정 대화 유형을 포함하거나 \'그룹\', \'연락처\' 등을 제외하는 폴더는 공유할 수 없습니다.</string>
     <string name="InstallGoogleMaps">Google 지도를 설치할까요?</string>
     <string name="PassportAddIdentityCardInfo">회원님 신분증의 공증된 영문 번역본을 스캔하여 업로드하세요.</string>
     <string name="SetReminder">리마인더 설정</string>
