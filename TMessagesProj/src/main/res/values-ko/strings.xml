@@ -261,7 +261,6 @@
     <string name="EnabledNotifications">알림 켬</string>
     <string name="ForwardedStoryFrom">**%s**로부터</string>
     <string name="EditLink">링크 수정</string>
-    <string name="GiftPremiumWillReceiveBoostsPlural_few"></string>
     <string name="StartShortDayAt">MMM d'일,' HH:mm</string>
     <string name="ChannelMute">알림 끄기</string>
     <string name="SendingGame">게임 플레이 중...</string>
@@ -942,7 +941,6 @@ un2에게 사용자를 공유함</string>
     <string name="JoinedViaRequestApproved">un2 님의 승인으로, un1 님이 입장함</string>
     <string name="BoostingGiveawayPrivateGroupWarning">비공개 그룹을 추가하겠습니까? 사용자들이 초대링크 없이는 입장 할 수 없습니다.</string>
     <string name="BusinessHoursNextDay">%s (다음날)</string>
-    <string name="BoostingGiveawayMsgNewSubsGroupPlural_zero"></string>
     <string name="EditAdminRankInfo">참가자들에게 맞춤 칭호가 '%1$s' 대신 보입니다.</string>
     <string name="PassportMainPageInfo">서류 주요 면의 사진을 업로드하세요</string>
     <string name="ChannelInviteLinkTitle">초대 링크</string>
@@ -2722,7 +2720,6 @@ a부터 z 사이 글자, 0부터 9 사이 숫자와 밑줄을 사용하실 수 �
     <string name="ForceSetPasswordAlertMessage_other">비밀번호 없이 진행하겠습니까? 비밀번호 미설정시, %1$s 일 마다 SMS를 통해 계정에 로그인을 할 수 밖에 없습니다.</string>
     <string name="AddToExceptions">예외에 추가</string>
     <string name="NoStoriesSubtitle">프로필에 표시할 스토리들을 '보관'탭에서 선택해주세요.</string>
-    <string name="NotificationTopicExceptionsDesctription_many"></string>
     <string name="InvLinkToSavedMessages">**저장한 메시지**로 초대 링크를 보냈습니다.</string>
     <string name="RemoveWallpaperAction">제거하기</string>
     <string name="CopyCode">코드 복사</string>
@@ -2959,8 +2956,6 @@ telegram.org에서 자세히 알아보세요.</string>
     <string name="VoipGroupContinueAs">%1$s으로 계속하기</string>
     <string name="DeleteTheseChats">대화방 삭제</string>
     <string name="SlowmodeInfoSelected">참가자는 메시지를 %1$s초에 하나씩만 보낼 수 있습니다.</string>
-    <string name="AddedSubscribersToChannel_one"></string>
-    <string name="Meters_one"></string>
     <string name="SendDayYearAt">yyyy'년' M'월' d'일' HH:mm '에 보내기'</string>
     <string name="PeerRequirementChannelCreatorTrue">채널의 소유자여야 합니다.</string>
     <string name="IncreaseLimit">한도 높이기</string>
@@ -4082,7 +4077,6 @@ telegram.org에서 자세히 알아보세요.</string>
     <string name="PrivacyBotsInfo">텔레그램을 이용하여 로그인하신 웹 사이트 목록입니다.</string>
     <string name="IsRecordingAudio">%1$s 님이 음성 메시지 녹음 중...</string>
     <string name="StartDayYearAt">MMM d'일' yyyy HH:mm'에 시작'</string>
-    <string name="ActionRequestedPeerChannelPlural_zero"></string>
     <string name="PremiumStickersShort">프리미엄</string>
     <string name="SaveToGalleryHintGroup">그룹에서 새롭게 받은 모든 미디어를 자동으로 휴대폰 갤러리로 저장합니다.</string>
     <string name="PinnedMessage">고정된 메시지</string>
@@ -4320,7 +4314,6 @@ telegram.org에서 자세히 알아보세요.</string>
     <string name="TelegramPremiumUserGiftedPremiumDialogTitleWithPlural">**%1$s**님이 회원님에게 %2$s 어치의 텔레그램 프리미엄 구독권을 선물했습니다.</string>
     <string name="WebAppDisclaimerUrl">https://telegram.org/tos/mini-apps</string>
     <string name="TranslateMessagesInfo2">번역하는 메시지에 대해 구글이 접근을 할 수도 있습니다.</string>
-    <string name="BoostingRemoveRestrictionsSubtitle_zero"></string>
     <string name="TranslateMessagesInfo1">텍스트 메시지를 한번 탭 할 경우 '번역' 버튼이 나타나게 됩니다.</string>
     <string name="NotificationGroupLeftMember">%1$s 님이 %2$s 그룹에서 나갔습니다</string>
     <string name="BoostingLinkUsed">이 링크는 **텔레그램 프리미엄** 구독 활성화에 사용되었습니다.</string>
@@ -4745,9 +4738,7 @@ telegram.org에서 자세히 알아보세요.</string>
 
 **프리미엄** 구독자에게 다음 링크를 통해 채널을 홍보해 달라고 요청해주세요:</string>
     <string name="NewPassword">새로운 비밀번호</string>
-    <string name="BoostingGiveawayResultsMsgWinnersTitle_few"></string>
     <string name="StartsDayAt">MMM d'일' HH:mm에 시작</string>
-    <string name="BoostingBoostsCount_one"></string>
     <string name="PleaseEnterPassword">새 비밀번호를 입력하세요</string>
     <string name="VoipFeedbackCommentHint">코멘트를 추가하실 수 있습니다</string>
     <string name="SwipeUnmute">알림 켜기</string>
@@ -5750,7 +5741,6 @@ un1 님이 스팸방지를 활성화함</string>
     <string name="ChatThemeSaveDialogDiscard">취소하기</string>
     <string name="LowDiskSpaceMessage">기기에 남은 공간이 거의 없습니다. 텔레그램이 최근 미디어의 캐시만 저장하도록 설정해 여유 공간을 확보하실 수 있습니다.</string>
     <string name="StartShortTodayAt">'오늘,' HH:mm</string>
-    <string name="FolderLinkHeaderChatsQuit_many"></string>
     <string name="StorageCleared">저장 공간 비움</string>
     <string name="GroupBoostsJustReachedLevel1">그룹이 **레벨 1**에 도달하였고 이제 스토리를 게시할 수 있습니다.</string>
     <string name="NoPhoneFound">이 번호로 되어 있는 텔레그램 계정이 없습니다.</string>
@@ -7591,7 +7581,6 @@ un2에게 채널을 공유함</string>
 
 이 기능을 활성화 하려면 위치 접근을 켜 주세요.</string>
     <string name="AccDescrCancelReply">답장 취소</string>
-    <string name="Minutes_many"></string>
     <string name="StartDayAt">MMM d'일' HH:mm '에 시작함'</string>
     <string name="ChatThemeDaySwitchTooltip">탭하여 주간 모드에서 이 테마를 확인해보세요.</string>
     <string name="PassportSDK_TelegramPassport">텔레그램 패스포트</string>
@@ -7689,7 +7678,6 @@ un2에게 채널을 공유함</string>
     <string name="NotificationsEnableCustom">맞춤 알림 사용</string>
     <string name="ThemeUrl">테마 링크</string>
     <string name="AnonymousNumberNotice">이 전화번호는 SIM 카드와 연동이 안되어져 있으며, *Fragment*에서 획득했습니다.</string>
-    <string name="ChatsException_few"></string>
     <string name="RemindDayAt">MMM d HH:mm'에 알리기'</string>
     <string name="TranslateToButton">%s로 번역하기</string>
     <string name="Account">계정</string>
