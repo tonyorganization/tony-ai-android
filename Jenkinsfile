@@ -37,30 +37,34 @@ pipeline {
                 ]) {
                     sh """
                         echo "Building Release APK and AAB..."
+
+                        ./gradlew assembleRelease bundleRelease \
+                        -Pandroid.injected.signing.store.file='$KEYSTORE_FILE' \
+                        -Pandroid.injected.signing.store.password='$STORE_PASS' \
+                        -Pandroid.injected.signing.key.alias='$KEY_ALIAS' \
+                        -Pandroid.injected.signing.key.password='$KEY_PASS'
                     """
-                    // sh """
-                    //     ./gradlew assembleRelease bundleRelease \
-                    //     -Pandroid.injected.signing.store.file='$KEYSTORE_FILE' \
-                    //     -Pandroid.injected.signing.store.password='$STORE_PASS' \
-                    //     -Pandroid.injected.signing.key.alias='$KEY_ALIAS' \
-                    //     -Pandroid.injected.signing.key.password='$KEY_PASS'
-                    // """
                 }
             }
         }
         stage('Upload to S3') {
             steps{
                 withAWS(region: 'ap-southeast-1', credentials: "AWS_CREDENTIALS_ID") {
-                    s3Upload acl: 'PublicRead', bucket: 'tongram', file: "README.md", path: "${S3_PATH}/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/"
-                    // s3Upload acl: 'PublicRead', bucket: 'tongram', file: "TMessagesProj_App/build/outputs/bundle/afatRelease/TMessagesProj_App-afat-release.aab", path: "${S3_PATH}/${env.JOB_NAME}/${env.BUILD_NUMBER}/"
-                    // s3Upload acl: 'PublicRead', bucket: 'tongram', file: "TMessagesProj_App/build/outputs/bundle/afatRelease/TMessagesProj_App-afat-release.aab", path: "${S3_PATH}/${env.JOB_NAME}/${env.BUILD_NUMBER}/"
+                    s3Upload acl: 'PublicRead', bucket: 'tongram', file: "TMessagesProj_App/build/outputs/apk/afat/release/app.apk", path: "${S3_PATH}/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/"
+                    s3Upload acl: 'PublicRead', bucket: 'tongram', file: "TMessagesProj_App/build/outputs/bundle/afatRelease/TMessagesProj_App-afat-release.aab", path: "${S3_PATH}/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/"
                 }
             }
         }
     }
     post {
         always {
-            archiveArtifacts artifacts: '**/build/outputs/apk/**/*.apk, **/build/outputs/bundle/**/*.aab', fingerprint: true
+            script {
+                def status = currentBuild.result ?: 'SUCCESS'
+                sh """
+                make notify_${status.toLowerCase()} JOB_NAME=${env.JOB_NAME} BUILD_NUMBER=${env.BUILD_NUMBER} CHAT_ID=${env.CHAT_ID} TOKEN=${env.TOKEN} APK_LINK=https://${S3_BUCKET}.s3.${AWS_REGION}.amazonaws.com/${S3_PATH}/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/app.apk AAB_LINK=https://${S3_BUCKET}.s3.${AWS_REGION}.amazonaws.com/${S3_PATH}/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/TMessagesProj_App-afat-release.aab
+                """
+            }
         }
+        
     }
 }
