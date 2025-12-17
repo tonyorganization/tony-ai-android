@@ -11,6 +11,9 @@ pipeline {
         S3_BUCKET = "tongram"
         AWS_REGION = "ap-southeast-1"
         S3_PATH = "AppBuild/android-releases" 
+        // Telegram configuration
+        TOKEN = credentials('b4a49b21-4caa-4f7a-834b-ffa7d6b9c41e')
+        CHAT_ID = credentials('69503db3-8106-40c6-8bd0-876b2eb2adb7')
     }
 
     stages {
@@ -48,7 +51,7 @@ pipeline {
         stage('Upload to S3') {
             steps{
                 withAWS(region: 'ap-southeast-1', credentials: "AWS_CREDENTIALS_ID") {
-                    s3Upload acl: 'PublicRead', bucket: 'tongram', file: "README.md", path: "${S3_PATH}/${env.BUILD_NUMBER}/"
+                    s3Upload acl: 'PublicRead', bucket: 'tongram', file: "README.md", path: "${S3_PATH}/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/"
                     // s3Upload acl: 'PublicRead', bucket: 'tongram', file: "TMessagesProj_App/build/outputs/bundle/afatRelease/TMessagesProj_App-afat-release.aab", path: "${S3_PATH}/${env.JOB_NAME}/${env.BUILD_NUMBER}/"
                     // s3Upload acl: 'PublicRead', bucket: 'tongram', file: "TMessagesProj_App/build/outputs/bundle/afatRelease/TMessagesProj_App-afat-release.aab", path: "${S3_PATH}/${env.JOB_NAME}/${env.BUILD_NUMBER}/"
                 }
