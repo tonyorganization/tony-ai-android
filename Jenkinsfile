@@ -47,12 +47,10 @@ pipeline {
         }
         stage('Upload to S3') {
             steps{
-                def apkPath = sh(script: 'find . -name "**/build/outputs/apk/afat/*.apk" | head -n 1', returnStdout: true).trim()
-                def aabPath = sh(script: 'find . -name "**/build/outputs/bundle/afatRelease/*.aab" | head -n 1', returnStdout: true).trim()
-                def timeStamp = new Date().format("yyyyMMdd-HHmm")
                 withAWS(region: 'ap-southeast-1', credentials: "${AWS_CREDENTIALS_ID}") {
-                    s3Upload acl: 'PublicRead', bucket: 'tongram', file: "/${apkPath}", path: "AppBuild/${timeStamp}/"
-                    s3Upload acl: 'PublicRead', bucket: 'tongram', file: "/${aabPath}", path: "AppBuild/${timeStamp}/"
+                    "${env.JOB_NAME}/${env.BUILD_NUMBER}/"
+                    s3Upload acl: 'PublicRead', bucket: 'tongram', file: "TMessagesProj_App/build/outputs/apk/afat/release/app.apk", path: "AppBuild/${env.JOB_NAME}/${env.BUILD_NUMBER}/"
+                    s3Upload acl: 'PublicRead', bucket: 'tongram', file: "TMessagesProj_App/build/outputs/bundle/afatRelease/TMessagesProj_App-afat-release.aab", path: "AppBuild/${env.JOB_NAME}/${env.BUILD_NUMBER}/"
                 }
             }
         }
