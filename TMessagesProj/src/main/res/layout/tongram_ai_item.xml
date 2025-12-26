@@ -5,6 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="40dp"
     android:layout_marginStart="8dp"
+    android:paddingVertical="2dp"
     android:background="@drawable/rectangle_corner_default"
     android:paddingHorizontal="15dp">
 
@@ -34,7 +35,6 @@
         style="@style/TextAppearance.AppCompat.Small"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="2dp"
         android:text="@string/ComingSoon"
         android:textColor="@color/biometric_error_color"
         android:textSize="9sp"

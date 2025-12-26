@@ -3866,6 +3866,7 @@ public class Theme {
     public static final int key_chat_messagePanelBackground = colorsCount++;
     public static final int key_input_background = colorsCount++;
     public static final int key_text_disable = colorsCount++;
+    public static final int key_stroke_default = colorsCount++;
     public static final int key_chat_messagePanelShadow = colorsCount++;
     public static final int key_chat_messagePanelText = colorsCount++;
     public static final int key_chat_messagePanelHint = colorsCount++;

@@ -1,5 +1,6 @@
 package ton_core.ui.dialogs;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -55,6 +57,7 @@ public class LanguagesDialog extends BottomSheetDialogFragment implements Tongra
         return new LanguagesDialog(delegate, tongramLanguages);
     }
 
+    @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -73,12 +76,18 @@ public class LanguagesDialog extends BottomSheetDialogFragment implements Tongra
         rvTongramLanguages.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         rvTongramLanguages.setAdapter(tongramLanguageAdapter);
 
-        view.findViewById(R.id.iv_close).setOnClickListener(v -> dismiss());
+        ImageView ivClose = view.findViewById(R.id.iv_close);
+        ivClose.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText), PorterDuff.Mode.SRC_IN));
+        ivClose.setOnClickListener(v -> dismiss());
 
         TextView title = view.findViewById(R.id.tv_title);
         final int textColor = Theme.getColor(Theme.key_windowBackgroundWhiteBlackText);
         final int colorAlpha = ColorUtils.setAlphaComponent(textColor, 180);
         title.setTextColor(textColor);
+
+        LinearLayout llSearch = view.findViewById(R.id.ll_search);
+        Drawable searchBackground = llSearch.getBackground();
+        searchBackground.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_input_background), PorterDuff.Mode.SRC_IN));
 
         edtSearch = view.findViewById(R.id.edt_search);
         edtSearch.setHintTextColor(colorAlpha);

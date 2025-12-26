@@ -4,6 +4,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,8 @@ public class TongramAIFeatureAdapter extends RecyclerView.Adapter<TongramAIFeatu
 
         } else {
             holder.itemView.setBackgroundResource(R.drawable.rectangle_corner_default);
+            GradientDrawable d = (GradientDrawable) holder.itemView.getBackground();
+            d.setStroke(1, Theme.getColor(Theme.key_stroke_default));
             holder.title.setTextColor(Theme.getColor(Theme.key_graySectionText));
             holder.title.setTypeface(Typeface.DEFAULT);
 

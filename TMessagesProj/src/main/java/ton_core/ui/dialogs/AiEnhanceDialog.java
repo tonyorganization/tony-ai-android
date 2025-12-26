@@ -150,11 +150,7 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
         }
 
         LinearLayout llInput = view.findViewById(R.id.ll_input);
-        int backgroundInputColor = Theme.getColor(Theme.key_chat_messagePanelBackground);
-        if (Theme.isCurrentThemeDark()) {
-            backgroundInputColor = Theme.getColor(Theme.key_input_background);
-        }
-        llInput.setBackgroundColor(backgroundInputColor);
+        llInput.setBackgroundColor(Theme.getColor(Theme.key_input_background, resourcesProvider));
 
         TextView tvTitle = view.findViewById(R.id.tv_tongram_ai);
         tvTitle.setTypeface(AndroidUtilities.bold());
@@ -167,6 +163,9 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
             ivBack.setColorFilter(new PorterDuffColorFilter(themeColor, PorterDuff.Mode.SRC_IN));
         }
         ivBack.setOnClickListener(v -> dismiss());
+
+        View divider = view.findViewById(R.id.v_divider);
+        divider.setBackgroundColor(Theme.getColor(Theme.key_divider, resourcesProvider));
 
         tvResult = view.findViewById(R.id.tv_result);
         tvResult.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
