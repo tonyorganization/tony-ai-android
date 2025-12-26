@@ -277,6 +277,8 @@ public class ChatActivityEnterView extends FrameLayout implements
 
         void onTextChanged(CharSequence text, boolean bigChange, boolean fromDraft);
 
+        void openOrApplyAiEnhanceDialog(CharSequence text);
+
         void onTextSelectionChanged(int start, int end);
 
         void onTextSpansChanged(CharSequence text);
@@ -565,6 +567,9 @@ public class ChatActivityEnterView extends FrameLayout implements
     private int slowModeTimer;
     private Runnable updateSlowModeRunnable;
     private SendButton sendButton;
+    private final ImageView aiEnhanceButton;
+    private boolean isAiEnhanceApplied;
+    private CharSequence originalMessage;
     private int sendButtonBackgroundColor;
     public MessageSendPreview messageSendPreview;
     private long sentFromPreview;
@@ -3015,174 +3020,6 @@ public class ChatActivityEnterView extends FrameLayout implements
         audioVideoButtonContainer.setFocusable(true);
         audioVideoButtonContainer.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
 
-//        audioVideoButtonContainer.setOnTouchListener((view, motionEvent) -> {
-//            createRecordCircle();
-//            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//                if (recordCircle.isSendButtonVisible()) {
-//                    if (!hasRecordVideo || calledRecordRunnable) {
-//                        startedDraggingX = -1;
-//                        if (hasRecordVideo && isInVideoMode()) {
-//                            delegate.needStartRecordVideo(1, true, 0);
-//                        } else {
-//                            if (recordingAudioVideo && isInScheduleMode()) {
-//                                AlertsCreator.createScheduleDatePickerDialog(parentActivity, parentFragment.getDialogId(), (notify, scheduleDate) -> MediaController.getInstance().stopRecording(1, notify, scheduleDate), () -> MediaController.getInstance().stopRecording(0, false, 0), resourcesProvider);
-//                            }
-//                            MediaController.getInstance().stopRecording(isInScheduleMode() ? 3 : 1, true, 0);
-//                            delegate.needStartRecordAudio(0);
-//                        }
-//                        recordingAudioVideo = false;
-//                        messageTransitionIsRunning = false;
-//                        AndroidUtilities.runOnUIThread(moveToSendStateRunnable = () -> {
-//                            moveToSendStateRunnable = null;
-//                            updateRecordInterface(RECORD_STATE_SENDING);
-//                        }, 200);
-//                    }
-//                    getParent().requestDisallowInterceptTouchEvent(true);
-//                    return true;
-//                }
-//                if (parentFragment != null) {
-//                    TLRPC.Chat chat = parentFragment.getCurrentChat();
-//                    TLRPC.UserFull userFull = parentFragment.getCurrentUserInfo();
-//                    if (chat != null && !(ChatObject.canSendVoice(chat) || (ChatObject.canSendRoundVideo(chat) && hasRecordVideo)) || userFull != null && userFull.voice_messages_forbidden) {
-//                        delegate.needShowMediaBanHint();
-//                        return true;
-//                    }
-//                }
-//                if (hasRecordVideo) {
-//                    calledRecordRunnable = false;
-//                    recordAudioVideoRunnableStarted = true;
-//                    AndroidUtilities.runOnUIThread(recordAudioVideoRunnable, 150);
-//                } else {
-//                    recordAudioVideoRunnable.run();
-//                }
-//                return true;
-//            } else if (motionEvent.getAction() == MotionEvent.ACTION_UP || motionEvent.getAction() == MotionEvent.ACTION_CANCEL) {
-//                if (motionEvent.getAction() == MotionEvent.ACTION_CANCEL && recordingAudioVideo) {
-//                    if (recordCircle.slideToCancelProgress < 0.7f) {
-//                        if (hasRecordVideo && isInVideoMode()) {
-//                            CameraController.getInstance().cancelOnInitRunnable(onFinishInitCameraRunnable);
-//                            delegate.needStartRecordVideo(2, true, 0);
-//                        } else {
-//                            delegate.needStartRecordAudio(0);
-//                            MediaController.getInstance().stopRecording(0, false, 0);
-//                        }
-//                        recordingAudioVideo = false;
-//                        updateRecordInterface(RECORD_STATE_CANCEL_BY_GESTURE);
-//                    } else {
-//                        recordCircle.sendButtonVisible = true;
-//                        startLockTransition();
-//                    }
-//                    return false;
-//                }
-//                if (recordCircle != null && recordCircle.isSendButtonVisible() || recordedAudioPanel != null && recordedAudioPanel.getVisibility() == VISIBLE) {
-//                    if (recordAudioVideoRunnableStarted) {
-//                        AndroidUtilities.cancelRunOnUIThread(recordAudioVideoRunnable);
-//                    }
-//                    return false;
-//                }
-//
-//                float x = motionEvent.getX() + audioVideoButtonContainer.getX();
-//                float dist = (x - startedDraggingX);
-//                float alpha = 1.0f + dist / distCanMove;
-//                if (alpha < 0.45) {
-//                    if (hasRecordVideo && isInVideoMode()) {
-//                        CameraController.getInstance().cancelOnInitRunnable(onFinishInitCameraRunnable);
-//                        delegate.needStartRecordVideo(2, true, 0);
-//                    } else {
-//                        delegate.needStartRecordAudio(0);
-//                        MediaController.getInstance().stopRecording(0, false, 0);
-//                    }
-//                    recordingAudioVideo = false;
-//                    updateRecordInterface(RECORD_STATE_CANCEL_BY_GESTURE);
-//                } else {
-//                    if (recordAudioVideoRunnableStarted) {
-//                        AndroidUtilities.cancelRunOnUIThread(recordAudioVideoRunnable);
-//                        if (sendVoiceEnabled && sendRoundEnabled) {
-//                            delegate.onSwitchRecordMode(!isInVideoMode());
-//                            setRecordVideoButtonVisible(!isInVideoMode(), true);
-//                        } else {
-//                            delegate.needShowMediaBanHint();
-//                        }
-//                        performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
-//                        sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
-//                    } else if (!hasRecordVideo || calledRecordRunnable) {
-//                        startedDraggingX = -1;
-//                        if (hasRecordVideo && isInVideoMode()) {
-//                            CameraController.getInstance().cancelOnInitRunnable(onFinishInitCameraRunnable);
-//                            delegate.needStartRecordVideo(1, true, 0);
-//                        } else if (!sendVoiceEnabled) {
-//                            delegate.needShowMediaBanHint();
-//                        } else {
-//                            if (recordingAudioVideo && isInScheduleMode()) {
-//                                AlertsCreator.createScheduleDatePickerDialog(parentActivity, parentFragment.getDialogId(), (notify, scheduleDate) -> MediaController.getInstance().stopRecording(1, notify, scheduleDate), () -> MediaController.getInstance().stopRecording(0, false, 0), resourcesProvider);
-//                            }
-//                            delegate.needStartRecordAudio(0);
-//                            MediaController.getInstance().stopRecording(isInScheduleMode() ? 3 : 1, true, 0);
-//                        }
-//                        recordingAudioVideo = false;
-//                        messageTransitionIsRunning = false;
-//                        AndroidUtilities.runOnUIThread(moveToSendStateRunnable = () -> {
-//                            moveToSendStateRunnable = null;
-//                            updateRecordInterface(RECORD_STATE_SENDING);
-//                        }, 500);
-//                    }
-//                }
-//                return true;
-//            } else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE && recordingAudioVideo) {
-//                float x = motionEvent.getX();
-//                float y = motionEvent.getY();
-//                if (recordCircle.isSendButtonVisible()) {
-//                    return false;
-//                }
-//                if (recordCircle.setLockTranslation(y) == 2) {
-//                    startLockTransition();
-//                    return false;
-//                } else {
-//                    recordCircle.setMovingCords(x, y);
-//                }
-//
-//                if (startedDraggingX == -1) {
-//                    startedDraggingX = x;
-//                    distCanMove = (float) (sizeNotifierLayout.getMeasuredWidth() * 0.35);
-//                    if (distCanMove > AndroidUtilities.dp(140)) {
-//                        distCanMove = AndroidUtilities.dp(140);
-//                    }
-//                }
-//
-//                x = x + audioVideoButtonContainer.getX();
-//                float dist = (x - startedDraggingX);
-//                float alpha = 1.0f + dist / distCanMove;
-//                if (startedDraggingX != -1) {
-//                    if (alpha > 1) {
-//                        alpha = 1;
-//                    } else if (alpha < 0) {
-//                        alpha = 0;
-//                    }
-//                    if (slideText != null) {
-//                        slideText.setSlideX(alpha);
-//                    }
-//                    if (recordCircle != null) {
-//                        recordCircle.setSlideToCancelProgress(alpha);
-//                    }
-//                }
-//
-//                if (alpha == 0) {
-//                    if (hasRecordVideo && isInVideoMode()) {
-//                        CameraController.getInstance().cancelOnInitRunnable(onFinishInitCameraRunnable);
-//                        delegate.needStartRecordVideo(2, true, 0);
-//                    } else {
-//                        delegate.needStartRecordAudio(0);
-//                        MediaController.getInstance().stopRecording(0, false, 0);
-//                    }
-//                    recordingAudioVideo = false;
-//                    updateRecordInterface(RECORD_STATE_CANCEL_BY_GESTURE);
-//                }
-//                return true;
-//            }
-//            view.onTouchEvent(motionEvent);
-//            return true;
-//        });
-
         audioVideoSendButton = new ChatActivityEnterViewAnimatedIconView(context);
         audioVideoSendButton.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
 //        audioVideoSendButton.setFocusable(true);
@@ -3218,7 +3055,7 @@ public class ChatActivityEnterView extends FrameLayout implements
             }
         });
 
-        sendButton = new SendButton(context, isInScheduleMode() ? R.drawable.input_schedule : R.drawable.send_plane_24, resourcesProvider, true) {
+        sendButton = new SendButton(context, isInScheduleMode() ? R.drawable.input_schedule : R.drawable.ic_send, resourcesProvider, true) {
             @Override
             public boolean isInScheduleMode() {
                 return ChatActivityEnterView.this.isInScheduleMode();
@@ -3240,7 +3077,6 @@ public class ChatActivityEnterView extends FrameLayout implements
             }
         };
         sendButton.setVisibility(INVISIBLE);
-        int color = getThemedColor(Theme.key_chat_messagePanelSend);
         sendButton.setContentDescription(getString(R.string.Send));
         sendButton.setSoundEffectsEnabled(false);
         sendButton.setScaleX(0.1f);
@@ -3255,6 +3091,30 @@ public class ChatActivityEnterView extends FrameLayout implements
         });
         sendButton.setOnLongClickListener(this::onSendLongClick);
 //        ScaleStateListAnimator.apply(sendButton);
+
+        aiEnhanceButton = new ImageView(context);
+        aiEnhanceButton.setImageResource(R.drawable.ic_input_ai_enhance);
+        aiEnhanceButton.setScaleType(ImageView.ScaleType.CENTER);
+        aiEnhanceButton.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector)));
+        aiEnhanceButton.setVisibility(INVISIBLE);
+        aiEnhanceButton.setContentDescription(getString(R.string.AiEnhance));
+        aiEnhanceButton.setSoundEffectsEnabled(false);
+        aiEnhanceButton.setScaleX(0.1f);
+        aiEnhanceButton.setScaleY(0.1f);
+        aiEnhanceButton.setAlpha(0.0f);
+        sendButtonContainer.addView(aiEnhanceButton, LayoutHelper.createFrame(DEFAULT_HEIGHT, DEFAULT_HEIGHT, Gravity.RIGHT | Gravity.BOTTOM, 0, 0, 40, 0));
+        aiEnhanceButton.setOnClickListener(view -> {
+            if ((messageSendPreview != null && messageSendPreview.isShowing()) || (runningAnimationAudio != null && runningAnimationAudio.isRunning()) || moveToSendStateRunnable != null) {
+                return;
+            }
+            if (isAiEnhanceApplied) {
+                setAiEnhanceButtonDrawable(false);
+                setFieldText(originalMessage);
+            } else {
+                originalMessage = getFieldText();
+                delegate.openOrApplyAiEnhanceDialog(getFieldText());
+            }
+        });
 
         slowModeButton = new SlowModeBtn(context);
         slowModeButton.setTextSize(18);
@@ -3291,6 +3151,13 @@ public class ChatActivityEnterView extends FrameLayout implements
         checkChannelRights();
 
         createMessageEditText();
+    }
+
+    public void setAiEnhanceButtonDrawable(boolean isApply) {
+        isAiEnhanceApplied = isApply;
+        int resId = isApply ? R.drawable.ic_undo_left_round_square : R.drawable.ic_input_ai_enhance;
+        aiEnhanceButton.setImageResource(resId);
+        aiEnhanceButton.invalidate();
     }
 
     public void setViewParentForEmoji(ViewGroup viewParent) {
@@ -6680,6 +6547,7 @@ public class ChatActivityEnterView extends FrameLayout implements
     }
 
     public boolean sendMessage() {
+        setAiEnhanceButtonDrawable(false);
         if (isInScheduleMode()) {
             AlertsCreator.createScheduleDatePickerDialog(parentActivity, parentFragment.getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() {
                 @Override
@@ -7442,6 +7310,7 @@ public class ChatActivityEnterView extends FrameLayout implements
                         public void onAnimationEnd(Animator animation) {
                             if (animation.equals(runningAnimation)) {
                                 getSendButtonInternal().setVisibility(GONE);
+                                aiEnhanceButton.setVisibility(GONE);
                                 cancelBotButton.setVisibility(GONE);
                                 audioVideoButtonContainer.setVisibility(GONE);
                                 if (expandStickersButton != null) {
@@ -7475,6 +7344,11 @@ public class ChatActivityEnterView extends FrameLayout implements
                     getSendButtonInternal().setScaleY(0.1f);
                     getSendButtonInternal().setAlpha(0.0f);
                     getSendButtonInternal().setVisibility(GONE);
+
+                    aiEnhanceButton.setVisibility(GONE);
+                    aiEnhanceButton.setScaleX(0.1f);
+                    aiEnhanceButton.setScaleY(0.1f);
+                    aiEnhanceButton.setAlpha(0.0f);
 
                     cancelBotButton.setScaleX(0.1f);
                     cancelBotButton.setScaleY(0.1f);
@@ -7625,6 +7499,7 @@ public class ChatActivityEnterView extends FrameLayout implements
                         runningAnimationType = 1;
                         animators.add(animateSendButton(true));
                         getSendButtonInternal().setVisibility(VISIBLE);
+                        aiEnhanceButton.setVisibility(VISIBLE);
                     }
 
                     runningAnimation.playTogether(animators);
@@ -7637,8 +7512,10 @@ public class ChatActivityEnterView extends FrameLayout implements
                                 if (caption != null) {
                                     cancelBotButton.setVisibility(VISIBLE);
                                     getSendButtonInternal().setVisibility(GONE);
+                                    aiEnhanceButton.setVisibility(GONE);
                                 } else {
                                     getSendButtonInternal().setVisibility(VISIBLE);
+                                    aiEnhanceButton.setVisibility(VISIBLE);
                                     cancelBotButton.setVisibility(GONE);
                                 }
                                 audioVideoButtonContainer.setVisibility(GONE);
@@ -7675,6 +7552,10 @@ public class ChatActivityEnterView extends FrameLayout implements
                         getSendButtonInternal().setScaleY(0.1f);
                         getSendButtonInternal().setAlpha(0.0f);
                         getSendButtonInternal().setVisibility(GONE);
+                        aiEnhanceButton.setVisibility(GONE);
+                        aiEnhanceButton.setScaleX(0.1f);
+                        aiEnhanceButton.setScaleY(0.1f);
+                        aiEnhanceButton.setAlpha(0.0f);
                         cancelBotButton.setScaleX(1.0f);
                         cancelBotButton.setScaleY(1.0f);
                         cancelBotButton.setAlpha(1.0f);
@@ -7688,6 +7569,10 @@ public class ChatActivityEnterView extends FrameLayout implements
                         getSendButtonInternal().setScaleY(1.0f);
                         getSendButtonInternal().setAlpha(1.0f);
                         cancelBotButton.setVisibility(GONE);
+                        aiEnhanceButton.setVisibility(VISIBLE);
+                        aiEnhanceButton.setScaleX(1.0f);
+                        aiEnhanceButton.setScaleY(1.0f);
+                        aiEnhanceButton.setAlpha(1.0f);
                     }
                     if (expandStickersButton != null && expandStickersButton.getVisibility() == VISIBLE) {
                         expandStickersButton.setScaleX(0.1f);
@@ -7816,6 +7701,7 @@ public class ChatActivityEnterView extends FrameLayout implements
                     public void onAnimationEnd(Animator animation) {
                         if (animation.equals(runningAnimation)) {
                             getSendButtonInternal().setVisibility(GONE);
+                            aiEnhanceButton.setVisibility(GONE);
                             cancelBotButton.setVisibility(GONE);
                             setSlowModeButtonVisible(false);
                             audioVideoButtonContainer.setVisibility(GONE);
@@ -7842,6 +7728,10 @@ public class ChatActivityEnterView extends FrameLayout implements
                 getSendButtonInternal().setScaleY(0.1f);
                 getSendButtonInternal().setAlpha(0.0f);
                 getSendButtonInternal().setVisibility(GONE);
+                aiEnhanceButton.setVisibility(GONE);
+                aiEnhanceButton.setScaleX(0.1f);
+                aiEnhanceButton.setScaleY(0.1f);
+                aiEnhanceButton.setAlpha(0);
                 cancelBotButton.setScaleX(0.1f);
                 cancelBotButton.setScaleY(0.1f);
                 cancelBotButton.setAlpha(0.0f);
@@ -7992,6 +7882,10 @@ public class ChatActivityEnterView extends FrameLayout implements
                     animators.add(ObjectAnimator.ofFloat(getSendButtonInternal(), View.SCALE_X, 0.1f));
                     animators.add(ObjectAnimator.ofFloat(getSendButtonInternal(), View.SCALE_Y, 0.1f));
                     animators.add(ObjectAnimator.ofFloat(getSendButtonInternal(), View.ALPHA, 0.0f));
+
+                    animators.add(ObjectAnimator.ofFloat(aiEnhanceButton, View.SCALE_X, 0.1f));
+                    animators.add(ObjectAnimator.ofFloat(aiEnhanceButton, View.SCALE_Y, 0.1f));
+                    animators.add(ObjectAnimator.ofFloat(aiEnhanceButton, View.ALPHA, 0.0f));
                 }
 
                 runningAnimation.playTogether(animators);
@@ -8027,6 +7921,10 @@ public class ChatActivityEnterView extends FrameLayout implements
                 getSendButtonInternal().setScaleY(0.1f);
                 getSendButtonInternal().setAlpha(0.0f);
                 getSendButtonInternal().setVisibility(GONE);
+                aiEnhanceButton.setVisibility(GONE);
+                aiEnhanceButton.setScaleX(0.1f);
+                aiEnhanceButton.setScaleY(0.1f);
+                aiEnhanceButton.setAlpha(0);
                 cancelBotButton.setScaleX(0.1f);
                 cancelBotButton.setScaleY(0.1f);
                 cancelBotButton.setAlpha(0.0f);
@@ -8107,7 +8005,7 @@ public class ChatActivityEnterView extends FrameLayout implements
             if (scheduledButton != null && scheduledButton.getTag() != null) {
                 layoutParams.rightMargin = dp(50);
             } else {
-                layoutParams.rightMargin = dp(2);
+                layoutParams.rightMargin = dp(48);
             }
         }
         layoutParams.rightMargin = Math.max(layoutParams.rightMargin, Math.max(0, sendButton.width() - dp(DEFAULT_HEIGHT)));
@@ -9133,6 +9031,7 @@ public class ChatActivityEnterView extends FrameLayout implements
 
             setAllowStickersAndGifs(true, false, false);
             getSendButtonInternal().setVisibility(GONE);
+            aiEnhanceButton.setVisibility(GONE);
             setSlowModeButtonVisible(false);
             cancelBotButton.setVisibility(GONE);
             audioVideoButtonContainer.setVisibility(GONE);
@@ -9336,6 +9235,7 @@ public class ChatActivityEnterView extends FrameLayout implements
                 recordedAudioPanel.setLayoutParams(layoutParams);
             }
             getSendButtonInternal().setVisibility(GONE);
+            aiEnhanceButton.setVisibility(GONE);
             setSlowModeButtonVisible(false);
             cancelBotButton.setVisibility(GONE);
             audioVideoButtonContainer.setVisibility(GONE);
@@ -9365,6 +9265,10 @@ public class ChatActivityEnterView extends FrameLayout implements
                     getSendButtonInternal().setScaleY(1.0f);
                     getSendButtonInternal().setAlpha(1.0f);
                     getSendButtonInternal().setVisibility(VISIBLE);
+                    aiEnhanceButton.setVisibility(VISIBLE);
+                    aiEnhanceButton.setScaleX(1.0f);
+                    aiEnhanceButton.setScaleY(1.0f);
+                    aiEnhanceButton.setAlpha(1.0f);
                     slowModeButton.setScaleX(0.1f);
                     slowModeButton.setScaleY(0.1f);
                     slowModeButton.setAlpha(0.0f);
@@ -9374,6 +9278,10 @@ public class ChatActivityEnterView extends FrameLayout implements
                     getSendButtonInternal().setScaleY(0.1f);
                     getSendButtonInternal().setAlpha(0.0f);
                     getSendButtonInternal().setVisibility(GONE);
+                    aiEnhanceButton.setVisibility(GONE);
+                    aiEnhanceButton.setScaleX(0.1f);
+                    aiEnhanceButton.setScaleY(0.1f);
+                    aiEnhanceButton.setAlpha(0.0f);
                     slowModeButton.setScaleX(1.0f);
                     slowModeButton.setScaleY(1.0f);
                     slowModeButton.setAlpha(1.0f);
@@ -9392,6 +9300,10 @@ public class ChatActivityEnterView extends FrameLayout implements
                 getSendButtonInternal().setScaleY(0.1f);
                 getSendButtonInternal().setAlpha(0.0f);
                 getSendButtonInternal().setVisibility(GONE);
+                aiEnhanceButton.setVisibility(GONE);
+                aiEnhanceButton.setScaleX(0.1f);
+                aiEnhanceButton.setScaleY(0.1f);
+                aiEnhanceButton.setAlpha(0.0f);
                 slowModeButton.setScaleX(0.1f);
                 slowModeButton.setScaleY(0.1f);
                 slowModeButton.setAlpha(0.0f);
@@ -9561,6 +9473,10 @@ public class ChatActivityEnterView extends FrameLayout implements
             getSendButtonInternal().setAlpha(lerp(fromAlpha, toAlpha, t));
             getSendButtonInternal().setScaleX(lerp(fromScaleX, toScaleX, t));
             getSendButtonInternal().setScaleY(lerp(fromScaleY, toScaleY, t));
+
+            aiEnhanceButton.setAlpha(lerp(fromAlpha, toAlpha, t));
+            aiEnhanceButton.setScaleX(lerp(fromScaleX, toScaleX, t));
+            aiEnhanceButton.setScaleY(lerp(fromScaleY, toScaleY, t));
         });
         return a;
     }
@@ -13447,7 +13363,7 @@ public class ChatActivityEnterView extends FrameLayout implements
             updateColors();
             if (isNewDesignSendButton) {
                 checkBackgroundRect();
-                canvas.drawRoundRect(backgroundRect, dp(RADIUS), dp(RADIUS), backgroundPaint);
+//                canvas.drawRoundRect(backgroundRect, dp(RADIUS), dp(RADIUS), backgroundPaint);
             }
 
             final boolean inactive = isInactive();
@@ -13615,7 +13531,7 @@ public class ChatActivityEnterView extends FrameLayout implements
         private int drawableColor;
 
         public void updateColors() {
-            int color = isNewDesignSendButton ? Color.WHITE : Theme.getColor(Theme.key_chat_messagePanelSend, resourcesProvider);
+            int color = 0xFF3A64FF;
             if (color != drawableColor) {
                 drawableColor = color;
                 drawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));

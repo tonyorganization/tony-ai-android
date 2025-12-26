@@ -717,9 +717,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 } else if (id == 19) {
                     Browser.openUrl(LaunchActivity.this, LocaleController.getString(R.string.TonGramAppStoreFeatureUrl));
                     drawerLayoutContainer.closeDrawer(false);
-                } else if (id == 20) {
-                    Toast.makeText(LaunchActivity.this, LocaleController.getString(R.string.ComingSoon), Toast.LENGTH_LONG).show();
-                    drawerLayoutContainer.closeDrawer(false);
                 } else if (id == 21) {
                     Toast.makeText(LaunchActivity.this, LocaleController.getString(R.string.ComingSoon), Toast.LENGTH_LONG).show();
                     drawerLayoutContainer.closeDrawer(false);

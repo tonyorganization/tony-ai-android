@@ -10038,4 +10038,15 @@
     <string name="OpenTelegramApp">Open Telegram</string>
     <string name="TonTVFeatureURL">https://t.me/tontv_official_bot/app</string>
     <string name="TonGramAppStoreFeatureUrl">https://t.me/Tongram_center_bot/Tongram_Apps_Center</string>
+    <string name="Translating">Translating...</string>
+    <string name="TranslateError">Translate failed!</string>
+    <string name="AiEnhance">AI Enhance</string>
+    <string name="TongramAI">Tongram AI</string>
+    <string name="Apply">Apply</string>
+    <string name="WritingAssistant">Writing Assistant</string>
+    <string name="Translation">Writing Assistant</string>
+    <string name="ThreeDot">...</string>
+    <string name="ChooseLanguage">Choose language</string>
+    <string name="UnableDetectLanguage">Unable to detect the language of the content you entered. Please try again.</string>
+    <string name="UnablePerformTranslation">Unable to perform the translation at the moment. Please try again later.</string>
 </resources>

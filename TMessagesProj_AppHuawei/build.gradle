@@ -157,6 +157,12 @@ android {
     lintOptions {
         checkReleaseBuilds false
     }
+
+    packaging {
+        resources {
+            excludes += '/META-INF/versions/9/OSGI-INF/MANIFEST.MF'
+        }
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'

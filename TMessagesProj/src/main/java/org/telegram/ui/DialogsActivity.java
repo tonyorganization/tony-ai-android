@@ -4796,6 +4796,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
 
                 @Override
+                public void openOrApplyAiEnhanceDialog(CharSequence text) {}
+
+                @Override
                 public void onTextSpansChanged(CharSequence text) {
 
                 }

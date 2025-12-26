@@ -28,6 +28,19 @@
 -keepclassmembers class ** {
     @android.webkit.JavascriptInterface <methods>;
 }
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class retrofit2.** { *; }
+-keep class okhttp3.** { *; }
+-keep class ton_core.models.** { *; }
+-keepclassmembers class * {
+    @com.google.gson.annotations.SerializedName <fields>;
+}
+-keep interface ton_core.services.** { *; }
+-keep class androidx.room.** { *; }
+-keep class ton_core.entities.** { *; }
+-keep class ton_core.daos.** { *; }
+-keep class androidx.lifecycle.** { *; }
 
 # https://developers.google.com/ml-kit/known-issues#android_issues
 -keep class com.google.mlkit.nl.languageid.internal.LanguageIdentificationJni { *; }

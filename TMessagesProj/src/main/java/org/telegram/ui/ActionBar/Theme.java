@@ -3516,6 +3516,9 @@ public class Theme {
     public static final int key_contextProgressOuter4 = colorsCount++;
 
     public static final int key_avatar_text = colorsCount++;
+    public static final int key_coming_soon = colorsCount++;
+    public static final int key_button_disable = colorsCount++;
+    public static final int key_button_enable = colorsCount++;
     public static final int key_avatar_backgroundSaved = colorsCount++;
     public static final int key_avatar_background2Saved = colorsCount++;
     public static final int key_avatar_backgroundArchived = colorsCount++;
@@ -3767,6 +3770,7 @@ public class Theme {
 
     public static final int key_chat_inBubbleSelected = colorsCount++;
     public static final int key_chat_messageTextIn = colorsCount++;
+    public static final int key_chat_translate = colorsCount++;
     public static final int key_chat_messageTextOut = colorsCount++;
     public static final int key_chat_messageLinkIn = colorsCount++;
     public static final int key_chat_messageLinkOut = colorsCount++;
@@ -3860,6 +3864,10 @@ public class Theme {
     public static final int key_chat_wallpaper_gradient_to3 = colorsCount++;
     public static final int key_chat_wallpaper_gradient_rotation = colorsCount++;
     public static final int key_chat_messagePanelBackground = colorsCount++;
+    public static final int key_input_background = colorsCount++;
+    public static final int key_text_disable = colorsCount++;
+    public static final int key_text_enable = colorsCount++;
+    public static final int key_stroke_default = colorsCount++;
     public static final int key_chat_messagePanelShadow = colorsCount++;
     public static final int key_chat_messagePanelText = colorsCount++;
     public static final int key_chat_messagePanelHint = colorsCount++;

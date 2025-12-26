@@ -315,6 +315,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -325,6 +327,13 @@ import java.util.stream.Collectors;
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
 import me.vkryl.core.reference.ReferenceList;
+import ton_core.services.IOnApiCallback;
+import ton_core.shared.CustomLifecycleOwner;
+import ton_core.entities.TranslatedMessageEntity;
+import ton_core.repositories.translated_message_repository.ITranslatedMessageRepository;
+import ton_core.repositories.translated_message_repository.TranslatedMessageRepository;
+import ton_core.ui.dialogs.AiEnhanceDialog;
+import ton_core.ui.models.TongramLanguageModel;
 
 @SuppressWarnings("unchecked")
 public class ChatActivity extends BaseFragment implements
@@ -335,7 +344,8 @@ public class ChatActivity extends BaseFragment implements
         ChatActivityInterface,
         FloatingDebugProvider,
         InstantCameraView.Delegate,
-        FactorAnimator.Target
+        FactorAnimator.Target,
+        AiEnhanceDialog.Delegate
 {
     private final static boolean PULL_DOWN_BACK_FRAGMENT = false;
     private final static boolean DISABLE_PROGRESS_VIEW = true;
@@ -361,6 +371,13 @@ public class ChatActivity extends BaseFragment implements
     private long chatInviterId;
 
     private static final LongSparseArray<ArrayList<ChatMessageCell>> chatMessageCellsCache = new LongSparseArray<ArrayList<ChatMessageCell>>();
+    private static final LongSparseArray<HashMap<Integer, TranslatedMessageEntity>> chatTranslatedMessageCache = new LongSparseArray<>();
+    private ITranslatedMessageRepository translatedMessageRepository;
+    private String shortLanguageName;
+    private CustomLifecycleOwner lifecycleOwner;
+    private static final ExecutorService detectLanguageExecutor =
+            Executors.newFixedThreadPool(3);
+    private List<TongramLanguageModel> tongramLanguages;
 
     private HashMap<MessageObject, Boolean> alreadyPlayedStickers = new HashMap<>();
 
@@ -1420,6 +1437,12 @@ public class ChatActivity extends BaseFragment implements
         return webBotTitle;
     }
 
+    @Override
+    public void onTranslatedApply(String text) {
+        chatActivityEnterView.setFieldText(text);
+        chatActivityEnterView.setAiEnhanceButtonDrawable(true);
+    }
+
     private interface ChatActivityDelegate {
         default void openReplyMessage(int mid) {
 
@@ -1942,6 +1965,15 @@ public class ChatActivity extends BaseFragment implements
                         TranscribeButton.showOffTranscribe(msg);
                     }
                 }
+            }
+        }
+
+        @Override
+        public void openOrApplyAiEnhanceDialog(CharSequence text) {
+            if (getParentActivity() instanceof androidx.fragment.app.FragmentActivity) {
+                androidx.fragment.app.FragmentManager fragmentManager =
+                        ((androidx.fragment.app.FragmentActivity) getParentActivity()).getSupportFragmentManager();
+                AiEnhanceDialog.newInstance(ChatActivity.this, resourceProvider, tongramLanguages, translatedMessageRepository, text).show(fragmentManager, null);
             }
         }
 
@@ -2508,6 +2540,29 @@ public class ChatActivity extends BaseFragment implements
 
     @Override
     public boolean onFragmentCreate() {
+        translatedMessageRepository = TranslatedMessageRepository.getInstance(ApplicationLoader.applicationContext);
+        lifecycleOwner = new CustomLifecycleOwner();
+        lifecycleOwner.onStart();
+
+        if (chatTranslatedMessageCache.get(currentAccount) == null) {
+            chatTranslatedMessageCache.put(currentAccount, new HashMap<>());
+        }
+        translatedMessageRepository.getTranslatedMessages(currentAccount).observe(lifecycleOwner, data -> {
+            if (data == null || data.isEmpty()) return;
+            final HashMap<Integer, TranslatedMessageEntity> messagesMap = chatTranslatedMessageCache.get(currentAccount);
+            if (messagesMap == null) return;
+            for (TranslatedMessageEntity entity : data) {
+                messagesMap.put(entity.messageId, entity);
+            }
+        });
+        shortLanguageName = LocaleController.getInstance().getCurrentLocale().getLanguage();
+        ArrayList<LocaleController.LocaleInfo> arrayList = LocaleController.getInstance().languages;
+        tongramLanguages = new ArrayList<>();
+        tongramLanguages.addAll(arrayList.stream()
+                .filter(e -> e.shortName != shortLanguageName)
+                .map(e -> new TongramLanguageModel(e.name, e.shortName, false))
+                .collect(Collectors.toList()));
+
         final long chatId = arguments.getLong("chat_id", 0);
         final long userId = arguments.getLong("user_id", 0);
         final int encId = arguments.getInt("enc_id", 0);
@@ -3380,6 +3435,9 @@ public class ChatActivity extends BaseFragment implements
             starReactionsOverlay.setMessageCell(null);
             AndroidUtilities.removeFromParent(starReactionsOverlay);
             starReactionsOverlay = null;
+        }
+        if (lifecycleOwner != null) {
+            lifecycleOwner.onDestroy();
         }
     }
 
@@ -7651,7 +7709,11 @@ public class ChatActivity extends BaseFragment implements
 
                 @Override
                 public void onTextChanged(CharSequence text, boolean bigChange, boolean fromDraft) {}
-                 @Override
+
+                @Override
+                public void openOrApplyAiEnhanceDialog(CharSequence text) {}
+
+                @Override
                 public void onTextSelectionChanged(int start, int end) {}
 
                 @Override
@@ -20156,6 +20218,30 @@ public class ChatActivity extends BaseFragment implements
                     dropPhotoAction = action;
                 }
             }
+
+            final HashMap<Integer, TranslatedMessageEntity> messageCache = chatTranslatedMessageCache.get(currentAccount);
+
+            List<MessageObject> latestMessages =
+                    messArr.stream()
+                            .filter(e -> !e.isOutOwner() && e.type == MessageObject.TYPE_TEXT)
+                            .sorted((a, b) -> Integer.compare(b.getId(), a.getId())) // sort DESC
+                            .limit(3)
+                            .collect(Collectors.toList());
+
+            detectLanguageExecutor.execute(() -> {
+                for (MessageObject ms : latestMessages) {
+                    LanguageDetector.detectLanguage(ms.removeEntities(), lng -> AndroidUtilities.runOnUIThread(() -> {
+                        if (!lng.equals(shortLanguageName) && !lng.equals("und")) {
+                            ms.isActiveTranslation = true;
+                            ms.resetLayout();
+                            updateMessageAnimatedInternal(ms, false);
+                        }
+                    }), err -> AndroidUtilities.runOnUIThread(() -> {
+
+                    }));
+                }
+            });
+
             for (int a = 0; a < messArr.size(); a++) {
                 MessageObject obj = messArr.get(a);
                 if (obj.replyMessageObject != null) {
@@ -20163,6 +20249,14 @@ public class ChatActivity extends BaseFragment implements
                     addReplyMessageOwner(obj, 0);
                 }
                 int messageId = obj.getId();
+                TranslatedMessageEntity translatedMessageEntity = messageCache.get(messageId);
+
+                if (translatedMessageEntity != null && !obj.isOutOwner()) {
+                    obj.isActiveTranslation = true;
+                    obj.isTranslated = translatedMessageEntity.isShow;
+                    obj.translatedText = translatedMessageEntity.translatedMessage;
+                    obj.resetLayout();
+                }
                 if (threadMessageId != 0) {
                     if (messageId <= (obj.isOut() ? threadMaxOutboxReadId : threadMaxInboxReadId)) {
                         obj.setIsRead();
@@ -21120,6 +21214,20 @@ public class ChatActivity extends BaseFragment implements
             FileLog.d("ChatActivity didReceiveNewMessages start");
             long did = (Long) args[0];
             ArrayList<MessageObject> arr = (ArrayList<MessageObject>) args[1];
+            final MessageObject newMessage = arr.get(0);
+            if (!newMessage.isOutOwner() && newMessage.type == MessageObject.TYPE_TEXT) {
+                detectLanguageExecutor.execute(() -> {
+                LanguageDetector.detectLanguage(newMessage.removeEntities(), lng -> AndroidUtilities.runOnUIThread(() -> {
+                        if (!lng.equals(shortLanguageName) && !lng.equals("und")) {
+                            newMessage.isActiveTranslation = true;
+                            newMessage.resetLayout();
+                            updateMessageAnimatedInternal(newMessage, false);
+                        }
+                    }), err -> AndroidUtilities.runOnUIThread(() -> {
+
+                    }));
+            });
+            }
             if (isInsideContainer) return;
             if (did == dialog_id) {
                 boolean scheduled = (Boolean) args[2];
@@ -37496,6 +37604,65 @@ public class ChatActivity extends BaseFragment implements
             if (anchorScroll && position >= 0 && cell.getCurrentMessagesGroup() == null) {
                 chatLayoutManager.scrollToPositionWithOffset(position, top);
             }
+        }
+
+        @Override
+        public void didTranslate(ChatMessageCell cell, boolean anchorScroll) {
+            if (cell == null) return;
+            MessageObject messageObject = cell.getPrimaryMessageObject();
+            if (messageObject == null) return;
+            final long chatId = messageObject.getChatId();
+            final int messageId = messageObject.getId();
+            final TranslatedMessageEntity messageCache = chatTranslatedMessageCache.get(currentAccount).get(messageId);
+
+            if (!messageObject.isTranslated) {
+                messageObject.subMessage = LocaleController.getString(R.string.Translating);
+                if (messageCache == null) {
+                    translatedMessageRepository.translate(
+                            cell.getPrimaryMessageObject().messageText.toString(),
+                            shortLanguageName,
+                            messageId,
+                            chatId,
+                            currentAccount, new IOnApiCallback<TranslatedMessageEntity>() {
+                                @Override
+                                public void onSuccess(TranslatedMessageEntity data) {
+                                    if (data != null) {
+                                        messageObject.isTranslated = true;
+                                        chatTranslatedMessageCache.get(currentAccount).put(data.messageId, data);
+                                        messageObject.translatedText = data.translatedMessage;
+                                        messageObject.resetLayout();
+                                        updateMessageAnimatedInternal(messageObject, false);
+                                    } else {
+                                        onError(LocaleController.getString(R.string.TranslateError));
+                                    }
+                                }
+
+                                @Override
+                                public void onError(String errorMessage) {
+                                    messageObject.isTranslated = false;
+                                    messageObject.subMessage = LocaleController.getString(R.string.TranslateError);
+                                    messageObject.resetLayout();
+                                    updateMessageAnimatedInternal(messageObject, false);
+                                }
+                            });
+                } else {
+                    messageObject.translatedText = messageCache.translatedMessage;
+                    translatedMessageRepository.updateTranslatedState(messageId, true);
+                    chatTranslatedMessageCache.get(currentAccount).remove(messageId);
+                    messageCache.isShow = true;
+                    messageObject.isTranslated = true;
+                    chatTranslatedMessageCache.get(currentAccount).put(messageId, messageCache);
+                }
+            } else {
+                messageObject.isTranslated = false;
+                messageObject.subMessage = LocaleController.getString(R.string.TranslateMessage);
+                translatedMessageRepository.updateTranslatedState(messageId, false);
+                chatTranslatedMessageCache.get(currentAccount).remove(messageId);
+                messageCache.isShow = false;
+                chatTranslatedMessageCache.get(currentAccount).put(messageId, messageCache);
+            }
+            messageObject.resetLayout();
+            updateMessageAnimatedInternal(messageObject, false);
         }
 
         @Override

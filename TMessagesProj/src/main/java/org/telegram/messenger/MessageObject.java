@@ -176,6 +176,10 @@ public class MessageObject {
     private boolean emojiAnimatedStickerLoading;
     public String emojiAnimatedStickerColor;
     public CharSequence messageText;
+    public CharSequence subMessage;
+    public CharSequence translatedText;
+    public boolean isTranslated = false;
+    public boolean isActiveTranslation = false;
     public CharSequence messageTextShort;
     public CharSequence messageTextForReply;
     public CharSequence linkDescription;
@@ -7752,6 +7756,30 @@ public class MessageObject {
         }
     }
 
+    public String removeEntities() {
+        final List<TLRPC.MessageEntity> entities = messageOwner.entities;
+        final String text = messageOwner.message;
+        if (entities == null || entities.isEmpty()) {
+            return text;
+        }
+
+        StringBuilder sb = new StringBuilder(text);
+
+        entities.sort((a, b) -> Integer.compare(b.offset, a.offset));
+
+        for (TLRPC.MessageEntity e : entities) {
+            if (e instanceof TLRPC.TL_messageEntityUrl
+                    || e instanceof TLRPC.TL_messageEntityMention
+                    || e instanceof TLRPC.TL_messageEntityHashtag
+                    || e instanceof TLRPC.TL_messageEntityCashtag) {
+
+                sb.delete(e.offset, e.offset + e.length);
+            }
+        }
+
+        return sb.toString().trim();
+    }
+    
     public void generateLayout(TLRPC.User fromUser) {
         if (type != TYPE_TEXT && type != TYPE_EMOJIS && type != TYPE_STORY_MENTION || messageOwner.peer_id == null || TextUtils.isEmpty(messageText)) {
             return;
@@ -7803,6 +7831,70 @@ public class MessageObject {
         }
 
         CharSequence text = messageText;
+
+        SpannableStringBuilder builder;
+        if (text instanceof SpannableStringBuilder) {
+            builder = (SpannableStringBuilder) text;
+        } else {
+            builder = new SpannableStringBuilder(text);
+        }
+
+        if (!isOutOwner() && isActiveTranslation) {
+            if (isTranslated) {
+                builder.append("\n");
+
+                int dividerStart = builder.length();
+                builder.append("────────────");
+                builder.setSpan(new RelativeSizeSpan(0.8f), dividerStart, builder.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                builder.append("\n");
+                builder.append(translatedText);
+
+                builder.append(" ");
+                int iconStart = builder.length();
+                builder.append(" ");
+
+                Drawable copyDrawable = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.msg_copy).mutate();
+                copyDrawable.setBounds(0, 0, AndroidUtilities.dp(20), AndroidUtilities.dp(20));
+                int color = Theme.getColor(Theme.key_chat_translate);
+                copyDrawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+
+                ColoredImageSpan imageSpan = new ColoredImageSpan(copyDrawable);
+                imageSpan.setSize(AndroidUtilities.dp(20));
+                builder.setSpan(imageSpan, iconStart, iconStart + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                builder.setSpan(new URLSpanNoUnderline("t9n:copy") {
+                    @Override
+                    public void updateDrawState(TextPaint ds) {
+                        ds.setUnderlineText(false);
+                    }
+                }, iconStart, iconStart + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                subMessage = LocaleController.getString(R.string.HideTranslation);
+            } else if (subMessage == null) {
+                subMessage = LocaleController.getString(R.string.TranslateMessage);
+            }
+
+            int startTranslate = builder.length();
+            builder.append("\n");
+            builder.append(subMessage);
+
+            ClickableSpan translateSpan = new URLSpanNoUnderline("t9n:translation") {
+                @Override
+                public void updateDrawState(TextPaint ds) {
+                    super.updateDrawState(ds);
+                    ds.setColor(Theme.getColor(Theme.key_chat_translate));
+                    ds.setTextSize(AndroidUtilities.dp(11));
+                    ds.setUnderlineText(false);
+                }
+            };
+
+            builder.setSpan(translateSpan, startTranslate, builder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        text = builder;
+
         try {
             textLayoutOriginalWidth = maxWidth;
             textLayout = makeStaticLayout(text, paint, maxWidth, 1f, totalAnimatedEmojiCount >= 4 ? -1 : 0, emojiOnlyCount > 0);
@@ -8026,7 +8118,7 @@ public class MessageObject {
                     block.originalWidth = blockMaxWidth;
                     block.textLayout = makeStaticLayout(sb, layoutPaint, blockMaxWidth, 1f, totalAnimatedEmojiCount >= 4 ? -1 : 0, false);
 
-                    block.height = block.textLayout.getHeight();//Math.max(block.height, block.textLayout.getLineBottom(block.textLayout.getLineCount() - 1));
+                    block.height = block.textLayout.getHeight();
                     block.collapsedHeight = (int) Math.min(paint.getTextSize() * 1.4f * 3, block.height);
                 } catch (Exception e) {
                     FileLog.e(e);

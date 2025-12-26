@@ -79,7 +79,7 @@ public class ThemeColors {
         defaultColors[key_windowBackgroundCheckText] = 0xffffffff;
         defaultColors[key_progressCircle] = 0xff1c93e3;
         defaultColors[key_windowBackgroundWhiteGrayIcon] = 0xff81868b;
-        defaultColors[key_windowBackgroundWhiteBlueText] = 0xff4092cd;
+        defaultColors[key_windowBackgroundWhiteBlueText] = 0xff0A84FF;
         defaultColors[key_windowBackgroundWhiteBlueText2] = 0xff3a95d5;
         defaultColors[key_windowBackgroundWhiteBlueText3] = 0xff2678b6;
         defaultColors[key_windowBackgroundWhiteBlueText4] = 0xff1c93e3;
@@ -145,6 +145,13 @@ public class ThemeColors {
         defaultColors[key_fastScrollText] = 0xffffffff;
 
         defaultColors[key_avatar_text] = 0xffffffff;
+        defaultColors[key_coming_soon] = 0xffFF0000;
+        defaultColors[key_button_disable] = 0xff5D9DFD;
+        defaultColors[key_button_enable] = 0xff106FFF;
+        defaultColors[key_input_background] = 0xFFF1F3F5;
+        defaultColors[key_text_disable] = 0xFF899299;
+        defaultColors[key_text_enable] = 0xff3A64FF;
+        defaultColors[key_stroke_default] = 0xFFd9d9d9;
 
         defaultColors[key_avatar_backgroundSaved] = 0xff69BDF9;
         defaultColors[key_avatar_background2Saved] = 0xff409FE1;
@@ -496,7 +503,7 @@ public class ThemeColors {
         defaultColors[key_chat_recordedVoiceProgress] = 0xffB1DEFF;
         defaultColors[key_chat_recordedVoiceProgressInner] = 0xffffffff;
         defaultColors[key_chat_recordVoiceCancel] = 0xff3A95D4;
-        defaultColors[key_chat_messagePanelSend] = 0xFF229AF0;
+        defaultColors[key_chat_messagePanelSend] = 0xFF3A64FF;
         defaultColors[key_chat_messagePanelVoiceLock] = 0xffa4a4a4;
         defaultColors[key_chat_messagePanelVoiceLockBackground] = 0xffffffff;
         defaultColors[key_chat_messagePanelVoiceLockShadow] = 0xff000000;
@@ -532,6 +539,7 @@ public class ThemeColors {
         defaultColors[key_chat_serviceBackgroundSelector] = 0x20ffffff;
         defaultColors[key_chat_inQuote] = 0xff459BD8;
         defaultColors[key_chat_outQuote] = 0xff6AB860;
+        defaultColors[key_chat_translate] = 0xff868686;
 
         defaultColors[key_profile_creatorIcon] = 0xff3a95d5;
         defaultColors[key_profile_actionIcon] = 0xff81868a;
@@ -1124,6 +1132,7 @@ public class ThemeColors {
         colorKeysMap.put(key_chat_serviceBackgroundSelector, "chat_serviceBackgroundSelector");
         colorKeysMap.put(key_chat_inQuote, "chat_inQuote");
         colorKeysMap.put(key_chat_outQuote, "chat_outQuote");
+        colorKeysMap.put(key_chat_translate, "chat_translate");
         colorKeysMap.put(key_chat_muteIcon, "chat_muteIcon");
         colorKeysMap.put(key_chat_lockIcon, "chat_lockIcon");
         colorKeysMap.put(key_chat_outSentCheck, "chat_outSentCheck");
@@ -1586,6 +1595,19 @@ public class ThemeColors {
         colorKeysMap.put(key_share_linkText, "share_linkText");
         colorKeysMap.put(key_share_linkBackground, "share_linkBackground");
         colorKeysMap.put(key_glass_defaultIcon, "glass_defaultIcon");
+        colorKeysMap.put(key_avatar_text, "avatar_text");
+        colorKeysMap.put(key_coming_soon, "coming_soon");
+        colorKeysMap.put(key_button_disable, "button_disable");
+        colorKeysMap.put(key_button_enable, "button_enable");
+        colorKeysMap.put(key_input_background, "input_background");
+        colorKeysMap.put(key_text_disable, "text_disable");
+        colorKeysMap.put(key_text_enable, "text_enable");
+        colorKeysMap.put(key_stroke_default, "stroke_default");
+        colorKeysMap.put(key_glass_defaultText, "glass_defaultText");
+        colorKeysMap.put(key_glass_defaultText, "glass_defaultText");
+        colorKeysMap.put(key_glass_defaultText, "glass_defaultText");
+        colorKeysMap.put(key_glass_defaultText, "glass_defaultText");
+        colorKeysMap.put(key_glass_defaultText, "glass_defaultText");
         colorKeysMap.put(key_glass_defaultText, "glass_defaultText");
 
         return colorKeysMap;

@@ -326,6 +326,9 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             for (int i = 0; i < menuBots.bots.size(); i++) {
                 TLRPC.TL_attachMenuBot bot = menuBots.bots.get(i);
                 if (bot.show_in_side_menu) {
+                    if ("Wallet".equals(bot.short_name)) {
+                        bot.short_name = LocaleController.getString(R.string.TonWallet);
+                    }
                     items.add(new Item(bot));
                     showDivider = true;
                 }
@@ -337,7 +340,6 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
 
         items.add(new Item(18, LocaleController.getString(R.string.TonTV), R.drawable.tontv_icon));
         items.add(new Item(19, LocaleController.getString(R.string.MiniAppStore), R.drawable.tongram_icon));
-        items.add(new Item(20, LocaleController.getString(R.string.TonWallet), R.drawable.ic_ton_wallet));
         items.add(new Item(21, LocaleController.getString(R.string.AITony), R.drawable.ic_ai_tony));
         items.add(new Item(22, LocaleController.getString(R.string.CEXExchange), R.drawable.ic_cex_exchange));
         items.add(new Item(23, LocaleController.getString(R.string.P2PExchange), R.drawable.ic_p2p_exchange));
