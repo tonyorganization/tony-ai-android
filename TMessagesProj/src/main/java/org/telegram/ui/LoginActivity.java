@@ -2108,7 +2108,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
             titleImage = new ImageView(context);
             titleImage.setImageResource(R.drawable.ic_telephone);
-            addView(titleImage, LayoutHelper.createFrame(dp(30), dp(30), Gravity.CENTER_HORIZONTAL, 0, 0, 0, 0));
+            addView(titleImage, LayoutHelper.createFrame(84, 84, Gravity.CENTER_HORIZONTAL, 0, 0, 0, 0));
 
             titleView = new TextView(context);
             titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
@@ -2769,21 +2769,21 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             subtitleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
             for (int i = 0; i < countryButton.getChildCount(); i++) {
                 TextView textView = (TextView) countryButton.getChildAt(i);
-                textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+                textView.setTextColor(Theme.getColor(Theme.key_input_text));
                 textView.setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
             }
 
             chevronRight.setColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
             chevronRight.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector), 1));
 
-            plusTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            plusTextView.setTextColor(Theme.getColor(Theme.key_input_text));
 
-            codeField.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            codeField.setTextColor(Theme.getColor(Theme.key_input_text));
             codeField.setCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated));
 
             codeDividerView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhiteInputField));
 
-            phoneField.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            phoneField.setTextColor(Theme.getColor(Theme.key_input_text));
             phoneField.setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
             phoneField.setCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated));
 
@@ -3576,8 +3576,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         private TextView prevTypeTextView;
         private TextView confirmTextView;
         private TextView titleTextView;
-        private ImageView blackImageView;
         private RLottieImageView blueImageView;
+        private ImageView titleIcon;
         private LoadingTextView timeText;
 
         private FrameLayout bottomContainer;
@@ -3664,6 +3664,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             titleTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
             titleTextView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
             titleTextView.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+
+            titleIcon = new ImageView(context);
 
             String overrideTitle;
             switch (activityMode) {
@@ -3756,9 +3758,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 FrameLayout frameLayout = new FrameLayout(context);
                 addView(frameLayout, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 16, 0, 0));
 
-                int size = currentType == AUTH_TYPE_MESSAGE ? 128 : 64;
+                int size = currentType == AUTH_TYPE_MESSAGE ? 84 : 64;
                 if (currentType == AUTH_TYPE_MESSAGE) {
                     hintDrawable = new RLottieDrawable(R.raw.code_laptop, String.valueOf(R.raw.code_laptop), AndroidUtilities.dp(size), AndroidUtilities.dp(size), true, null);
+                    titleIcon.setImageResource(R.drawable.ic_lock);
                 } else {
                     hintDrawable = new RLottieDrawable(R.raw.sms_incoming_info, String.valueOf(R.raw.sms_incoming_info), AndroidUtilities.dp(size), AndroidUtilities.dp(size), true, null);
 
@@ -3771,7 +3774,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 if (currentType == AUTH_TYPE_MESSAGE && !AndroidUtilities.isSmallScreen()) {
                     blueImageView.setTranslationY(-AndroidUtilities.dp(24));
                 }
-                frameLayout.addView(blueImageView, LayoutHelper.createFrame(size, size, Gravity.LEFT | Gravity.TOP, 0, 0, 0, currentType == AUTH_TYPE_MESSAGE && !AndroidUtilities.isSmallScreen() ? -AndroidUtilities.dp(16) : 0));
+                frameLayout.addView(titleIcon, LayoutHelper.createFrame(size, size, Gravity.LEFT | Gravity.TOP, 0, 0, 0, 0));
                 titleTextView.setText(overrideTitle != null ? overrideTitle : getString(currentType == AUTH_TYPE_MESSAGE ? R.string.SentAppCodeTitle : R.string.SentSmsCodeTitle));
                 addView(titleTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 18, 0, 0));
                 int sideMargin = currentType == AUTH_TYPE_FRAGMENT_SMS ? 16 : 0;
@@ -5382,7 +5385,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         private TextView confirmTextView;
         private TextView cancelButton;
         private TextView titleView;
-        private RLottieImageView lockImageView;
+        private ImageView lockImageView;
 
         private Bundle currentParams;
         private boolean nextPressed;
@@ -5400,10 +5403,9 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             setOrientation(VERTICAL);
 
             FrameLayout lockFrameLayout = new FrameLayout(context);
-            lockImageView = new RLottieImageView(context);
-            lockImageView.setAnimation(R.raw.tsv_setup_intro, 120, 120);
-            lockImageView.setAutoRepeat(false);
-            lockFrameLayout.addView(lockImageView, LayoutHelper.createFrame(120, 120, Gravity.CENTER_HORIZONTAL));
+            lockImageView = new ImageView(context);
+            lockImageView.setImageResource(R.drawable.ic_lock);
+            lockFrameLayout.addView(lockImageView, LayoutHelper.createFrame(84, 84, Gravity.CENTER_HORIZONTAL));
             lockFrameLayout.setVisibility(AndroidUtilities.isSmallScreen() || (AndroidUtilities.displaySize.x > AndroidUtilities.displaySize.y && !AndroidUtilities.isTablet()) ? GONE : VISIBLE);
             addView(lockFrameLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL));
 
@@ -5695,8 +5697,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     codeField.requestFocus();
                     codeField.setSelection(codeField.length());
                     showKeyboard(codeField);
-                    lockImageView.getAnimatedDrawable().setCurrentFrame(0, false);
-                    lockImageView.playAnimation();
                 }
             }, SHOW_DELAY);
         }
@@ -7107,7 +7107,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         private TextView titleView;
         private TextView confirmTextView;
         private TextView troubleButton;
-        private RLottieImageView inboxImageView;
+        private ImageView inboxImageView;
 
         private Bundle currentParams;
         private String passwordString;
@@ -7129,10 +7129,9 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             setOrientation(VERTICAL);
 
             FrameLayout inboxFrameLayout = new FrameLayout(context);
-            inboxImageView = new RLottieImageView(context);
-            inboxImageView.setAnimation(R.raw.tsv_setup_mail, 120, 120);
-            inboxImageView.setAutoRepeat(false);
-            inboxFrameLayout.addView(inboxImageView, LayoutHelper.createFrame(120, 120, Gravity.CENTER_HORIZONTAL));
+            inboxImageView = new ImageView(context);
+            inboxImageView.setImageResource(R.drawable.ic_email);
+            inboxFrameLayout.addView(inboxImageView, LayoutHelper.createFrame(84, 84, Gravity.CENTER_HORIZONTAL));
             inboxFrameLayout.setVisibility(AndroidUtilities.isSmallScreen() || (AndroidUtilities.displaySize.x > AndroidUtilities.displaySize.y && !AndroidUtilities.isTablet()) ? GONE : VISIBLE);
             addView(inboxFrameLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL));
 
@@ -7365,8 +7364,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         public void onShow() {
             super.onShow();
             AndroidUtilities.runOnUIThread(() -> {
-                inboxImageView.getAnimatedDrawable().setCurrentFrame(0, false);
-                inboxImageView.playAnimation();
                 if (codeFieldContainer != null) {
                     codeFieldContainer.codeField[0].requestFocus();
                 }
@@ -8530,7 +8527,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
         floatingButtonContainer.setBackground(drawable);
 
-        backButtonView.setColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+        backButtonView.setColorFilter(Theme.getColor(Theme.key_actionBarDefaultIcon));
         backButtonView.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector)));
 
         proxyDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText), PorterDuff.Mode.SRC_IN));

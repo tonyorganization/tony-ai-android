@@ -3457,6 +3457,7 @@ public class Theme {
     public static final int key_windowBackgroundWhiteGrayText7 = colorsCount++;
     public static final int key_windowBackgroundWhiteGrayText8 = colorsCount++;
     public static final int key_windowBackgroundWhiteBlackText = colorsCount++;
+    public static final int key_input_text = colorsCount++;
     public static final int key_windowBackgroundWhiteHintText = colorsCount++;
     public static final int key_windowBackgroundWhiteValueText = colorsCount++;
     public static final int key_windowBackgroundWhiteLinkText = colorsCount++;

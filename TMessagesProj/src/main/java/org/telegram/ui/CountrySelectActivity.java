@@ -121,9 +121,9 @@ public class CountrySelectActivity extends BaseFragment {
         actionBar.setTitle(LocaleController.getString(R.string.ChooseCountry));
 
         actionBar.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-        actionBar.setItemsColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText), false);
+        actionBar.setItemsColor(Theme.getColor(Theme.key_input_text), false);
         actionBar.setItemsBackgroundColor(Theme.getColor(Theme.key_actionBarWhiteSelector), false);
-        actionBar.setTitleColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+        actionBar.setTitleColor(Theme.getColor(Theme.key_input_text));
 
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
             @Override
@@ -170,8 +170,8 @@ public class CountrySelectActivity extends BaseFragment {
         item.setSearchFieldHint(LocaleController.getString(R.string.Search));
 
         actionBar.setSearchTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText), true);
-        actionBar.setSearchTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText), false);
-        actionBar.setSearchCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+        actionBar.setSearchTextColor(Theme.getColor(Theme.key_input_text), false);
+        actionBar.setSearchCursorColor(Theme.getColor(Theme.key_input_text));
 
         searching = false;
         searchWas = false;

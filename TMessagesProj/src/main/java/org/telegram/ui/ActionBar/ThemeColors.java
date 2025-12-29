@@ -152,6 +152,7 @@ public class ThemeColors {
         defaultColors[key_text_disable] = 0xFF899299;
         defaultColors[key_text_enable] = 0xff3A64FF;
         defaultColors[key_stroke_default] = 0xFFd9d9d9;
+        defaultColors[key_input_text] = 0xff222222;
 
         defaultColors[key_avatar_backgroundSaved] = 0xff69BDF9;
         defaultColors[key_avatar_background2Saved] = 0xff409FE1;
@@ -910,6 +911,7 @@ public class ThemeColors {
         colorKeysMap.put(key_windowBackgroundWhiteGrayText7, "windowBackgroundWhiteGrayText7");
         colorKeysMap.put(key_windowBackgroundWhiteGrayText8, "windowBackgroundWhiteGrayText8");
         colorKeysMap.put(key_windowBackgroundWhiteBlackText, "windowBackgroundWhiteBlackText");
+        colorKeysMap.put(key_input_text, "input_text");
         colorKeysMap.put(key_windowBackgroundWhiteHintText, "windowBackgroundWhiteHintText");
         colorKeysMap.put(key_windowBackgroundWhiteValueText, "windowBackgroundWhiteValueText");
         colorKeysMap.put(key_windowBackgroundWhiteLinkText, "windowBackgroundWhiteLinkText");

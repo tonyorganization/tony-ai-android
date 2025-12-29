@@ -31,7 +31,6 @@
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/ton_messenger_icon</item>
         <item name="android:windowSplashScreenAnimationDuration">@integer/splash_screen_duration</item>
         <item name="android:windowSplashScreenBackground">#020616</item>
-        <item name="android:windowSplashScreenBrandingImage">@drawable/branding</item>
     </style>
 
     <style name="Theme.TMessages" parent="Theme.AppCompat.Light">
