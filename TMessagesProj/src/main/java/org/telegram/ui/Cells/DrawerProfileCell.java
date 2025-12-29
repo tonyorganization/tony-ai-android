@@ -730,7 +730,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
 
     public Integer applyBackground(boolean force) {
         Integer currentTag = (Integer) getTag();
-        int backgroundKey = Theme.hasThemeKey(Theme.key_chats_menuTopBackground) && Theme.getColor(Theme.key_chats_menuTopBackground) != 0 ? Theme.key_chats_menuTopBackground : Theme.key_chats_menuTopBackgroundCats;
+        int backgroundKey = Theme.key_chats_menuTopBackground;
         if (force || currentTag == null || backgroundKey != currentTag) {
             setBackgroundColor(Theme.getColor(backgroundKey));
             setTag(backgroundKey);

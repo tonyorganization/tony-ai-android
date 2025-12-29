@@ -270,6 +270,7 @@ public class ThemeColors {
         defaultColors[key_chats_actionBackground] = 0xffAFC8FF;
         defaultColors[key_chats_actionPressedBackground] = 0xff569dd6;
         defaultColors[key_chats_menuTopBackgroundCats] = 0xff598fba;
+        defaultColors[key_chats_menuTopBackground] = 0xFF0f1528;
         defaultColors[key_chats_archivePullDownBackground] = 0xffc6c9cc;
         defaultColors[key_chats_archivePullDownBackgroundActive] = 0xff0A84FF;
 
