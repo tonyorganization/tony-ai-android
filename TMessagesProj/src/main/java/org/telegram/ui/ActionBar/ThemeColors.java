@@ -227,7 +227,7 @@ public class ThemeColors {
         defaultColors[key_chats_onlineCircle] = 0xff4bcb1c;
         defaultColors[key_chats_unreadCounter] = 0xff4ecc5e;
         defaultColors[key_chats_unreadCounterMuted] = 0xffc6c9cc;
-        defaultColors[key_chats_unreadCounterText] = 0xffffffff;
+        defaultColors[key_chats_unreadCounterText] = 0xff000000;
         defaultColors[key_chats_archiveBackground] = 0xff0A84FF;
         defaultColors[key_chats_archivePinBackground] = 0xff9faab3;
         defaultColors[key_chats_archiveIcon] = 0xffffffff;
@@ -553,7 +553,7 @@ public class ThemeColors {
         defaultColors[key_profile_status] = 0xffd7eafa;
 
         defaultColors[key_profile_tabText] = 0xff878c90;
-        defaultColors[key_profile_tabSelectedText] = 0xff3a95d5;
+        defaultColors[key_profile_tabSelectedText] = 0xffAFC8FF;
         defaultColors[key_profile_tabSelectedLine] = 0xff4fa6e9;
         defaultColors[key_profile_tabSelector] = 0x0f000000;
 

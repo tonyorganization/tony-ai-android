@@ -3440,8 +3440,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         AlertDialog alertDialog = builder.create();
                         showDialog(alertDialog);
                         TextView button = (TextView) alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                        TextView cancelButton = (TextView) alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
                         if (button != null) {
                             button.setTextColor(Theme.getColor(Theme.key_text_RedBold));
+                        }
+                        if (cancelButton != null) {
+                            cancelButton.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText));
                         }
                     }
                 }
@@ -4566,7 +4570,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 @SuppressLint("NewApi")
                 @Override
                 public void getOutline(View view, Outline outline) {
-                    outline.setOval(0, 0, dp(36), dp(36));
+                    outline.setRoundRect(0, 0, dp(36), dp(36), dp(20));
                 }
             });
 
@@ -4649,7 +4653,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             @SuppressLint("NewApi")
             @Override
             public void getOutline(View view, Outline outline) {
-                outline.setOval(0, 0, dp(56), dp(56));
+                outline.setRoundRect(0, 0, dp(56), dp(56), dp(20));
             }
         });
         Drawable drawable = Theme.createSimpleSelectorCircleDrawable(dp(56), Theme.getColor(Theme.key_chats_actionBackground), Theme.getColor(Theme.key_chats_actionPressedBackground));
@@ -12598,13 +12602,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
         Drawable drawable;
         if (floatingButtonContainer != null) {
-            drawable = Theme.createSimpleSelectorCircleDrawable(dp(56), Theme.getColor(Theme.key_chats_actionBackground), Theme.getColor(Theme.key_chats_actionPressedBackground));
+            drawable = Theme.createSimpleSelectorRoundRectDrawable(dp(20), Theme.getColor(Theme.key_chats_actionBackground), Theme.getColor(Theme.key_chats_actionPressedBackground));
             floatingButtonContainer.setBackground(drawable);
         }
 
         if (floatingButton2Container != null) {
-            drawable = Theme.createSimpleSelectorCircleDrawable(
-                    dp(36),
+            drawable = Theme.createSimpleSelectorRoundRectDrawable(
+                    dp(15),
                     ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhite), Color.WHITE, 0.1f),
                     Theme.blendOver(Theme.getColor(Theme.key_windowBackgroundWhite), Theme.getColor(Theme.key_listSelector))
             );

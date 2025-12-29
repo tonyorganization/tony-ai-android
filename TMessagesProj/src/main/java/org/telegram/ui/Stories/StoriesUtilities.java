@@ -220,6 +220,7 @@ public class StoriesUtilities {
             rectTmp.inset(insetTo, insetTo);
             avatarImage.setImageCoords(rectTmp);
         }
+        avatarImage.setRoundRadius(AndroidUtilities.dp(20));
         if (drawLive > 0) {
             canvas.saveLayerAlpha(
                 rectTmp.left - dp(15),
@@ -659,9 +660,16 @@ public class StoriesUtilities {
             return;
         }
         if (params.progressToArc == 0) {
-            canvas.drawCircle(rectTmp.centerX(), rectTmp.centerY(), rectTmp.width() / 2f, paint);
+            canvas.drawRoundRect(rectTmp, dp(20), dp(20), paint);
         } else {
-            canvas.drawArc(rectTmp, 360 + params.progressToArc / 2f, 360 - params.progressToArc, false, paint);
+            canvas.drawRoundRect(rectTmp,  dp(20), dp(20), paint);
+            canvas.drawArc(
+                    rectTmp,
+                    360 + params.progressToArc / 2f,
+                    360 - params.progressToArc,
+                    false,
+                    paint
+            );
         }
     }
 

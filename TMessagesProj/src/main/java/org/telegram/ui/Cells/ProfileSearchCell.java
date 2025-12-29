@@ -154,8 +154,9 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         this.resourcesProvider = resourcesProvider;
 
         avatarImage = new ImageReceiver(this);
-        avatarImage.setRoundRadius(dp(23));
+        avatarImage.setRoundRadius(dp(20));
         avatarDrawable = new AvatarDrawable();
+        avatarDrawable.setRoundRadius(dp(20));
 
         checkBox = new CheckBox2(context, 21, resourcesProvider);
         checkBox.setColor(-1, Theme.key_windowBackgroundWhite, Theme.key_checkboxCheck);
@@ -373,7 +374,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         if (checkBox != null) {
             checkBox.measure(MeasureSpec.makeMeasureSpec(dp(24), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(dp(24), MeasureSpec.EXACTLY));
         }
-        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), dp(60) + (useSeparator ? 1 : 0));
+        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), dp(70) + (useSeparator ? 1 : 0));
     }
 
     @Override
@@ -470,7 +471,8 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             }
         }
         if (!LocaleController.isRTL) {
-            statusLeft = dp(AndroidUtilities.leftBaseline);
+            statusLeft = dp(AndroidUtilities.leftBaseline + 7);
+            nameLeft = dp(AndroidUtilities.leftBaseline + 7);
         } else {
             statusLeft = dp(11);
         }
@@ -714,7 +716,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         } else {
             avatarLeft = dp(rectangularAvatar ? 15 : 11) + getPaddingLeft();
         }
-        avatarStoryParams.originalAvatarRect.set(avatarLeft, dp(7), avatarLeft + dp(rectangularAvatar ? 42 : 46), dp(7) + dp(46));
+        avatarStoryParams.originalAvatarRect.set(avatarLeft, dp(7), avatarLeft + dp(rectangularAvatar ? 42 : 56), dp(7) + dp(56));
 
         double widthpx;
         float left;
@@ -842,7 +844,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             avatarImage.setImage(null, null, avatarDrawable, null, null, 0);
         }
 
-        avatarImage.setRoundRadius(chat != null && chat.monoforum ? 0 : rectangularAvatar ? dp(10) : chat != null && chat.forum ? dp(16) : dp(23));
+        avatarImage.setRoundRadius(chat != null && chat.monoforum ? 0 : rectangularAvatar ? dp(20) : dp(20));
         if (mask != 0) {
             boolean continueUpdate = false;
             if ((mask & MessagesController.UPDATE_MASK_AVATAR) != 0 && user != null || (mask & MessagesController.UPDATE_MASK_CHAT_AVATAR) != 0 && chat != null) {
