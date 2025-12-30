@@ -374,7 +374,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         if (checkBox != null) {
             checkBox.measure(MeasureSpec.makeMeasureSpec(dp(24), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(dp(24), MeasureSpec.EXACTLY));
         }
-        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), dp(70) + (useSeparator ? 1 : 0));
+        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), dp(66) + (useSeparator ? 1 : 0));
     }
 
     @Override
@@ -471,8 +471,8 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             }
         }
         if (!LocaleController.isRTL) {
-            statusLeft = dp(AndroidUtilities.leftBaseline + 7);
-            nameLeft = dp(AndroidUtilities.leftBaseline + 7);
+            statusLeft = dp(AndroidUtilities.leftBaseline + 6);
+            nameLeft = dp(AndroidUtilities.leftBaseline + 6);
         } else {
             statusLeft = dp(11);
         }
@@ -712,11 +712,11 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
 
         int avatarLeft;
         if (LocaleController.isRTL) {
-            avatarLeft = getMeasuredWidth() - dp(57) - getPaddingRight();
+            avatarLeft = getMeasuredWidth() - dp(50) - getPaddingRight();
         } else {
             avatarLeft = dp(rectangularAvatar ? 15 : 11) + getPaddingLeft();
         }
-        avatarStoryParams.originalAvatarRect.set(avatarLeft, dp(7), avatarLeft + dp(rectangularAvatar ? 48 : 50), dp(7) + dp(50));
+        avatarStoryParams.originalAvatarRect.set(avatarLeft, dp(7), avatarLeft + dp(rectangularAvatar ? 48 : 46), dp(7) + dp(46));
 
         double widthpx;
         float left;

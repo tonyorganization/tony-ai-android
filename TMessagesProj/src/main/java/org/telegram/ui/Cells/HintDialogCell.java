@@ -80,8 +80,8 @@ public class HintDialogCell extends FrameLayout {
         this.drawCheckbox = drawCheckbox;
 
         imageView = new BackupImageView(context);
-        imageView.setRoundRadius(AndroidUtilities.dp(20));
-        addView(imageView, LayoutHelper.createFrame(56, 56, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 7, 0, 0));
+        imageView.setRoundRadius(AndroidUtilities.dp(15));
+        addView(imageView, LayoutHelper.createFrame(50, 50, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 7, 0, 0));
 
         nameTextView = new TextView(context) {
             @Override
