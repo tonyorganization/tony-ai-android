@@ -47,12 +47,12 @@ public class GraySectionCell extends FrameLayout implements Theme.Colorable {
         super(context);
         this.resourcesProvider = resourcesProvider;
 
-        setBackgroundColor(getThemedColor(Theme.key_chats_menuBackground));
+        setBackgroundColor(getThemedColor(Theme.key_graySection));
 
         textView = new AnimatedEmojiSpan.TextViewEmojis(getContext());
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         textView.setTypeface(AndroidUtilities.bold());
-        textView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlueText));
+        textView.setTextColor(getThemedColor(Theme.key_graySectionText));
         textView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
         addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 16, 0, 16, 0));
 

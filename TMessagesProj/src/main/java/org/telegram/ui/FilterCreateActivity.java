@@ -16,6 +16,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.text.Editable;
 import android.text.Layout;
@@ -272,53 +273,63 @@ public class FilterCreateActivity extends BaseFragment {
         oldItems.addAll(items);
 
         items.clear();
-        items.add(ItemInner.asAnimatedHeader(LocaleController.getString(R.string.FilterNameHeader), hasAnimatedEmojis(newFilterName) ? LocaleController.getString(newFilterAnimations ? R.string.FilterNameAnimationsDisable : R.string.FilterNameAnimationsEnable) : null, v -> {
-            newFilterAnimations = !newFilterAnimations;
-            if (nameHeaderCell != null) {
-                nameHeaderCell.rightTextView.setText(hasAnimatedEmojis(newFilterName) ? LocaleController.getString(newFilterAnimations ? R.string.FilterNameAnimationsDisable : R.string.FilterNameAnimationsEnable) : null);
-            }
-            AnimatedEmojiDrawable.toggleAnimations(currentAccount, newFilterAnimations);
-            checkDoneButton(true);
-
-            if (actionBar != null) {
-                if (actionBar.getTitleTextView() != null) {
-                    actionBar.getTitleTextView().setEmojiCacheType(newFilterAnimations ? AnimatedEmojiDrawable.CACHE_TYPE_MESSAGES : AnimatedEmojiDrawable.CACHE_TYPE_NOANIMATE_FOLDER);
-                }
-                if (actionBar.getTitleTextView2() != null) {
-                    actionBar.getTitleTextView2().setEmojiCacheType(newFilterAnimations ? AnimatedEmojiDrawable.CACHE_TYPE_MESSAGES : AnimatedEmojiDrawable.CACHE_TYPE_NOANIMATE_FOLDER);
-                }
-            }
-        }));
+        items.add(ItemInner.asCenterIcon(R.drawable.ic_folder));
+//        items.add(ItemInner.asAnimatedHeader(LocaleController.getString(R.string.FilterNameHeader), hasAnimatedEmojis(newFilterName) ? LocaleController.getString(newFilterAnimations ? R.string.FilterNameAnimationsDisable : R.string.FilterNameAnimationsEnable) : null, v -> {
+//            newFilterAnimations = !newFilterAnimations;
+//            if (nameHeaderCell != null) {
+//                nameHeaderCell.rightTextView.setText(hasAnimatedEmojis(newFilterName) ? LocaleController.getString(newFilterAnimations ? R.string.FilterNameAnimationsDisable : R.string.FilterNameAnimationsEnable) : null);
+//            }
+//            AnimatedEmojiDrawable.toggleAnimations(currentAccount, newFilterAnimations);
+//            checkDoneButton(true);
+//
+//            if (actionBar != null) {
+//                if (actionBar.getTitleTextView() != null) {
+//                    actionBar.getTitleTextView().setEmojiCacheType(newFilterAnimations ? AnimatedEmojiDrawable.CACHE_TYPE_MESSAGES : AnimatedEmojiDrawable.CACHE_TYPE_NOANIMATE_FOLDER);
+//                }
+//                if (actionBar.getTitleTextView2() != null) {
+//                    actionBar.getTitleTextView2().setEmojiCacheType(newFilterAnimations ? AnimatedEmojiDrawable.CACHE_TYPE_MESSAGES : AnimatedEmojiDrawable.CACHE_TYPE_NOANIMATE_FOLDER);
+//                }
+//            }
+//        }));
         nameRow = items.size();
         items.add(ItemInner.asEdit());
         items.add(ItemInner.asShadow(null));
         items.add(ItemInner.asHeader(LocaleController.getString(R.string.FilterInclude)));
-        items.add(ItemInner.asButton(R.drawable.msg2_chats_add, LocaleController.getString(R.string.FilterAddChats), false).whenClicked(v -> selectChatsFor(true)));
 
-        if ((newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_CONTACTS) != 0) {
-            items.add(ItemInner.asChat(true, LocaleController.getString(R.string.FilterContacts), "contacts", MessagesController.DIALOG_FILTER_FLAG_CONTACTS));
+        final boolean isHaveContactFlag = (newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_CONTACTS) != 0;
+        final boolean isHaveNonContactFlag = (newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS) != 0;
+        final boolean isHaveGroupFlag = (newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_GROUPS) != 0;
+        final boolean isHaveChannelFlag = (newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_CHANNELS) != 0;
+        final boolean isHaveBotFlag = (newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_BOTS) != 0;
+        final boolean isHaveData = !newAlwaysShow.isEmpty();
+
+        items.add(ItemInner.asButton(R.drawable.msg2_chats_add, LocaleController.getString(R.string.FilterAddChats), false, !isHaveBotFlag && !isHaveChannelFlag && !isHaveGroupFlag && !isHaveContactFlag && !isHaveNonContactFlag && !isHaveData)
+                .whenClicked(v -> selectChatsFor(true)));
+
+        if (isHaveContactFlag) {
+            items.add(ItemInner.asChat(true, LocaleController.getString(R.string.FilterContacts), "contacts", MessagesController.DIALOG_FILTER_FLAG_CONTACTS, !isHaveBotFlag && !isHaveGroupFlag && !isHaveNonContactFlag && !isHaveChannelFlag && !isHaveData));
         }
-        if ((newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS) != 0) {
-            items.add(ItemInner.asChat(true, LocaleController.getString(R.string.FilterNonContacts), "non_contacts", MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS));
+        if (isHaveNonContactFlag) {
+            items.add(ItemInner.asChat(true, LocaleController.getString(R.string.FilterNonContacts), "non_contacts", MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS, !isHaveBotFlag && !isHaveChannelFlag && !isHaveGroupFlag && !isHaveData));
         }
-        if ((newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_GROUPS) != 0) {
-            items.add(ItemInner.asChat(true, LocaleController.getString(R.string.FilterGroups), "groups", MessagesController.DIALOG_FILTER_FLAG_GROUPS));
+        if (isHaveGroupFlag) {
+            items.add(ItemInner.asChat(true, LocaleController.getString(R.string.FilterGroups), "groups", MessagesController.DIALOG_FILTER_FLAG_GROUPS, !isHaveBotFlag && !isHaveChannelFlag && !isHaveData));
         }
-        if ((newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_CHANNELS) != 0) {
-            items.add(ItemInner.asChat(true, LocaleController.getString(R.string.FilterChannels), "channels", MessagesController.DIALOG_FILTER_FLAG_CHANNELS));
+        if (isHaveChannelFlag) {
+            items.add(ItemInner.asChat(true, LocaleController.getString(R.string.FilterChannels), "channels", MessagesController.DIALOG_FILTER_FLAG_CHANNELS, !isHaveBotFlag && !isHaveData));
         }
-        if ((newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_BOTS) != 0) {
-            items.add(ItemInner.asChat(true, LocaleController.getString(R.string.FilterBots), "bots", MessagesController.DIALOG_FILTER_FLAG_BOTS));
+        if (isHaveBotFlag) {
+            items.add(ItemInner.asChat(true, LocaleController.getString(R.string.FilterBots), "bots", MessagesController.DIALOG_FILTER_FLAG_BOTS, !isHaveData));
         }
 
-        if (!newAlwaysShow.isEmpty()) {
+        if (isHaveData) {
             int count = includeExpanded || newAlwaysShow.size() < 8 ? newAlwaysShow.size() : Math.min(5, newAlwaysShow.size());
             for (int i = 0; i < count; ++i) {
-                items.add(ItemInner.asChat(true, newAlwaysShow.get(i)));
+                items.add(ItemInner.asChat(true, newAlwaysShow.get(i), i == count - 1));
             }
             if (count != newAlwaysShow.size()) {
                 items.add(
-                    ItemInner.asButton(R.drawable.arrow_more, LocaleController.formatPluralString("FilterShowMoreChats", newAlwaysShow.size() - 5), false)
+                    ItemInner.asButton(R.drawable.arrow_more, LocaleController.formatPluralString("FilterShowMoreChats", newAlwaysShow.size() - 5), false, count - 1 == newAlwaysShow.size() - 1)
                         .whenClicked(v -> {
                             includeExpanded = true;
                             updateRows();
@@ -329,24 +340,31 @@ public class FilterCreateActivity extends BaseFragment {
         items.add(ItemInner.asShadow(LocaleController.getString(R.string.FilterIncludeInfo)));
         if (!filter.isChatlist()) {
             items.add(ItemInner.asHeader(LocaleController.getString(R.string.FilterExclude)));
-            items.add(ItemInner.asButton(R.drawable.msg2_chats_add, LocaleController.getString(R.string.FilterRemoveChats), false).whenClicked(v -> selectChatsFor(false)));
-            if ((newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED) != 0) {
-                items.add(ItemInner.asChat(false, LocaleController.getString(R.string.FilterMuted), "muted", MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED));
+
+            final boolean isHaveExcludeMuted = (newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED) != 0;
+            final boolean isHaveExcludeRead = (newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ) != 0;
+            final boolean isHaveExcludeArchived = (newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED) != 0;
+            final boolean isHaveExcludeData = !newNeverShow.isEmpty();
+
+
+            items.add(ItemInner.asButton(R.drawable.msg2_chats_add, LocaleController.getString(R.string.FilterRemoveChats), false, !isHaveExcludeMuted && !isHaveExcludeRead && !isHaveExcludeArchived && !isHaveExcludeData).whenClicked(v -> selectChatsFor(false)));
+            if (isHaveExcludeMuted) {
+                items.add(ItemInner.asChat(false, LocaleController.getString(R.string.FilterMuted), "muted", MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED, !isHaveExcludeRead && !isHaveExcludeArchived && !isHaveExcludeData));
             }
-            if ((newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ) != 0) {
-                items.add(ItemInner.asChat(false, LocaleController.getString(R.string.FilterRead), "read", MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ));
+            if (isHaveExcludeRead) {
+                items.add(ItemInner.asChat(false, LocaleController.getString(R.string.FilterRead), "read", MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ, !isHaveExcludeArchived && !isHaveExcludeData));
             }
-            if ((newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED) != 0) {
-                items.add(ItemInner.asChat(false, LocaleController.getString(R.string.FilterArchived), "archived", MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED));
+            if (isHaveExcludeArchived) {
+                items.add(ItemInner.asChat(false, LocaleController.getString(R.string.FilterArchived), "archived", MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED, !isHaveExcludeData));
             }
-            if (!newNeverShow.isEmpty()) {
+            if (isHaveExcludeData) {
                 int count = excludeExpanded || newNeverShow.size() < 8 ? newNeverShow.size() : Math.min(5, newNeverShow.size());
                 for (int i = 0; i < count; ++i) {
-                    items.add(ItemInner.asChat(false, newNeverShow.get(i)));
+                    items.add(ItemInner.asChat(false, newNeverShow.get(i), i == count - 1));
                 }
                 if (count != newNeverShow.size()) {
                     items.add(
-                        ItemInner.asButton(R.drawable.arrow_more, LocaleController.formatPluralString("FilterShowMoreChats", newNeverShow.size() - 5), false)
+                        ItemInner.asButton(R.drawable.arrow_more, LocaleController.formatPluralString("FilterShowMoreChats", newNeverShow.size() - 5), false, count - 1 == newNeverShow.size() - 1)
                             .whenClicked(v -> {
                                 excludeExpanded = true;
                                 updateRows();
@@ -365,7 +383,7 @@ public class FilterCreateActivity extends BaseFragment {
 
         if (invites.isEmpty()) {
             items.add(ItemInner.asHeader(LocaleController.getString(R.string.FilterShareFolder), true));
-            items.add(ItemInner.asButton(R.drawable.msg2_link2, LocaleController.getString(R.string.FilterShareFolderButton), false));
+            items.add(ItemInner.asButton(R.drawable.msg2_link2, LocaleController.getString(R.string.FilterShareFolderButton), false, true));
             items.add(ItemInner.asShadow(LocaleController.getString(R.string.FilterInviteLinksHintNew)));
         } else {
             items.add(ItemInner.asHeader(LocaleController.getString(R.string.FilterInviteLinks), true));
@@ -381,7 +399,7 @@ public class FilterCreateActivity extends BaseFragment {
         }
 
         if (!creatingNew) {
-            items.add(ItemInner.asButton(0, LocaleController.getString(R.string.FilterDelete), true).whenClicked(this::deleteFolder));
+            items.add(ItemInner.asButton(0, LocaleController.getString(R.string.FilterDelete), true, true).whenClicked(this::deleteFolder));
             items.add(ItemInner.asShadow(null));
         }
 
@@ -541,6 +559,15 @@ public class FilterCreateActivity extends BaseFragment {
             }
         };
         listView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        listView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                int horizontalMargin = AndroidUtilities.dp(16);
+                outRect.left = horizontalMargin;
+                outRect.right = horizontalMargin;
+            }
+        });
+        listView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         listView.setVerticalScrollBarEnabled(false);
         frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         listView.setAdapter(adapter = new ListAdapter(context));
@@ -1301,6 +1328,7 @@ public class FilterCreateActivity extends BaseFragment {
     private static final int VIEW_TYPE_HEADER_COLOR_PREVIEW = 9;
     private static final int VIEW_TYPE_COLOR = 10;
     private static final int VIEW_TYPE_HEADER_ANIMATED = 11;
+    private static final int VIEW_TYPE_CENTER_ICON = 12;
 
     private static class ItemInner extends AdapterWithDiffUtils.Item {
 
@@ -1317,6 +1345,7 @@ public class FilterCreateActivity extends BaseFragment {
 
         private int iconResId;
         private boolean isRed;
+        private boolean isBottomGroup = false;
 
         private TL_chatlists.TL_exportedChatlistInvite link;
 
@@ -1345,19 +1374,21 @@ public class FilterCreateActivity extends BaseFragment {
             return item;
         }
 
-        public static ItemInner asChat(boolean include, long did) {
+        public static ItemInner asChat(boolean include, long did, boolean isBottomGroup) {
             ItemInner item = new ItemInner(VIEW_TYPE_CHAT, false);
             item.include = include;
             item.did = did;
+            item.isBottomGroup = isBottomGroup;
             return item;
         }
 
-        public static ItemInner asChat(boolean include, CharSequence name, String chatType, int flags) {
+        public static ItemInner asChat(boolean include, CharSequence name, String chatType, int flags, boolean isBottomGroup) {
             ItemInner item = new ItemInner(VIEW_TYPE_CHAT, false);
             item.include = include;
             item.text = name;
             item.chatType = chatType;
             item.flags = flags;
+            item.isBottomGroup = isBottomGroup;
             return item;
         }
 
@@ -1377,11 +1408,18 @@ public class FilterCreateActivity extends BaseFragment {
             return item;
         }
 
-        public static ItemInner asButton(int iconResId, CharSequence text, boolean red) {
+        public static ItemInner asButton(int iconResId, CharSequence text, boolean red, boolean isBottomGroup) {
             ItemInner item = new ItemInner(VIEW_TYPE_BUTTON, false);
             item.iconResId = iconResId;
             item.text = text;
             item.isRed = red;
+            item.isBottomGroup = isBottomGroup;
+            return item;
+        }
+
+        public static ItemInner asCenterIcon(int resId) {
+            ItemInner item = new ItemInner(VIEW_TYPE_CENTER_ICON, false);
+            item.iconResId = resId;
             return item;
         }
 
@@ -1437,6 +1475,29 @@ public class FilterCreateActivity extends BaseFragment {
         }
     }
 
+    public static class CenterIconCell extends FrameLayout {
+        private ImageView imageView;
+
+        public CenterIconCell(Context context) {
+            super(context);
+
+            setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+
+            imageView = new ImageView(context);
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            addView(imageView, LayoutHelper.createFrame(dp(40), dp(40), Gravity.CENTER));
+        }
+
+        public void setIcon(int resId) {
+            imageView.setImageResource(resId);
+        }
+
+        @Override
+        protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+            super.onMeasure(MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(100), MeasureSpec.EXACTLY));
+        }
+    }
+
     private class ListAdapter extends AdapterWithDiffUtils {
 
         private Context mContext;
@@ -1469,16 +1530,19 @@ public class FilterCreateActivity extends BaseFragment {
             switch (viewType) {
                 case VIEW_TYPE_HEADER:
                     view = new HeaderCell(mContext, 22);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+
+                    GradientDrawable gb = new GradientDrawable();
+                    gb.setCornerRadii(new float[]{dp(10), dp(10), dp(10), dp(10), 0, 0, 0, 0});
+                    gb.setColor(Theme.getColor(Theme.key_chats_menuTopBackground));
+                    view.setBackground(gb);
                     break;
                 case VIEW_TYPE_HEADER_ANIMATED:
                     view = new HeaderCellWithRight(mContext, resourceProvider);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    view.setBackgroundColor(Theme.getColor(Theme.key_chats_menuTopBackground));
                     break;
                 case VIEW_TYPE_CHAT: {
                     UserCell cell = new UserCell(mContext, 6, 0, false);
                     cell.setSelfAsSavedMessages(true);
-                    cell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     view = cell;
                     break;
                 }
@@ -1519,7 +1583,13 @@ public class FilterCreateActivity extends BaseFragment {
                         }
                     });
                     editText.setPadding(dp(23 - 16), editText.getPaddingTop(), editText.getPaddingRight(), editText.getPaddingBottom());
-                    cell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+
+                    GradientDrawable bg = new GradientDrawable();
+                    bg.setColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    bg.setCornerRadius(AndroidUtilities.dp(10));
+                    bg.setStroke(AndroidUtilities.dp(1), Theme.getColor(Theme.key_input_stroke));
+                    cell.setBackground(bg);
+
                     cell.editTextEmoji.getEditText().setImeOptions(EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
                     view = cell;
                     break;
@@ -1529,7 +1599,6 @@ public class FilterCreateActivity extends BaseFragment {
                     break;
                 case VIEW_TYPE_BUTTON:
                     view = new ButtonCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     break;
                 case VIEW_TYPE_HINT:
                     view = new HintInnerCell(mContext);
@@ -1553,12 +1622,22 @@ public class FilterCreateActivity extends BaseFragment {
                     break;
                 case VIEW_TYPE_HEADER_COLOR_PREVIEW:
                     view = new HeaderCellColorPreview(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    GradientDrawable headerColorBackground = new GradientDrawable();
+                    headerColorBackground.setCornerRadii(new float[]{dp(10), dp(10), dp(10), dp(10), 0, 0, 0, 0});
+                    headerColorBackground.setColor(Theme.getColor(Theme.key_chats_menuTopBackground));
+                    view.setBackground(headerColorBackground);
                     break;
                 case VIEW_TYPE_COLOR:
                     view = new PeerColorActivity.PeerColorGrid(getContext(), PeerColorActivity.PeerColorGrid.TYPE_FOLDER_TAG, currentAccount, resourceProvider);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    GradientDrawable gxb = new GradientDrawable();
+                    gxb.setCornerRadii(new float[]{0,0, 0, 0, dp(10), dp(10), dp(10), dp(10)});
+                    gxb.setColor(Theme.getColor(Theme.key_chats_menuTopBackground));
+                    view.setBackground(gxb);
                     break;
+                case VIEW_TYPE_CENTER_ICON: {
+                    view = new CenterIconCell(mContext);
+                    break;
+                }
                 case VIEW_TYPE_SHADOW_TEXT:
                 default:
                     view = new TextInfoPrivacyCell(mContext);
@@ -1657,6 +1736,14 @@ public class FilterCreateActivity extends BaseFragment {
                             userCell.setData(chat, null, status, 0, divider);
                         }
                     }
+                    if (item.isBottomGroup) {
+                        GradientDrawable gb = new GradientDrawable();
+                        gb.setCornerRadii(new float[]{0,0, 0, 0, dp(10), dp(10), dp(10), dp(10)});
+                        gb.setColor(Theme.getColor(Theme.key_chats_menuTopBackground));
+                        userCell.setBackground(gb);
+                    } else {
+                        userCell.setBackgroundColor(Theme.getColor(Theme.key_chats_menuTopBackground));
+                    }
                     break;
                 }
                 case VIEW_TYPE_SHADOW: {
@@ -1667,6 +1754,18 @@ public class FilterCreateActivity extends BaseFragment {
                     ButtonCell buttonCell = (ButtonCell) holder.itemView;
                     buttonCell.setRed(item.isRed);
                     buttonCell.set(item.iconResId, item.text, divider);
+                    if (item.isBottomGroup) {
+                        GradientDrawable gb = new GradientDrawable();
+                        if (item.text == LocaleController.getString(R.string.FilterDelete)) {
+                            gb.setCornerRadius(dp(10));
+                        } else {
+                            gb.setCornerRadii(new float[]{0,0, 0, 0, dp(10), dp(10), dp(10), dp(10)});
+                        }
+                        gb.setColor(Theme.getColor(Theme.key_chats_menuTopBackground));
+                        buttonCell.setBackground(gb);
+                    } else {
+                        buttonCell.setBackgroundColor(Theme.getColor(Theme.key_chats_menuTopBackground));
+                    }
                     break;
                 }
                 case VIEW_TYPE_SHADOW_TEXT: {
@@ -1707,6 +1806,11 @@ public class FilterCreateActivity extends BaseFragment {
                         }
                         checkDoneButton(true);
                     });
+                    break;
+                }
+                case VIEW_TYPE_CENTER_ICON: {
+                    CenterIconCell cell = (CenterIconCell) holder.itemView;
+                    cell.setIcon(R.drawable.ic_group_folder);
                     break;
                 }
             }

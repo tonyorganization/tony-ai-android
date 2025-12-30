@@ -8,6 +8,8 @@
 
 package org.telegram.ui;
 
+import static org.telegram.messenger.AndroidUtilities.dp;
+
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -276,7 +278,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         actionMode.addView(selectedContactsCountTextView, LayoutHelper.createLinear(0, LayoutHelper.MATCH_PARENT, 1.0f, 72, 0, 0, 0));
         selectedContactsCountTextView.setOnTouchListener((v, event) -> true);
 
-        deleteItem = actionMode.addItemWithWidth(delete, R.drawable.msg_delete, AndroidUtilities.dp(54), LocaleController.getString(R.string.Delete));
+        deleteItem = actionMode.addItemWithWidth(delete, R.drawable.msg_delete, dp(54), LocaleController.getString(R.string.Delete));
 
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
             @Override
@@ -321,12 +323,12 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 listViewAdapter.notifyDataSetChanged();
                 listView.setFastScrollVisible(true);
                 listView.setVerticalScrollBarEnabled(false);
-                listView.getFastScroll().topOffset = AndroidUtilities.dp(90);
+                listView.getFastScroll().topOffset = dp(90);
                 // emptyView.setText(LocaleController.getString(R.string.NoContacts));
                 if (floatingButtonContainer != null) {
                     floatingButtonContainer.setVisibility(View.VISIBLE);
                     floatingHidden = true;
-                    floatingButtonContainer.setTranslationY(AndroidUtilities.dp(100));
+                    floatingButtonContainer.setTranslationY(dp(100));
                     hideFloatingButton(false);
                 }
                 if (sortItem != null && !listViewAdapter.isEmpty) {
@@ -437,10 +439,10 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 super.onLayout(changed, left, top, right, bottom);
                 if (listView.getAdapter() == listViewAdapter) {
                     if (emptyView.getVisibility() == VISIBLE) {
-                        emptyView.setTranslationY(AndroidUtilities.dp(74));
+                        emptyView.setTranslationY(dp(74));
                     }
                 } else {
-                    emptyView.setTranslationY(AndroidUtilities.dp(0));
+                    emptyView.setTranslationY(dp(0));
                 }
             }
         };
@@ -838,7 +840,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
 
             floatingButton = new RLottieImageView(context);
             floatingButton.setScaleType(ImageView.ScaleType.CENTER);
-            Drawable drawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56), Theme.getColor(Theme.key_chats_actionBackground), Theme.getColor(Theme.key_chats_actionPressedBackground));
+            Drawable drawable = Theme.createSimpleSelectorRoundRectDrawable(dp(10), Theme.getColor(Theme.key_chats_actionBackground), Theme.getColor(Theme.key_chats_actionPressedBackground));
             floatingButton.setBackground(drawable);
             floatingButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_actionIcon), PorterDuff.Mode.MULTIPLY));
             SharedPreferences preferences = MessagesController.getGlobalMainSettings();
@@ -850,14 +852,14 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             }
             floatingButtonContainer.setContentDescription(LocaleController.getString(R.string.CreateNewContact));
             StateListAnimator animator = new StateListAnimator();
-            animator.addState(new int[]{android.R.attr.state_pressed}, ObjectAnimator.ofFloat(floatingButton, View.TRANSLATION_Z, AndroidUtilities.dp(2), AndroidUtilities.dp(4)).setDuration(200));
-            animator.addState(new int[]{}, ObjectAnimator.ofFloat(floatingButton, View.TRANSLATION_Z, AndroidUtilities.dp(4), AndroidUtilities.dp(2)).setDuration(200));
+            animator.addState(new int[]{android.R.attr.state_pressed}, ObjectAnimator.ofFloat(floatingButton, View.TRANSLATION_Z, dp(2), dp(4)).setDuration(200));
+            animator.addState(new int[]{}, ObjectAnimator.ofFloat(floatingButton, View.TRANSLATION_Z, dp(4), dp(2)).setDuration(200));
             floatingButton.setStateListAnimator(animator);
             floatingButton.setOutlineProvider(new ViewOutlineProvider() {
                 @SuppressLint("NewApi")
                 @Override
                 public void getOutline(View view, Outline outline) {
-                    outline.setOval(0, 0, AndroidUtilities.dp(56), AndroidUtilities.dp(56));
+                    outline.setRoundRect(0, 0, dp(50), dp(50), dp(10));
                 }
             });
             floatingButtonContainer.addView(floatingButton, LayoutHelper.createFrame(56, 56, Gravity.LEFT | Gravity.TOP, 10, 6, 10, 0));
@@ -1089,8 +1091,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                     if (layoutParams instanceof FrameLayout.LayoutParams) {
                         ((FrameLayout.LayoutParams) layoutParams).gravity = Gravity.CENTER_HORIZONTAL;
                     }
-                    layoutParams.rightMargin = layoutParams.leftMargin = AndroidUtilities.dp(24);
-                    layoutParams.height = AndroidUtilities.dp(36);
+                    layoutParams.rightMargin = layoutParams.leftMargin = dp(24);
+                    layoutParams.height = dp(36);
                     editText.setLayoutParams(layoutParams);
                 }
                 editText.setSelection(editText.getText().length());
@@ -1160,7 +1162,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             floatingButtonContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    floatingButtonContainer.setTranslationY((floatingHidden ? AndroidUtilities.dp(100) : 0));
+                    floatingButtonContainer.setTranslationY((floatingHidden ? dp(100) : 0));
                     floatingButtonContainer.setClickable(!floatingHidden);
                     if (floatingButtonContainer != null) {
                         floatingButtonContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -1320,7 +1322,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         }
         floatingHidden = hide;
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(ObjectAnimator.ofFloat(floatingButtonContainer, View.TRANSLATION_Y, (floatingHidden ? AndroidUtilities.dp(100) : 0)));
+        animatorSet.playTogether(ObjectAnimator.ofFloat(floatingButtonContainer, View.TRANSLATION_Y, (floatingHidden ? dp(100) : 0)));
         animatorSet.setDuration(300);
         animatorSet.setInterpolator(floatingInterpolator);
         floatingButtonContainer.setClickable(!hide);
@@ -1382,7 +1384,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         final boolean stories = dialogsActivity.storiesEnabled;
         RLottieImageView previousFab = dialogsActivity.getFloatingButton();
         View previousFabContainer = previousFab.getParent() != null ? (View) previousFab.getParent() : null;
-        if (floatingButton != null && (floatingButtonContainer == null || previousFabContainer == null || previousFab.getVisibility() != View.VISIBLE || Math.abs(previousFabContainer.getTranslationY()) > AndroidUtilities.dp(4) || Math.abs(floatingButtonContainer.getTranslationY()) > AndroidUtilities.dp(4))) {
+        if (floatingButton != null && (floatingButtonContainer == null || previousFabContainer == null || previousFab.getVisibility() != View.VISIBLE || Math.abs(previousFabContainer.getTranslationY()) > dp(4) || Math.abs(floatingButtonContainer.getTranslationY()) > dp(4))) {
             if (stories) {
                 floatingButton.setAnimation(R.raw.write_contacts_fab_icon_camera, 56, 56);
             } else {
@@ -1397,7 +1399,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         }
         valueAnimator.addUpdateListener(valueAnimator1 -> {
             float v = (float) valueAnimator.getAnimatedValue();
-            parent.setTranslationX(AndroidUtilities.dp(48) * v);
+            parent.setTranslationX(dp(48) * v);
             parent.setAlpha(1f - v);
         });
         if (floatingButtonContainer != null) {

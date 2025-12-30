@@ -153,6 +153,7 @@ public class ThemeColors {
         defaultColors[key_text_enable] = 0xff3A64FF;
         defaultColors[key_stroke_default] = 0xFFd9d9d9;
         defaultColors[key_input_text] = 0xff222222;
+        defaultColors[key_input_stroke] = 0xff262630;
 
         defaultColors[key_avatar_backgroundSaved] = 0xff69BDF9;
         defaultColors[key_avatar_background2Saved] = 0xff409FE1;
@@ -602,7 +603,7 @@ public class ThemeColors {
 
         defaultColors[key_featuredStickers_addedIcon] = 0xff50a8eb;
         defaultColors[key_featuredStickers_buttonProgress] = 0xffffffff;
-        defaultColors[key_featuredStickers_addButton] = 0xff0A84FF;
+        defaultColors[key_featuredStickers_addButton] = 0xffAFC8FF;
         defaultColors[key_featuredStickers_addButtonPressed] = 0xff0A84FF;
         defaultColors[key_featuredStickers_removeButtonText] = 0xff5093d3;
         defaultColors[key_featuredStickers_buttonText] = 0xff000000;

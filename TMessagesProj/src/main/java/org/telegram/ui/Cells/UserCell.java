@@ -149,6 +149,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         statusOnlineColor = Theme.getColor(Theme.key_windowBackgroundWhiteBlueText, resourcesProvider);
 
         avatarDrawable = new AvatarDrawable();
+        avatarDrawable.setRoundRadius(dp((15)));
 
         avatarImageView = new BackupImageView(context) {
             @Override
@@ -169,8 +170,8 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                 return super.onTouchEvent(event);
             }
         };
-        avatarImageView.setRoundRadius(dp(24));
-        addView(avatarImageView, LayoutHelper.createFrame(46, 46, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 0 : 7 + padding, 6, LocaleController.isRTL ? 7 + padding : 0, 0));
+        avatarImageView.setRoundRadius(dp(15));
+        addView(avatarImageView, LayoutHelper.createFrame(50, 50, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 0 : 7 + padding, 6, LocaleController.isRTL ? 7 + padding : 0, 0));
         setClipChildren(false);
 
         nameTextView = new SimpleTextView(context);
@@ -178,7 +179,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         nameTextView.setTypeface(AndroidUtilities.bold());
         nameTextView.setTextSize(16);
         nameTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
-        addView(nameTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 20, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 28 + (checkbox == 2 ? 18 : 0) + additionalPadding : (64 + padding), 10, LocaleController.isRTL ? (64 + padding) : 28 + (checkbox == 2 ? 18 : 0) + additionalPadding, 0));
+        addView(nameTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 20, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 28 + (checkbox == 2 ? 18 : 0) + additionalPadding : (70 + padding), 17, LocaleController.isRTL ? (70 + padding) : 28 + (checkbox == 2 ? 18 : 0) + additionalPadding, 0));
 
         botVerification = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(nameTextView, dp(20));
         emojiStatus = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(nameTextView, dp(20));
@@ -186,7 +187,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         statusTextView = new SimpleTextView(context);
         statusTextView.setTextSize(15);
         statusTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
-        addView(statusTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 20, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 28 + additionalPadding : (64 + padding), 32, LocaleController.isRTL ? (64 + padding) : 28 + additionalPadding, 0));
+        addView(statusTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 20, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 28 + additionalPadding : (70 + padding), 32, LocaleController.isRTL ? (70 + padding) : 28 + additionalPadding, 0));
 
         imageView = new ImageView(context);
         imageView.setScaleType(ImageView.ScaleType.CENTER);
@@ -229,12 +230,12 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         avatarImageView.setLayoutParams(layoutParams);
 
         layoutParams = (LayoutParams) nameTextView.getLayoutParams();
-        layoutParams.leftMargin = dp(LocaleController.isRTL ? 28 + (checkBoxBig != null ? 18 : 0) : (64 + padding));
-        layoutParams.rightMargin = dp(LocaleController.isRTL ? (64 + padding) : 28 + (checkBoxBig != null ? 18 : 0));
+        layoutParams.leftMargin = dp(LocaleController.isRTL ? 28 + (checkBoxBig != null ? 18 : 0) : (70 + padding));
+        layoutParams.rightMargin = dp(LocaleController.isRTL ? (70 + padding) : 28 + (checkBoxBig != null ? 18 : 0));
 
         layoutParams = (FrameLayout.LayoutParams) statusTextView.getLayoutParams();
-        layoutParams.leftMargin = dp(LocaleController.isRTL ? 28 : (64 + padding));
-        layoutParams.rightMargin = dp(LocaleController.isRTL ? (64 + padding) : 28);
+        layoutParams.leftMargin = dp(LocaleController.isRTL ? 28 : (70 + padding));
+        layoutParams.rightMargin = dp(LocaleController.isRTL ? (70 + padding) : 28);
 
         if (checkBox != null) {
             layoutParams = (FrameLayout.LayoutParams) checkBox.getLayoutParams();
@@ -423,7 +424,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(dp(58) + (needDivider ? 1 : 0), MeasureSpec.EXACTLY));
+        super.onMeasure(MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(dp(64) + (needDivider ? 1 : 0), MeasureSpec.EXACTLY));
     }
 
     public void setStatusColors(int color, int onlineColor) {
@@ -648,7 +649,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             avatarImageView.setImageDrawable(avatarDrawable);
         }
 
-        avatarImageView.setRoundRadius(currentChat != null && currentChat.forum ? dp(14) : dp(24));
+        avatarImageView.setRoundRadius(currentChat != null && currentChat.forum ? dp(14) : dp(15));
 
         nameTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
         if (adminTextView != null) {

@@ -154,9 +154,9 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         this.resourcesProvider = resourcesProvider;
 
         avatarImage = new ImageReceiver(this);
-        avatarImage.setRoundRadius(dp(20));
+        avatarImage.setRoundRadius(dp(15));
         avatarDrawable = new AvatarDrawable();
-        avatarDrawable.setRoundRadius(dp(20));
+        avatarDrawable.setRoundRadius(dp(15));
 
         checkBox = new CheckBox2(context, 21, resourcesProvider);
         checkBox.setColor(-1, Theme.key_windowBackgroundWhite, Theme.key_checkboxCheck);
@@ -716,7 +716,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         } else {
             avatarLeft = dp(rectangularAvatar ? 15 : 11) + getPaddingLeft();
         }
-        avatarStoryParams.originalAvatarRect.set(avatarLeft, dp(7), avatarLeft + dp(rectangularAvatar ? 42 : 56), dp(7) + dp(56));
+        avatarStoryParams.originalAvatarRect.set(avatarLeft, dp(7), avatarLeft + dp(rectangularAvatar ? 48 : 50), dp(7) + dp(50));
 
         double widthpx;
         float left;
@@ -844,7 +844,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             avatarImage.setImage(null, null, avatarDrawable, null, null, 0);
         }
 
-        avatarImage.setRoundRadius(chat != null && chat.monoforum ? 0 : rectangularAvatar ? dp(20) : dp(20));
+        avatarImage.setRoundRadius(chat != null && chat.monoforum ? 0 : rectangularAvatar ? dp(16) : dp(15));
         if (mask != 0) {
             boolean continueUpdate = false;
             if ((mask & MessagesController.UPDATE_MASK_AVATAR) != 0 && user != null || (mask & MessagesController.UPDATE_MASK_CHAT_AVATAR) != 0 && chat != null) {
@@ -1091,7 +1091,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             final float s = openButtonBounce.getScale(.06f);
             canvas.scale(s, s, openButtonRect.centerX(), openButtonRect.centerY());
             canvas.drawRoundRect(openButtonRect, openButtonRect.height() / 2.0f, openButtonRect.height() / 2.0f, openButtonBackgroundPaint);
-            openButtonText.draw(canvas, x + dp(14), getHeight() / 2.0f, 0xFFFFFFFF, 1.0f);
+            openButtonText.draw(canvas, x + dp(14), getHeight() / 2.0f, 0xFF000000, 1.0f);
             canvas.restore();
         }
     }
