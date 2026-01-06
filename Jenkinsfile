@@ -8,6 +8,8 @@ pipeline {
     }
     environment {
         ANDROID_HOME = "/usr/local/android-sdk-linux"
+        _JAVA_OPTIONS = "-Xmx4096m"
+        GRADLE_OPTS = "-Dorg.gradle.jvmargs=-Xmx4096m"
         //S3
         S3_BUCKET = "tongram"
         AWS_REGION = "ap-southeast-1"
