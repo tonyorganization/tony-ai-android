@@ -105,6 +105,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -37646,6 +37647,7 @@ public class ChatActivity extends BaseFragment implements
 
                                 @Override
                                 public void onError(String errorMessage) {
+                                    Toast.makeText(getContext(), LocaleController.getString(R.string.TranslationError), Toast.LENGTH_LONG).show();
                                     messageObject.isTranslated = false;
                                     messageObject.subMessage = LocaleController.getString(R.string.TranslateError);
                                     messageObject.resetLayout();
