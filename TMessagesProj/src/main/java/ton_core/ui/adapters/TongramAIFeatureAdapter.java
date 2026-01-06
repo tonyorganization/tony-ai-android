@@ -1,10 +1,12 @@
 package ton_core.ui.adapters;
 
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,42 @@ public class TongramAIFeatureAdapter extends RecyclerView.Adapter<TongramAIFeatu
         return new TongramAIFeatureViewHolder(view);
     }
 
+    private void setItemBackground(View view, boolean isSelected) {
+        int strokeWidth = AndroidUtilities.dp(1);
+        int[] gradientColors = {
+                Color.parseColor("#00D3F0"),
+                Color.parseColor("#0034FF")
+        };
+
+        int[] defaultColors = {
+                Color.parseColor("#474747"),
+                Color.parseColor("#474747"),
+        };
+
+        GradientDrawable outer = new GradientDrawable(
+                GradientDrawable.Orientation.LEFT_RIGHT,
+                isSelected ? gradientColors : defaultColors
+        );
+        outer.setCornerRadius(AndroidUtilities.dp(20));
+
+        GradientDrawable inner = new GradientDrawable();
+        inner.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteShadow));
+        inner.setCornerRadius(AndroidUtilities.dp(20) - strokeWidth);
+
+        LayerDrawable layerDrawable = new LayerDrawable(
+                new Drawable[]{outer, inner}
+        );
+
+        layerDrawable.setLayerInset(
+                1,
+                strokeWidth,
+                strokeWidth,
+                strokeWidth,
+                strokeWidth
+        );
+        view.setBackground(layerDrawable);
+    }
+
     @Override
     public void onBindViewHolder(@NonNull TongramAIFeatureViewHolder holder, int position) {
         final TongramAiFeatureModel feature = features.get(position);
@@ -47,34 +85,27 @@ public class TongramAIFeatureAdapter extends RecyclerView.Adapter<TongramAIFeatu
         if (feature.isComingSoon) {
             holder.comingSoon.setVisibility(View.VISIBLE);
             holder.comingSoon.setTextColor(Theme.getColor(Theme.key_coming_soon));
+            holder.comingSoon.setAlpha(0.5f);
         } else {
             holder.comingSoon.setVisibility(View.GONE);
         }
 
         if (feature.isSelected) {
-            holder.itemView.setBackgroundResource(R.drawable.rectangle_corner);
-            holder.title.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            holder.title.setTextColor(Theme.getColor(Theme.key_profile_title));
             holder.title.setTypeface(AndroidUtilities.bold());
-
-            holder.aiFeatureImage.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_button_enable), PorterDuff.Mode.SRC_IN));
-
+            holder.title.setAlpha(1f);
+            holder.aiFeatureImage.setAlpha(1f);
         } else {
-            holder.itemView.setBackgroundResource(R.drawable.rectangle_corner_default);
             GradientDrawable d = (GradientDrawable) holder.itemView.getBackground();
             d.setStroke(1, Theme.getColor(Theme.key_stroke_default));
             holder.title.setTextColor(Theme.getColor(Theme.key_graySectionText));
             holder.title.setTypeface(Typeface.DEFAULT);
-
-            holder.aiFeatureImage.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_button_disable), PorterDuff.Mode.SRC_IN));
+            holder.title.setAlpha(0.5f);
+            holder.aiFeatureImage.setAlpha(0.5f);
         }
 
-        Drawable background = holder.itemView.getBackground();
-        if (background instanceof android.graphics.drawable.GradientDrawable) {
-            android.graphics.drawable.GradientDrawable shape = (android.graphics.drawable.GradientDrawable) background;
-            int themeColor = Theme.getColor(Theme.key_windowBackgroundWhite);
-
-            shape.setColor(themeColor);
-        }
+        setItemBackground(holder.itemView, feature.isSelected);
+        holder.aiFeatureImage.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_icon_color), PorterDuff.Mode.SRC_IN));
 
         holder.itemView.setOnClickListener(view -> {
             if (feature.isComingSoon) {

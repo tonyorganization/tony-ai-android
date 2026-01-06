@@ -2563,8 +2563,7 @@ public class ChatActivity extends BaseFragment implements
         ArrayList<LocaleController.LocaleInfo> arrayList = LocaleController.getInstance().languages;
         tongramLanguages = new ArrayList<>();
         tongramLanguages.addAll(arrayList.stream()
-                .filter(e -> e.shortName != shortLanguageName)
-                .map(e -> new TongramLanguageModel(e.nameEnglish, e.shortName, false))
+                .map(e -> new TongramLanguageModel(e.nameEnglish, e.shortName, e.shortName.equals(shortLanguageName)))
                 .collect(Collectors.toList()));
 
         final long chatId = arguments.getLong("chat_id", 0);

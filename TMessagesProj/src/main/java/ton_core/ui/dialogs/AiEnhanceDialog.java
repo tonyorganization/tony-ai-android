@@ -145,7 +145,7 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
         Drawable background = view.findViewById(R.id.cl_root).getBackground();
 
         if (background != null) {
-            int themeColor = Theme.getColor(Theme.key_windowBackgroundWhite);
+            int themeColor = Theme.getColor(Theme.key_windowBackgroundWhiteShadow);
             background.setColorFilter(new PorterDuffColorFilter(themeColor, PorterDuff.Mode.SRC_IN));
         }
 
@@ -154,12 +154,12 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
 
         TextView tvTitle = view.findViewById(R.id.tv_tongram_ai);
         tvTitle.setTypeface(AndroidUtilities.bold());
-        tvTitle.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
+        tvTitle.setTextColor(Theme.getColor(Theme.key_profile_title, resourcesProvider));
 
         ImageView ivBack = view.findViewById(R.id.iv_back);
         Drawable ivBackDrawable = ivBack.getDrawable();
         if (ivBackDrawable != null) {
-            int themeColor = Theme.getColor(Theme.key_windowBackgroundWhiteBlackText);
+            int themeColor = Theme.getColor(Theme.key_profile_title);
             ivBack.setColorFilter(new PorterDuffColorFilter(themeColor, PorterDuff.Mode.SRC_IN));
         }
         ivBack.setOnClickListener(v -> dismiss());
@@ -168,7 +168,7 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
         divider.setBackgroundColor(Theme.getColor(Theme.key_divider, resourcesProvider));
 
         tvResult = view.findViewById(R.id.tv_result);
-        tvResult.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
+        tvResult.setTextColor(Theme.getColor(Theme.key_profile_title, resourcesProvider));
         tvResult.setText(LocaleController.getString(R.string.ThreeDot));
 
         tvApply = view.findViewById(R.id.tv_apply);
@@ -183,7 +183,6 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
         });
 
         tvLanguage = view.findViewById(R.id.tv_language);
-        tvLanguage.setTypeface(AndroidUtilities.bold());
         tvLanguage.setTextColor(Theme.getColor(Theme.key_text_enable, resourcesProvider));
         setLanguage();
 
@@ -205,7 +204,7 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
         rvFeatures.setAdapter(tongramAiFeatureAdapter);
 
         edtInput = view.findViewById(R.id.edt_input);
-        edtInput.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
+        edtInput.setTextColor(Theme.getColor(Theme.key_profile_title, resourcesProvider));
         edtInput.setText(input);
         edtInput.addTextChangedListener(new TextWatcher() {
             @Override
@@ -250,9 +249,14 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
 
     private void setStyleForSendButton() {
         if (ivAction == null) return;
-        int colorKey = (edtInput == null || edtInput.getText().toString().isEmpty() || selectedLanguage == null)
-                ? Theme.key_button_disable
-                : Theme.key_button_enable;
+        int colorKey;
+        if (edtInput == null || edtInput.getText().toString().isEmpty() || selectedLanguage == null) {
+            colorKey = Theme.key_button_disable;
+            ivAction.setAlpha(0.5f);
+        } else {
+            colorKey = Theme.key_button_enable;
+            ivAction.setAlpha(1f);
+        }
         int color = Theme.getColor(colorKey);
 
         Drawable background = ivAction.getBackground();

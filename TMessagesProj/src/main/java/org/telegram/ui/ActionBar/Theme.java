@@ -3429,6 +3429,7 @@ public class Theme {
     public static final int key_dialogGiftsTabText = colorsCount++;
 
     public static final int key_windowBackgroundWhite = colorsCount++;
+    public static final int key_windowBackgroundWhiteShadow = colorsCount++;
     public static final int key_windowBackgroundUnchecked = colorsCount++;
     public static final int key_windowBackgroundChecked = colorsCount++;
     public static final int key_windowBackgroundCheckText = colorsCount++;
@@ -3519,6 +3520,7 @@ public class Theme {
     public static final int key_contextProgressOuter4 = colorsCount++;
 
     public static final int key_avatar_text = colorsCount++;
+    public static final int key_icon_color = colorsCount++;
     public static final int key_coming_soon = colorsCount++;
     public static final int key_button_disable = colorsCount++;
     public static final int key_button_enable = colorsCount++;
