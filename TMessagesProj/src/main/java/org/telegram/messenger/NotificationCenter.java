@@ -373,6 +373,7 @@ public class NotificationCenter {
     public static final int botForumDraftUpdate = totalEvents++;
     public static final int botForumDraftDelete = totalEvents++;
     public static final int tlSchemeParseException = totalEvents++;
+    public static final int aiTranslationTargetLangUpdated = totalEvents++;
 
     public static boolean alreadyLogged;
 

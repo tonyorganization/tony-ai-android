@@ -206,6 +206,7 @@ import java.util.Locale;
 
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
+import ton_core.shared.Constants;
 
 public class ChatActivityEnterView extends FrameLayout implements
     NotificationCenter.NotificationCenterDelegate,
@@ -241,6 +242,7 @@ public class ChatActivityEnterView extends FrameLayout implements
 
     public boolean voiceOnce;
     public boolean onceVisible;
+    public boolean isEnableAiTranslation = false;
 
     public void drawRecordedPannel(Canvas canvas) {
         if (getAlpha() == 0 || recordedAudioPanel == null || recordedAudioPanel.getParent() == null || recordedAudioPanel.getVisibility() != View.VISIBLE) {
@@ -2563,6 +2565,9 @@ public class ChatActivityEnterView extends FrameLayout implements
         sizeNotifierLayout.setDelegate(this);
         SharedPreferences preferences = MessagesController.getGlobalMainSettings();
         sendByEnter = preferences.getBoolean("send_by_enter", false);
+
+        SharedPreferences tongramAiPreferences = ApplicationLoader.applicationContext.getSharedPreferences(Constants.TONGRAM_CONFIG, Activity.MODE_PRIVATE);
+        isEnableAiTranslation = tongramAiPreferences.getBoolean(Constants.IS_ENABLE_AI_TRANSLATION_KEY, true);
 
         textFieldContainer = new FrameLayout(context) {
             @Override
@@ -7499,7 +7504,7 @@ public class ChatActivityEnterView extends FrameLayout implements
                         runningAnimationType = 1;
                         animators.add(animateSendButton(true));
                         getSendButtonInternal().setVisibility(VISIBLE);
-                        aiEnhanceButton.setVisibility(VISIBLE);
+                        aiEnhanceButton.setVisibility(isEnableAiTranslation ? VISIBLE : INVISIBLE);
                     }
 
                     runningAnimation.playTogether(animators);
@@ -7515,7 +7520,7 @@ public class ChatActivityEnterView extends FrameLayout implements
                                     aiEnhanceButton.setVisibility(GONE);
                                 } else {
                                     getSendButtonInternal().setVisibility(VISIBLE);
-                                    aiEnhanceButton.setVisibility(VISIBLE);
+                                    aiEnhanceButton.setVisibility(isEnableAiTranslation ? VISIBLE : INVISIBLE);
                                     cancelBotButton.setVisibility(GONE);
                                 }
                                 audioVideoButtonContainer.setVisibility(GONE);
@@ -7569,7 +7574,7 @@ public class ChatActivityEnterView extends FrameLayout implements
                         getSendButtonInternal().setScaleY(1.0f);
                         getSendButtonInternal().setAlpha(1.0f);
                         cancelBotButton.setVisibility(GONE);
-                        aiEnhanceButton.setVisibility(VISIBLE);
+                        aiEnhanceButton.setVisibility(isEnableAiTranslation ? VISIBLE : INVISIBLE);
                         aiEnhanceButton.setScaleX(1.0f);
                         aiEnhanceButton.setScaleY(1.0f);
                         aiEnhanceButton.setAlpha(1.0f);
@@ -9265,7 +9270,7 @@ public class ChatActivityEnterView extends FrameLayout implements
                     getSendButtonInternal().setScaleY(1.0f);
                     getSendButtonInternal().setAlpha(1.0f);
                     getSendButtonInternal().setVisibility(VISIBLE);
-                    aiEnhanceButton.setVisibility(VISIBLE);
+                    aiEnhanceButton.setVisibility(isEnableAiTranslation ? VISIBLE : INVISIBLE);
                     aiEnhanceButton.setScaleX(1.0f);
                     aiEnhanceButton.setScaleY(1.0f);
                     aiEnhanceButton.setAlpha(1.0f);

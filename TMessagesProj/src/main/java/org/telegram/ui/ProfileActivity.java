@@ -329,6 +329,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import ton_core.shared.Constants;
 import ton_core.ui.screens.AiTranslationSettingsActivity;
 
 public class ProfileActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate, SharedMediaLayout.SharedMediaPreloaderDelegate, ImageUpdater.ImageUpdaterDelegate, SharedMediaLayout.Delegate {
@@ -2073,6 +2074,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         openGiftsCollection = arguments.getInt("open_gifts_collection", 0);
         openCommonChats = arguments.getBoolean("open_common", false);
         initialStoryAlbum = arguments.getInt("open_story_album_id", -1);
+
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.aiTranslationTargetLangUpdated);
+
         if (!expandPhoto) {
             expandPhoto = arguments.getBoolean("expandPhoto", false);
             if (expandPhoto) {
@@ -2341,6 +2345,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         getNotificationCenter().removeObserver(this, NotificationCenter.starUserGiftsLoaded);
         getNotificationCenter().removeObserver(this, NotificationCenter.profileMusicUpdated);
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.aiTranslationTargetLangUpdated);
         if (avatarsViewPager != null) {
             avatarsViewPager.onDestroy();
         }
@@ -9119,6 +9124,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     public void didReceivedNotification(int id, int account, final Object... args) {
         if (id == NotificationCenter.uploadStoryEnd || id == NotificationCenter.chatWasBoostedByUser) {
             checkCanSendStoryForPosting();
+        } else if (id == NotificationCenter.aiTranslationTargetLangUpdated) {
+            if (listAdapter != null) {
+                listAdapter.notifyItemChanged(aiTranslationRow);
+            }
         } else if (id == NotificationCenter.updateInterfaces) {
             int mask = (Integer) args[0];
             boolean infoChanged = (mask & MessagesController.UPDATE_MASK_AVATAR) != 0 || (mask & MessagesController.UPDATE_MASK_NAME) != 0 || (mask & MessagesController.UPDATE_MASK_STATUS) != 0 || (mask & MessagesController.UPDATE_MASK_EMOJI_STATUS) != 0;
@@ -13667,7 +13676,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         textCell.setTextAndValueAndIcon(LocaleController.getString(R.string.Language), LocaleController.getCurrentLanguageName(), false, R.drawable.msg2_language, false);
                         textCell.setImageLeft(23);
                     } else if (position == aiTranslationRow) {
-                        textCell.setTextAndValueAndIcon(LocaleController.getString(R.string.AiTranslationSettings), LocaleController.getCurrentLanguageName(), false, R.drawable.settings_translation, false, Theme.getColor(Theme.key_chats_actionBackground));
+                        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(Constants.TONGRAM_CONFIG, Activity.MODE_PRIVATE);
+                        final String targetLang = preferences.getString(Constants.TARGET_LANG_NAME_KEY, LocaleController.getCurrentLanguageName());
+                        textCell.setTextAndValueAndIcon(LocaleController.getString(R.string.AiTranslationSettings), targetLang, false, R.drawable.settings_translation, false, Theme.getColor(Theme.key_chats_actionBackground));
                         textCell.setImageLeft(23);
                         GradientDrawable gb = new GradientDrawable();
                         gb.setCornerRadii(new float[]{ 0, 0, 0, 0, dp(10), dp(10), dp(10), dp(10)});

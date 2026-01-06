@@ -328,6 +328,7 @@ import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
 import me.vkryl.core.reference.ReferenceList;
 import ton_core.services.IOnApiCallback;
+import ton_core.shared.Constants;
 import ton_core.shared.CustomLifecycleOwner;
 import ton_core.entities.TranslatedMessageEntity;
 import ton_core.repositories.translated_message_repository.ITranslatedMessageRepository;
@@ -378,6 +379,7 @@ public class ChatActivity extends BaseFragment implements
     private static final ExecutorService detectLanguageExecutor =
             Executors.newFixedThreadPool(3);
     private List<TongramLanguageModel> tongramLanguages;
+    private boolean isEnableAiTranslation = false;
 
     private HashMap<MessageObject, Boolean> alreadyPlayedStickers = new HashMap<>();
 
@@ -2540,6 +2542,8 @@ public class ChatActivity extends BaseFragment implements
 
     @Override
     public boolean onFragmentCreate() {
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(Constants.TONGRAM_CONFIG, Activity.MODE_PRIVATE);
+        isEnableAiTranslation = preferences.getBoolean(Constants.IS_ENABLE_AI_TRANSLATION_KEY, true);
         translatedMessageRepository = TranslatedMessageRepository.getInstance(ApplicationLoader.applicationContext);
         lifecycleOwner = new CustomLifecycleOwner();
         lifecycleOwner.onStart();
@@ -2555,12 +2559,12 @@ public class ChatActivity extends BaseFragment implements
                 messagesMap.put(entity.messageId, entity);
             }
         });
-        shortLanguageName = LocaleController.getInstance().getCurrentLocale().getLanguage();
+        shortLanguageName = preferences.getString(Constants.TARGET_LANG_CODE_KEY, LocaleController.getInstance().getCurrentLocale().getLanguage());
         ArrayList<LocaleController.LocaleInfo> arrayList = LocaleController.getInstance().languages;
         tongramLanguages = new ArrayList<>();
         tongramLanguages.addAll(arrayList.stream()
                 .filter(e -> e.shortName != shortLanguageName)
-                .map(e -> new TongramLanguageModel(e.name, e.shortName, false))
+                .map(e -> new TongramLanguageModel(e.nameEnglish, e.shortName, false))
                 .collect(Collectors.toList()));
 
         final long chatId = arguments.getLong("chat_id", 0);
@@ -20221,26 +20225,28 @@ public class ChatActivity extends BaseFragment implements
 
             final HashMap<Integer, TranslatedMessageEntity> messageCache = chatTranslatedMessageCache.get(currentAccount);
 
-            List<MessageObject> latestMessages =
-                    messArr.stream()
-                            .filter(e -> !e.isOutOwner() && e.type == MessageObject.TYPE_TEXT)
-                            .sorted((a, b) -> Integer.compare(b.getId(), a.getId())) // sort DESC
-                            .limit(3)
-                            .collect(Collectors.toList());
+            if (isEnableAiTranslation) {
+                List<MessageObject> latestMessages =
+                        messArr.stream()
+                                .filter(e -> !e.isOutOwner() && e.type == MessageObject.TYPE_TEXT)
+                                .sorted((a, b) -> Integer.compare(b.getId(), a.getId())) // sort DESC
+                                .limit(3)
+                                .collect(Collectors.toList());
 
-            detectLanguageExecutor.execute(() -> {
-                for (MessageObject ms : latestMessages) {
-                    LanguageDetector.detectLanguage(ms.removeEntities(), lng -> AndroidUtilities.runOnUIThread(() -> {
-                        if (!lng.equals(shortLanguageName) && !lng.equals("und")) {
-                            ms.isActiveTranslation = true;
-                            ms.resetLayout();
-                            updateMessageAnimatedInternal(ms, false);
-                        }
-                    }), err -> AndroidUtilities.runOnUIThread(() -> {
+                detectLanguageExecutor.execute(() -> {
+                    for (MessageObject ms : latestMessages) {
+                        LanguageDetector.detectLanguage(ms.removeEntities(), lng -> AndroidUtilities.runOnUIThread(() -> {
+                            if (!lng.equals(shortLanguageName) && !lng.equals("und")) {
+                                ms.isActiveTranslation = true;
+                                ms.resetLayout();
+                                updateMessageAnimatedInternal(ms, false);
+                            }
+                        }), err -> AndroidUtilities.runOnUIThread(() -> {
 
-                    }));
-                }
-            });
+                        }));
+                    }
+                });
+            }
 
             for (int a = 0; a < messArr.size(); a++) {
                 MessageObject obj = messArr.get(a);
@@ -20249,13 +20255,15 @@ public class ChatActivity extends BaseFragment implements
                     addReplyMessageOwner(obj, 0);
                 }
                 int messageId = obj.getId();
-                TranslatedMessageEntity translatedMessageEntity = messageCache.get(messageId);
+                if (isEnableAiTranslation) {
+                    TranslatedMessageEntity translatedMessageEntity = messageCache.get(messageId);
 
-                if (translatedMessageEntity != null && !obj.isOutOwner()) {
-                    obj.isActiveTranslation = true;
-                    obj.isTranslated = translatedMessageEntity.isShow;
-                    obj.translatedText = translatedMessageEntity.translatedMessage;
-                    obj.resetLayout();
+                    if (translatedMessageEntity != null && !obj.isOutOwner()) {
+                        obj.isActiveTranslation = true;
+                        obj.isTranslated = translatedMessageEntity.isShow;
+                        obj.translatedText = translatedMessageEntity.translatedMessage;
+                        obj.resetLayout();
+                    }
                 }
                 if (threadMessageId != 0) {
                     if (messageId <= (obj.isOut() ? threadMaxOutboxReadId : threadMaxInboxReadId)) {
