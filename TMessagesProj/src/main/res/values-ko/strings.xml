@@ -10690,4 +10690,20 @@ un2에게 채널을 공유함</string>
     <string name="OpenTelegramApp">Telegram 열기</string>
     <string name="TonTVFeatureURL">https://t.me/tontv_official_bot/app</string>
     <string name="TonGramAppStoreFeatureUrl">https://t.me/Tongram_center_bot/Tongram_Apps_Center</string>
+    <string name="Translation">쓰기 비서</string>
+    <string name="Translating">번역 중…</string>
+    <string name="TranslateError">번역 실패!</string>
+    <string name="AiEnhance">AI 향상</string>
+    <string name="TongramAI">AI 토니</string>
+    <string name="Apply">적용</string>
+    <string name="WritingAssistant">쓰기 비서</string>
+    <string name="ThreeDot">…</string>
+    <string name="ChooseLanguage">언어 선택</string>
+    <string name="UnableDetectLanguage">입력하신 콘텐츠의 언어를 감지할 수 없습니다. 다시 시도해 주세요.</string>
+    <string name="UnablePerformTranslation">현재 번역을 수행할 수 없습니다. 나중에 다시 시도해 주세요.</string>
+    <string name="AiTranslationSettings">AI 번역 설정</string>
+    <string name="EnableAITranslation">AI 번역 활성화</string>
+    <string name="AiTranslationContent">선택한 대상 언어로 발신 메시지를 자동 번역합니다.</string>
+    <string name="Preferences">기본 설정</string>
+    <string name="TargetLanguage">목표 언어</string>
 </resources>
