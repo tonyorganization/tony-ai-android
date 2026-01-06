@@ -2,6 +2,7 @@ pipeline {
     agent {
         docker { 
             image 'toncorp/android-builder:1.0.2' 
+            alwaysPull true 
             args '-v $HOME/.gradle:/root/.gradle' 
         }
     }
