@@ -175,7 +175,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         setClipChildren(false);
 
         nameTextView = new SimpleTextView(context);
-        nameTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
+        nameTextView.setTextColor(Theme.getColor(Theme.key_profile_title, resourcesProvider));
         nameTextView.setTypeface(AndroidUtilities.bold());
         nameTextView.setTextSize(16);
         nameTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
@@ -651,7 +651,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
 
         avatarImageView.setRoundRadius(currentChat != null && currentChat.forum ? dp(14) : dp(15));
 
-        nameTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
+        nameTextView.setTextColor(Theme.getColor(Theme.key_profile_title, resourcesProvider));
         if (adminTextView != null) {
             adminTextView.setTextColor(Theme.getColor(Theme.key_profile_creatorIcon, resourcesProvider));
         }

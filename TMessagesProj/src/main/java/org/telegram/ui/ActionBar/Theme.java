@@ -3430,6 +3430,7 @@ public class Theme {
 
     public static final int key_windowBackgroundWhite = colorsCount++;
     public static final int key_windowBackgroundWhiteShadow = colorsCount++;
+    public static final int key_countMessageBackground = colorsCount++;
     public static final int key_windowBackgroundUnchecked = colorsCount++;
     public static final int key_windowBackgroundChecked = colorsCount++;
     public static final int key_windowBackgroundCheckText = colorsCount++;

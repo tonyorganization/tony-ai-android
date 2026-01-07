@@ -76,6 +76,7 @@ public class ThemeColors {
         defaultColors[key_windowBackgroundWhite] = 0xffffffff;
         defaultColors[key_windowBackgroundWhiteShadow] = 0xffffffff;
         defaultColors[key_icon_color] = 0xffffffff;
+        defaultColors[key_countMessageBackground] = 0xffffffff;
         defaultColors[key_windowBackgroundUnchecked] = 0xff9da7b1;
         defaultColors[key_windowBackgroundChecked] = 0xff579ed9;
         defaultColors[key_windowBackgroundCheckText] = 0xffffffff;
@@ -1622,6 +1623,7 @@ public class ThemeColors {
         colorKeysMap.put(key_windowBackgroundTransparent, "windowBackgroundTransparent");
         colorKeysMap.put(key_text_title_color, "text_title_color");
         colorKeysMap.put(key_icon_color, "icon_color");
+        colorKeysMap.put(key_countMessageBackground, "countMessageBackground");
 
         return colorKeysMap;
     }

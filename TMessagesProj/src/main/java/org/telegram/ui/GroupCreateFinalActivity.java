@@ -714,11 +714,13 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         });
 
         floatingButtonIcon = new ImageView(context);
+        Drawable floatingDrawable = Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(20), Theme.getColor(Theme.key_chats_actionBackground), Theme.getColor(Theme.key_chats_actionPressedBackground));
         floatingButtonIcon.setScaleType(ImageView.ScaleType.CENTER);
         floatingButtonIcon.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_actionIcon), PorterDuff.Mode.MULTIPLY));
         floatingButtonIcon.setImageResource(R.drawable.checkbig);
         floatingButtonIcon.setPadding(0, AndroidUtilities.dp(2), 0, 0);
         floatingButtonContainer.setContentDescription(LocaleController.getString(R.string.Done));
+        floatingButtonIcon.setBackgroundDrawable(floatingDrawable);
         floatingButtonContainer.addView(floatingButtonIcon, LayoutHelper.createFrame(Build.VERSION.SDK_INT >= 21 ? 56 : 60, Build.VERSION.SDK_INT >= 21 ? 56 : 60));
 
         progressView = new ContextProgressView(context, 1);
@@ -1039,8 +1041,8 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             switch (viewType) {
                 case VIEW_TYPE_SHADOW_SECTION_CELL: {
                     view = new ShadowSectionCell(context);
-                    Drawable drawable = Theme.getThemedDrawableByKey(context, R.drawable.greydivider_top, Theme.key_windowBackgroundGrayShadow);
-                    CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundGray)), drawable);
+                    Drawable drawable = Theme.getThemedDrawableByKey(context, R.drawable.greydivider_top, Theme.key_windowBackgroundWhite);
+                    CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundWhite)), drawable);
                     combinedDrawable.setFullsize(true);
                     view.setBackgroundDrawable(combinedDrawable);
                     break;
@@ -1058,8 +1060,8 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
                     break;
                 case VIEW_TYPE_TEXT_INFO_CELL:
                     view = new TextInfoPrivacyCell(context);
-                    Drawable drawable = Theme.getThemedDrawableByKey(context, selectedContacts.size() == 0 ? R.drawable.greydivider_bottom : R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow);
-                    CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundGray)), drawable);
+                    Drawable drawable = Theme.getThemedDrawableByKey(context, selectedContacts.size() == 0 ? R.drawable.greydivider_bottom : R.drawable.greydivider, Theme.key_windowBackgroundWhite);
+                    CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundWhite)), drawable);
                     combinedDrawable.setFullsize(true);
                     view.setBackgroundDrawable(combinedDrawable);
                     break;
@@ -1073,7 +1075,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
                 case VIEW_TYPE_LAST_EMPTY_VIEW:
                     view = new View(context);
                     if (selectedContacts.isEmpty()) {
-                        view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+                        view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     }
                     break;
             }

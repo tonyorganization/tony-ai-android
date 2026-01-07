@@ -473,7 +473,7 @@ public class FilterTabsView extends FrameLayout {
                         counterPaint.setColor(color1);
                     }
                 } else {
-                    counterPaint.setColor(textPaint.getColor());
+                    counterPaint.setColor(Theme.getColor(Theme.key_countMessageBackground));
                 }
 
                 float x;
@@ -1329,6 +1329,14 @@ public class FilterTabsView extends FrameLayout {
             return null;
         }
         return tabs.get(i);
+    }
+
+    public int getNextTabId(boolean forward) {
+        int nextPos = currentPosition + (forward ? 1 : -1);
+        if (nextPos >= 0 && nextPos < tabs.size()) {
+            return tabs.get(nextPos).id;
+        }
+        return -1;
     }
 
     public void finishAddingTabs(boolean animated) {

@@ -19,6 +19,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -26,6 +27,7 @@ import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
@@ -43,6 +45,7 @@ public class DrawerActionCell extends FrameLayout {
 
     private BackupImageView imageView;
     private TextView textView;
+    private TextView subTextView;
     private int currentId;
     private RectF rect = new RectF();
     private boolean currentError;
@@ -54,14 +57,26 @@ public class DrawerActionCell extends FrameLayout {
         imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_menuItemIcon), PorterDuff.Mode.SRC_IN));
         imageView.getImageReceiver().setFileLoadingPriority(FileLoader.PRIORITY_HIGH);
 
+        final LinearLayout layout = new LinearLayout(context);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setGravity(Gravity.CENTER_VERTICAL);
+
         textView = new TextView(context);
         textView.setTextColor(Theme.getColor(Theme.key_chats_menuItemText));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         textView.setTypeface(AndroidUtilities.bold());
-        textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-        addView(imageView, LayoutHelper.createFrame(24, 24, Gravity.LEFT | Gravity.TOP, 19, 12, 0, 0));
-        addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP, 72, 0, 16, 0));
 
+        subTextView = new TextView(context);
+        subTextView.setTextColor(Theme.getColor(Theme.key_coming_soon));
+        subTextView.setText(LocaleController.getString(R.string.ComingSoon));
+        subTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11);
+        subTextView.setVisibility(GONE);
+        addView(imageView, LayoutHelper.createFrame(24, 24, Gravity.LEFT | Gravity.CENTER_VERTICAL, 19, 0, 0, 0));
+
+        layout.addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        layout.addView(subTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+
+        addView(layout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 72, 6, 16, 6));
         setWillNotDraw(false);
     }
 
@@ -118,10 +133,13 @@ public class DrawerActionCell extends FrameLayout {
         invalidate();
     }
 
-    public void setTextAndIcon(int id, CharSequence text, int resId) {
+    public void setTextAndIcon(int id, CharSequence text, int resId, boolean isComingSoon) {
         currentId = id;
         try {
             textView.setText(text);
+            if (isComingSoon) {
+                subTextView.setVisibility(VISIBLE);
+            }
             imageView.setImageResource(resId);
         } catch (Throwable e) {
             FileLog.e(e);

@@ -1485,7 +1485,7 @@ public class FilterCreateActivity extends BaseFragment {
 
             imageView = new ImageView(context);
             imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            addView(imageView, LayoutHelper.createFrame(dp(40), dp(40), Gravity.CENTER));
+            addView(imageView, LayoutHelper.createFrame(80, 80, Gravity.CENTER));
         }
 
         public void setIcon(int resId) {
@@ -1494,7 +1494,8 @@ public class FilterCreateActivity extends BaseFragment {
 
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-            super.onMeasure(MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(100), MeasureSpec.EXACTLY));
+            super.onMeasure(MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(100), MeasureSpec.EXACTLY));
         }
     }
 
@@ -1904,8 +1905,8 @@ public class FilterCreateActivity extends BaseFragment {
         }
 
         public void setRed(boolean red) {
-            imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(red ? Theme.key_text_RedBold : Theme.key_windowBackgroundWhiteBlueText2), PorterDuff.Mode.MULTIPLY));
-            textView.setTextColor(Theme.getColor(red ? Theme.key_text_RedRegular : Theme.key_windowBackgroundWhiteBlueText4));
+            imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(red ? Theme.key_text_RedBold : Theme.key_icon_color), PorterDuff.Mode.MULTIPLY));
+            textView.setTextColor(Theme.getColor(red ? Theme.key_text_RedBold : Theme.key_profile_title));
         }
 
         private int lastIconResId;
@@ -2046,7 +2047,7 @@ public class FilterCreateActivity extends BaseFragment {
 
             titleTextView = new AnimatedTextView(context, true, true, false);
             titleTextView.setTextSize(AndroidUtilities.dp(15.66f));
-            titleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            titleTextView.setTextColor(Theme.getColor(Theme.key_profile_title));
             titleTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
             titleTextView.setEllipsizeByGradient(true);
             addView(titleTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT,  20, Gravity.TOP | Gravity.FILL_HORIZONTAL, LocaleController.isRTL ? 56 : 64, 10.33f, LocaleController.isRTL ? 64 : 56, 0));
@@ -2282,7 +2283,7 @@ public class FilterCreateActivity extends BaseFragment {
         } else {
             Drawable bg = context.getResources().getDrawable(R.drawable.msg_other_new_filled).mutate();
             Drawable txt = context.getResources().getDrawable(R.drawable.msg_other_new_filled_text).mutate();
-            bg.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_featuredStickers_unread), PorterDuff.Mode.MULTIPLY));
+            bg.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_actionBackground), PorterDuff.Mode.MULTIPLY));
             txt.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_featuredStickers_buttonText), PorterDuff.Mode.MULTIPLY));
             Drawable drawable = new CombinedDrawable(bg, txt);
             drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());

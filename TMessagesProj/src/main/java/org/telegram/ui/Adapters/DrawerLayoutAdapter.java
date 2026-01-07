@@ -302,12 +302,12 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
         }
         UserConfig me = UserConfig.getInstance(UserConfig.selectedAccount);
         boolean showDivider = false;
-        items.add(new Item(16, LocaleController.getString(R.string.MyProfile), R.drawable.left_status_profile));
+        items.add(new Item(16, LocaleController.getString(R.string.MyProfile), R.drawable.left_status_profile, false));
         if (me != null && me.isPremium()) {
             if (me.getEmojiStatus() != null) {
-                items.add(new Item(15, LocaleController.getString(R.string.ChangeEmojiStatus), R.drawable.msg_status_edit));
+                items.add(new Item(15, LocaleController.getString(R.string.ChangeEmojiStatus), R.drawable.msg_status_edit, false));
             } else {
-                items.add(new Item(15, LocaleController.getString(R.string.SetEmojiStatus), R.drawable.msg_status_set));
+                items.add(new Item(15, LocaleController.getString(R.string.SetEmojiStatus), R.drawable.msg_status_set, false));
             }
             showDivider = true;
         }
@@ -338,25 +338,25 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             items.add(null); // divider
         }
 
-        items.add(new Item(18, LocaleController.getString(R.string.TonTV), R.drawable.tontv_icon));
-        items.add(new Item(19, LocaleController.getString(R.string.MiniAppStore), R.drawable.tongram_icon));
-        items.add(new Item(21, LocaleController.getString(R.string.AITony), R.drawable.ic_ai_tony));
-        items.add(new Item(22, LocaleController.getString(R.string.CEXExchange), R.drawable.ic_cex_exchange));
-        items.add(new Item(23, LocaleController.getString(R.string.P2PExchange), R.drawable.ic_p2p_exchange));
+        items.add(new Item(18, LocaleController.getString(R.string.TonTV), R.drawable.tontv_icon, false));
+        items.add(new Item(19, LocaleController.getString(R.string.MiniAppStore), R.drawable.tongram_icon, false));
+//        items.add(new Item(21, LocaleController.getString(R.string.AITony), R.drawable.ic_ai_tony));
+        items.add(new Item(22, LocaleController.getString(R.string.CEXExchange), R.drawable.ic_cex_exchange, true));
+        items.add(new Item(23, LocaleController.getString(R.string.P2PExchange), R.drawable.ic_p2p_exchange, true));
 
         if (showDivider) {
             items.add(null); // divider
         }
-        items.add(new Item(2, LocaleController.getString(R.string.NewGroup), newGroupIcon));
+        items.add(new Item(2, LocaleController.getString(R.string.NewGroup), newGroupIcon, false));
         //items.add(new Item(3, LocaleController.getString(R.string.NewSecretChat), newSecretIcon));
         //items.add(new Item(4, LocaleController.getString(R.string.NewChannel), newChannelIcon));
-        items.add(new Item(6, LocaleController.getString(R.string.Contacts), contactsIcon));
-        items.add(new Item(10, LocaleController.getString(R.string.Calls), callsIcon));
-        items.add(new Item(11, LocaleController.getString(R.string.SavedMessages), savedIcon));
-        items.add(new Item(8, LocaleController.getString(R.string.Settings), settingsIcon));
+        items.add(new Item(6, LocaleController.getString(R.string.Contacts), contactsIcon, false));
+        items.add(new Item(10, LocaleController.getString(R.string.Calls), callsIcon, false));
+        items.add(new Item(11, LocaleController.getString(R.string.SavedMessages), savedIcon, false));
+        items.add(new Item(8, LocaleController.getString(R.string.Settings), settingsIcon, false));
         items.add(null); // divider
-        items.add(new Item(7, LocaleController.getString(R.string.InviteFriends), inviteIcon));
-        items.add(new Item(13, ContextCompat.getString(mContext, R.string.TelegramFeatures), helpIcon));
+        items.add(new Item(7, LocaleController.getString(R.string.InviteFriends), inviteIcon, false));
+        items.add(new Item(13, ContextCompat.getString(mContext, R.string.TelegramFeatures), helpIcon, false));
     }
 
     public boolean click(View view, int position) {
@@ -420,11 +420,13 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
         TLRPC.TL_attachMenuBot bot;
         View.OnClickListener listener;
         public boolean error;
+        public boolean isComingSoon;
 
-        public Item(int id, CharSequence text, int icon) {
+        public Item(int id, CharSequence text, int icon, boolean isComingSoon) {
             this.icon = icon;
             this.id = id;
             this.text = text;
+            this.isComingSoon = isComingSoon;
         }
 
         public Item(TLRPC.TL_attachMenuBot bot) {
@@ -436,7 +438,7 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             if (this.bot != null) {
                 actionCell.setBot(bot);
             } else {
-                actionCell.setTextAndIcon(id, text, icon);
+                actionCell.setTextAndIcon(id, text, icon, isComingSoon);
             }
             actionCell.setError(error);
         }
