@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:38247677898:android:fc4704f4815b5ae74dd933",
         "android_client_info": {
-          "package_name": "org.telegram.messenger"
+          "package_name": "io.toncorp.tongram"
         }
       },
       "oauth_client": [
@@ -68,6 +68,35 @@
         "mobilesdk_app_id": "1:38247677898:android:a0f9240d6b4bade74dd933",
         "android_client_info": {
           "package_name": "io.toncorp.tongram.web"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "38247677898-u9stlhee6n0db0o4oejevjumd5eevru4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4KAjjFaKwqaxb-r7QaSaLaj5nM8LQJi0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "38247677898-u9stlhee6n0db0o4oejevjumd5eevru4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:38247677898:android:98e78658a30b932b4dd933",
+        "android_client_info": {
+          "package_name": "org.telegram.messenger"
         }
       },
       "oauth_client": [

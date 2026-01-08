@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 repositories {
     mavenCentral()
@@ -68,6 +70,9 @@ android {
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro', '../TMessagesProj/proguard-rules-beta.pro'
             ndk.debugSymbolLevel = 'FULL'
+            firebaseCrashlytics {
+                mappingFileUploadEnabled false
+            }
         }
 
         standalone {
@@ -80,6 +85,9 @@ android {
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro'
             ndk.debugSymbolLevel = 'FULL'
+            firebaseCrashlytics {
+                mappingFileUploadEnabled true
+            }
         }
 
         release {
@@ -91,6 +99,9 @@ android {
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro'
             ndk.debugSymbolLevel = 'FULL'
+            firebaseCrashlytics {
+                mappingFileUploadEnabled true
+            }
         }
     }
 
@@ -201,4 +212,3 @@ android {
     }
 }
 
-apply plugin: 'com.google.gms.google-services'
