@@ -128,6 +128,7 @@ public class FilterTabsView extends FrameLayout {
             this.id = i;
             this.icon = icon;
             this.noanimate = false;
+            this.title = "";
         }
 
         public int getWidth(boolean store) {
