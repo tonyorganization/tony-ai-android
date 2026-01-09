@@ -122,8 +122,13 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
             if (bottomSheet != null) {
                 BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                bottomSheet.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                behavior.setSkipCollapsed(true);
+                behavior.setDraggable(false);
                 behavior.setHideable(false);
+
+                ViewGroup.LayoutParams params = bottomSheet.getLayoutParams();
+                params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+                bottomSheet.setLayoutParams(params);
             }
         }
     }
@@ -230,6 +235,11 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
                 setTextApply(false);
                 translateMessage();
             }
+        });
+
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
+            v.setPadding(0, 0, 0, insets.getSystemWindowInsetBottom());
+            return insets;
         });
 
         return view;
