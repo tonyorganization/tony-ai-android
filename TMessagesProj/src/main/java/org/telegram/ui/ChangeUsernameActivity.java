@@ -278,7 +278,7 @@ public class ChangeUsernameActivity extends BaseFragment {
             }
         };
 
-        fragmentView.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundGray));
+        fragmentView.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
         listView.setLayoutManager(layoutManager = new LinearLayoutManager(context));
         listView.setAdapter(adapter = new Adapter());
         listView.setSelectorDrawableColor(getThemedColor(Theme.key_listSelector));
@@ -672,6 +672,7 @@ public class ChangeUsernameActivity extends BaseFragment {
 
             setPadding(AndroidUtilities.dp(18), AndroidUtilities.dp(10), AndroidUtilities.dp(18), AndroidUtilities.dp(17));
             setBackgroundDrawable(Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+            setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             setClipChildren(false);
 
             text1View = new LinkSpanDrawable.LinksTextView(context);
@@ -791,7 +792,7 @@ public class ChangeUsernameActivity extends BaseFragment {
             field = new EditTextBoldCursor(getContext());
             field.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
             field.setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
-            field.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            field.setTextColor(Theme.getColor(Theme.key_profile_title));
             field.setBackgroundDrawable(null);
 //            field.setLineColors(getThemedColor(Theme.key_windowBackgroundWhiteInputField), getThemedColor(Theme.key_windowBackgroundWhiteInputFieldActivated), getThemedColor(Theme.key_text_RedRegular));
             field.setMaxLines(1);
@@ -802,7 +803,7 @@ public class ChangeUsernameActivity extends BaseFragment {
             field.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
             field.setImeOptions(EditorInfo.IME_ACTION_DONE);
             field.setHint(LocaleController.getString(R.string.UsernameLinkPlaceholder));
-            field.setCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            field.setCursorColor(Theme.getColor(Theme.key_profile_title));
             field.setCursorSize(AndroidUtilities.dp(19));
             field.setCursorWidth(1.5f);
             field.setOnEditorActionListener((textView, i, keyEvent) -> {

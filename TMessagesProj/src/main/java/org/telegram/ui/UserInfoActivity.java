@@ -137,6 +137,8 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
         checkDone(false);
 
         setValue();
+        fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+        fragmentView.setPadding(dp(15), 0, dp(15), 0);
 
         return fragmentView;
     }
@@ -150,13 +152,16 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
     @Override
     protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
         items.add(UItem.asHeader(getString(R.string.EditProfileName)));
+        items.add(UItem.asShadow(-1, null));
         items.add(UItem.asCustom(firstNameEdit));
+        items.add(UItem.asShadow(-1, null));
         items.add(UItem.asCustom(lastNameEdit));
         items.add(UItem.asShadow(-1, null));
         items.add(UItem.asHeader(getString(R.string.EditProfileChannel)));
         items.add(UItem.asButton(BUTTON_CHANNEL, getString(R.string.EditProfileChannelTitle), channel == null ? getString(R.string.EditProfileChannelAdd) : channel.title));
         items.add(UItem.asShadow(-2, null));
         items.add(UItem.asHeader(getString(R.string.EditProfileBio)));
+        items.add(UItem.asShadow(-1, null));
         items.add(UItem.asCustom(bioEdit));
         items.add(UItem.asShadow(bioInfo));
         items.add(UItem.asHeader(getString(R.string.EditProfileBirthday)));

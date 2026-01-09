@@ -6,6 +6,7 @@ import static org.telegram.messenger.LocaleController.getString;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.text.Editable;
 import android.text.InputType;
@@ -179,8 +180,12 @@ public class EditTextCell extends FrameLayout {
         limit.setCallback(editText);
         editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
         editText.setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText, resourceProvider));
-        editText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourceProvider));
-        editText.setBackground(null);
+        editText.setTextColor(Theme.getColor(Theme.key_profile_title, resourceProvider));
+        GradientDrawable gradientDrawable = new GradientDrawable();
+        gradientDrawable.setCornerRadius(dp(10));
+        gradientDrawable.setStroke(AndroidUtilities.dp(1), Theme.getColor(Theme.key_input_stroke));
+        editText.setBackground(gradientDrawable);
+
         if (multiline) {
             editText.setMaxLines(5);
             editText.setSingleLine(false);
@@ -193,7 +198,7 @@ public class EditTextCell extends FrameLayout {
         editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_CLASS_TEXT | (multiline ? InputType.TYPE_TEXT_FLAG_MULTI_LINE : 0) | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         editText.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         editText.setHint(hint);
-        editText.setCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourceProvider));
+        editText.setCursorColor(Theme.getColor(Theme.key_profile_title, resourceProvider));
         editText.setCursorSize(dp(19));
         editText.setCursorWidth(1.5f);
         editText.addTextChangedListener(new TextWatcher() {

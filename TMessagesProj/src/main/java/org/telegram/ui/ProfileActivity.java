@@ -611,6 +611,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private int passwordSuggestionSectionRow;
     private int passwordSuggestionRow;
     private int settingsSectionRow;
+    private int paddingBottomAvatarRow;
     private int settingsSectionRow2;
     private int notificationRow;
     private int languageRow;
@@ -10446,6 +10447,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         graceSuggestionSectionRow = -1;
         passwordSuggestionRow = -1;
         settingsSectionRow = -1;
+        paddingBottomAvatarRow = -1;
         settingsSectionRow2 = -1;
         notificationRow = -1;
         languageRow = -1;
@@ -10589,6 +10591,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     setAvatarRow = rowCount++;
                     setAvatarSectionRow = rowCount++;
                 }
+                paddingBottomAvatarRow = rowCount++;
                 numberSectionRow = rowCount++;
                 numberRow = rowCount++;
                 setUsernameRow = rowCount++;
@@ -14174,7 +14177,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else if (position == notificationsSimpleRow) {
                 return VIEW_TYPE_NOTIFICATIONS_CHECK_SIMPLE;
             } else if (position == lastSectionRow || position == membersSectionRow ||
-                    position == secretSettingsSectionRow || position == settingsSectionRow || position == devicesSectionRow ||
+                    position == secretSettingsSectionRow || position == settingsSectionRow || position == paddingBottomAvatarRow || position == devicesSectionRow ||
                     position == helpSectionCell || position == setAvatarSectionRow || position == passwordSuggestionSectionRow ||
                     position == phoneSuggestionSectionRow || position == premiumSectionsRow || position == reportDividerRow ||
                     position == channelDividerRow || position == graceSuggestionSectionRow || position == balanceDividerRow ||
@@ -15482,6 +15485,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             put(++pointer, numberRow, sparseIntArray);
             put(++pointer, setUsernameRow, sparseIntArray);
             put(++pointer, bioRow, sparseIntArray);
+            put(++pointer, paddingBottomAvatarRow, sparseIntArray);
             put(++pointer, phoneSuggestionRow, sparseIntArray);
             put(++pointer, phoneSuggestionSectionRow, sparseIntArray);
             put(++pointer, passwordSuggestionRow, sparseIntArray);
