@@ -1,6 +1,8 @@
 package ton_core.ui.dialogs;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
@@ -25,6 +27,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
@@ -45,6 +48,7 @@ import ton_core.models.TranslatedMessage;
 import ton_core.models.TranslatedMessageResult;
 import ton_core.repositories.translated_message_repository.ITranslatedMessageRepository;
 import ton_core.services.IOnApiCallback;
+import ton_core.shared.Constants;
 import ton_core.ui.adapters.TongramAIFeatureAdapter;
 import ton_core.ui.models.TongramAiFeatureModel;
 import ton_core.ui.models.TongramLanguageModel;
@@ -83,6 +87,9 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
 
     @Override
     public void onLanguageSelected(TongramLanguageModel language) {
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(Constants.TONGRAM_CONFIG, Activity.MODE_PRIVATE);
+        preferences.edit().putString(Constants.OUT_MESSAGE_LANG_CODE_KEY, language.languageCode).putString(Constants.OUT_MESSAGE_LANG_NAME_KEY, language.languageName).apply();
+
         selectedLanguage = language;
         tvLanguage.setText(language.languageName);
         for (TongramLanguageModel languageModel : languageModels) {

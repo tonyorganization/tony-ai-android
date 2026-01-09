@@ -36,6 +36,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
@@ -7844,8 +7845,45 @@ public class MessageObject {
                 builder.append("\n");
 
                 int dividerStart = builder.length();
-                builder.append("────────────");
-                builder.setSpan(new RelativeSizeSpan(0.8f), dividerStart, builder.length(),
+                StaticLayout measureLayout = makeStaticLayout(translatedText, paint, maxWidth, 1f, 0, false);
+
+                float textWidthResult = 0;
+                try {
+                    for (int i = 0; i < measureLayout.getLineCount(); i++) {
+                        textWidthResult = Math.max(textWidthResult, measureLayout.getLineWidth(i));
+                    }
+                } catch (Exception e) {
+                    textWidthResult = maxWidth;
+                }
+                textWidthResult = Math.min(maxWidth, textWidthResult) - dp(10);
+
+                String dash = "─";
+                float dashWidth = paint.measureText(dash);
+                StringBuilder dividerSb = new StringBuilder();
+
+                if (dashWidth > 0) {
+                    float currentWidth = 0;
+                    while (currentWidth <= textWidthResult) {
+                        dividerSb.append(dash);
+                        currentWidth += dashWidth;
+                    }
+
+                    if (dividerSb.length() < 5 && textWidthResult > dashWidth * 5) {
+                        while (dividerSb.length() < 5) {
+                            dividerSb.append(dash);
+                        }
+                    }
+                } else {
+                    dividerSb.append("────────────");
+                }
+
+                builder.append(dividerSb.toString());
+
+                int dividerColor = Theme.getColor(Theme.key_divider);
+                builder.setSpan(new ForegroundColorSpan(dividerColor), dividerStart, builder.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                builder.setSpan(new RelativeSizeSpan(1f), dividerStart, builder.length(),
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                 builder.append("\n");
@@ -7877,7 +7915,7 @@ public class MessageObject {
             }
 
             int startTranslate = builder.length();
-            builder.append("\n");
+            builder.append("\n\n");
             builder.append(subMessage);
 
             ClickableSpan translateSpan = new URLSpanNoUnderline("t9n:translation") {
@@ -7885,7 +7923,7 @@ public class MessageObject {
                 public void updateDrawState(TextPaint ds) {
                     super.updateDrawState(ds);
                     ds.setColor(Theme.getColor(Theme.key_chat_translate));
-                    ds.setTextSize(AndroidUtilities.dp(11));
+                    ds.setTextSize(AndroidUtilities.dp(14));
                     ds.setUnderlineText(false);
                 }
             };

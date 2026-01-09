@@ -44,7 +44,9 @@ public class AiTranslationSettingsActivity extends BaseFragment implements Langu
         languageModels = new ArrayList<>();
         ArrayList<LocaleController.LocaleInfo> arrayList = LocaleController.getInstance().languages;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(Constants.TONGRAM_CONFIG, Activity.MODE_PRIVATE);
-        final String targetLang = preferences.getString(Constants.TARGET_LANG_CODE_KEY, null);
+        final String targetLang = preferences.getString(Constants.TARGET_LANG_CODE_KEY, "en");
+        languageModels.add(new TongramLanguageModel("Japanese", "ja", "ja".equals(targetLang)));
+        languageModels.add(new TongramLanguageModel("Malay", "ms", "ms".equals(targetLang)));
         languageModels.addAll(arrayList.stream()
                 .map(e -> new TongramLanguageModel(e.nameEnglish, e.shortName, e.shortName.equals(targetLang)))
                 .collect(Collectors.toList()));
@@ -52,7 +54,7 @@ public class AiTranslationSettingsActivity extends BaseFragment implements Langu
     }
 
     private void setTargetValue(String langCode) {
-        final TongramLanguageModel selected = languageModels.stream().filter(e -> Objects.equals(e.languageCode, langCode)).findFirst().orElse(null);
+        final TongramLanguageModel selected = languageModels.stream().filter(e -> e.languageCode.equals(langCode)).findFirst().orElse(null);
         targetLanguageValue.setText(selected != null ? selected.languageName : LocaleController.getCurrentLanguageName());
     }
 

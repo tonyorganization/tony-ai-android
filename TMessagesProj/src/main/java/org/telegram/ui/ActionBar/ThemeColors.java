@@ -547,7 +547,7 @@ public class ThemeColors {
         defaultColors[key_chat_serviceBackgroundSelector] = 0x20ffffff;
         defaultColors[key_chat_inQuote] = 0xff459BD8;
         defaultColors[key_chat_outQuote] = 0xff6AB860;
-        defaultColors[key_chat_translate] = 0xff868686;
+        defaultColors[key_chat_translate] = 0xffAFC8FF;
 
         defaultColors[key_profile_creatorIcon] = 0xff3a95d5;
         defaultColors[key_profile_actionIcon] = 0xff81868a;

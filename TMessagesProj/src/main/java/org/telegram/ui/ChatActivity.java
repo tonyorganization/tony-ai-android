@@ -2560,9 +2560,12 @@ public class ChatActivity extends BaseFragment implements
                 messagesMap.put(entity.messageId, entity);
             }
         });
-        shortLanguageName = preferences.getString(Constants.TARGET_LANG_CODE_KEY, LocaleController.getInstance().getCurrentLocale().getLanguage());
+        shortLanguageName = preferences.getString(Constants.OUT_MESSAGE_LANG_CODE_KEY, LocaleController.getInstance().getCurrentLocale().getLanguage());
         ArrayList<LocaleController.LocaleInfo> arrayList = LocaleController.getInstance().languages;
         tongramLanguages = new ArrayList<>();
+        tongramLanguages.add(new TongramLanguageModel("Japanese", "ja", "ja".equals(shortLanguageName)));
+        tongramLanguages.add(new TongramLanguageModel("Malay", "ms", "ms".equals(shortLanguageName)));
+
         tongramLanguages.addAll(arrayList.stream()
                 .map(e -> new TongramLanguageModel(e.nameEnglish, e.shortName, e.shortName.equals(shortLanguageName)))
                 .collect(Collectors.toList()));
