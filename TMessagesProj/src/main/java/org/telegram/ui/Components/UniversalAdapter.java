@@ -627,7 +627,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                 } else if (item.red) {
                     cell.setColors(Theme.key_text_RedBold, Theme.key_text_RedRegular);
                 } else {
-                    cell.setColors(Theme.key_windowBackgroundWhiteGrayIcon, Theme.key_windowBackgroundWhiteBlackText);
+                    cell.setColors(Theme.key_windowBackgroundWhiteGrayIcon, Theme.key_profile_title);
                 }
                 break;
             case VIEW_TYPE_CHECK:

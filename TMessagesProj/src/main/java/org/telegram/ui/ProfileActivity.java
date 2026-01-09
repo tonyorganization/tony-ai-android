@@ -611,6 +611,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private int passwordSuggestionSectionRow;
     private int passwordSuggestionRow;
     private int settingsSectionRow;
+    private int paddingBottomAvatarRow;
     private int settingsSectionRow2;
     private int notificationRow;
     private int languageRow;
@@ -10446,6 +10447,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         graceSuggestionSectionRow = -1;
         passwordSuggestionRow = -1;
         settingsSectionRow = -1;
+        paddingBottomAvatarRow = -1;
         settingsSectionRow2 = -1;
         notificationRow = -1;
         languageRow = -1;
@@ -10589,6 +10591,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     setAvatarRow = rowCount++;
                     setAvatarSectionRow = rowCount++;
                 }
+                paddingBottomAvatarRow = rowCount++;
                 numberSectionRow = rowCount++;
                 numberRow = rowCount++;
                 setUsernameRow = rowCount++;
@@ -13011,10 +13014,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             switch (viewType) {
                 case VIEW_TYPE_HEADER: {
                     view = new HeaderCell(mContext, 23, resourcesProvider);
-                    GradientDrawable gb = new GradientDrawable();
-                    gb.setCornerRadii(new float[]{dp(10), dp(10), dp(10), dp(10), 0, 0, 0, 0});
-                    gb.setColor(Theme.getColor(Theme.key_chats_menuTopBackground));
-                    view.setBackground(gb);
                     break;
                 }
                 case VIEW_TYPE_TEXT_DETAIL_MULTILINE:
@@ -13028,7 +13027,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     };
                     textDetailCell.setContentDescriptionValueFirst(true);
                     view = textDetailCell;
-                    view.setBackgroundColor(getThemedColor(Theme.key_chats_menuTopBackground));
                     break;
                 case VIEW_TYPE_ABOUT_LINK: {
                     view = aboutLinkCell = new AboutLinkCell(mContext, ProfileActivity.this, resourcesProvider) {
@@ -13052,7 +13050,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             return dontApplyPeerColor(color, false);
                         }
                     };
-                    view.setBackgroundColor(getThemedColor(Theme.key_chats_menuTopBackground));
                     break;
                 }
                 case VIEW_TYPE_TEXT: {
@@ -13062,7 +13059,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             return dontApplyPeerColor(color, false);
                         }
                     };
-                    view.setBackgroundColor(getThemedColor(Theme.key_chats_menuTopBackground));
                     break;
                 }
                 case VIEW_TYPE_DIVIDER: {
@@ -13229,7 +13225,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 case VIEW_TYPE_PREMIUM_TEXT_CELL:
                 case VIEW_TYPE_STARS_TEXT_CELL:
                     view = new ProfilePremiumCell(mContext, viewType == VIEW_TYPE_PREMIUM_TEXT_CELL ? 0 : 1, resourcesProvider);
-                    view.setBackgroundColor(getThemedColor(Theme.key_chats_menuTopBackground));
                     break;
                 case VIEW_TYPE_CHANNEL:
                     view = new ProfileChannelCell(ProfileActivity.this) {
@@ -13314,6 +13309,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         headerCell.setText(LocaleController.getString(R.string.BotProfilePermissions));
                     }
                     headerCell.setTextColor(dontApplyPeerColor(getThemedColor(Theme.key_windowBackgroundWhiteBlueHeader), false));
+                    headerCell.setBackground(setBackgroundForItem(-1));
                     break;
                 case VIEW_TYPE_TEXT_DETAIL_MULTILINE:
                 case VIEW_TYPE_TEXT_DETAIL_MULTILINE_2:
@@ -13511,9 +13507,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     detailCell.setTag(position);
                     detailCell.textView.setLoading(loadingSpan);
                     detailCell.valueTextView.setLoading(loadingSpan);
+                    detailCell.setBackground(setBackgroundForItem(0));
                     break;
                 case VIEW_TYPE_ABOUT_LINK:
                     AboutLinkCell aboutLinkCell = (AboutLinkCell) holder.itemView;
+                    aboutLinkCell.setBackground(setBackgroundForItem(0));
                     if (position == userInfoRow) {
                         TLRPC.User user = userInfo.user != null ? userInfo.user : getMessagesController().getUser(userInfo.id);
                         boolean addlinks = isBot || (user != null && user.premium && userInfo.about != null);
@@ -13535,10 +13533,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             currentBio = null;
                         }
                         aboutLinkCell.setMoreButtonDisabled(true);
-                        GradientDrawable gb = new GradientDrawable();
-                        gb.setCornerRadii(new float[]{ 0, 0, 0, 0, dp(10), dp(10), dp(10), dp(10)});
-                        gb.setColor(Theme.getColor(Theme.key_chats_menuTopBackground));
-                        aboutLinkCell.setBackground(gb);
+                        aboutLinkCell.setBackground(setBackgroundForItem(1));
                     }
                     break;
                 case VIEW_TYPE_PREMIUM_TEXT_CELL:
@@ -13547,6 +13542,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     TextCell textCell = (TextCell) holder.itemView;
                     textCell.setColors(Theme.key_windowBackgroundWhiteGrayIcon, Theme.key_text_title_color);
                     textCell.setTag(Theme.key_text_title_color);
+                    textCell.setBackground(setBackgroundForItem(0));
                     if (position == settingsTimerRow) {
                         TLRPC.EncryptedChat encryptedChat = getMessagesController().getEncryptedChat(DialogObject.getEncryptedChatId(dialogId));
                         String value;
@@ -13680,10 +13676,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         final String targetLang = preferences.getString(Constants.TARGET_LANG_NAME_KEY, LocaleController.getCurrentLanguageName());
                         textCell.setTextAndValueAndIcon(LocaleController.getString(R.string.AiTranslationSettings), targetLang, false, R.drawable.settings_translation, false, Theme.getColor(Theme.key_chats_actionBackground));
                         textCell.setImageLeft(23);
-                        GradientDrawable gb = new GradientDrawable();
-                        gb.setCornerRadii(new float[]{ 0, 0, 0, 0, dp(10), dp(10), dp(10), dp(10)});
-                        gb.setColor(Theme.getColor(Theme.key_chats_menuTopBackground));
-                        textCell.setBackground(gb);
+                        textCell.setBackground(setBackgroundForItem(1));
                     } else if (position == notificationRow) {
                         textCell.setTextAndIcon(LocaleController.getString(R.string.NotificationsAndSounds), R.drawable.msg2_notifications, true);
                     } else if (position == privacyRow) {
@@ -13704,10 +13697,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         textCell.setTextAndIcon(LocaleController.getString(R.string.TelegramFAQ), R.drawable.msg2_help, true);
                     } else if (position == policyRow) {
                         textCell.setTextAndIcon(LocaleController.getString(R.string.PrivacyPolicy), R.drawable.msg2_policy, false);
-                        GradientDrawable gb = new GradientDrawable();
-                        gb.setCornerRadii(new float[]{ 0, 0, 0, 0, dp(10), dp(10), dp(10), dp(10)});
-                        gb.setColor(Theme.getColor(Theme.key_chats_menuTopBackground));
-                        textCell.setBackground(gb);
+                        textCell.setBackground(setBackgroundForItem(1));
+
                     } else if (position == sendLogsRow) {
                         textCell.setText(LocaleController.getString(R.string.DebugSendLogs), true);
                     } else if (position == sendLastLogsRow) {
@@ -13716,10 +13707,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         textCell.setText(LocaleController.getString(R.string.DebugClearLogs), switchBackendRow != -1);
                     } else if (position == switchBackendRow) {
                         textCell.setText("Switch Backend", false);
-                        GradientDrawable gb = new GradientDrawable();
-                        gb.setCornerRadii(new float[]{ 0, 0, 0, 0, dp(10), dp(10), dp(10), dp(10)});
-                        gb.setColor(Theme.getColor(Theme.key_chats_menuTopBackground));
-                        textCell.setBackground(gb);
+                        textCell.setBackground(setBackgroundForItem(1));
                     } else if (position == devicesRow) {
                         textCell.setTextAndIcon(LocaleController.getString(R.string.Devices), R.drawable.msg2_devices, true);
                     } else if (position == setAvatarRow) {
@@ -13735,10 +13723,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     } else if (position == premiumRow) {
                         textCell.setTextAndIcon(LocaleController.getString(R.string.TelegramPremium), new AnimatedEmojiDrawable.WrapSizeDrawable(PremiumGradient.getInstance().premiumStarMenuDrawable, dp(24), dp(24)), true);
                         textCell.setImageLeft(23);
-                        GradientDrawable gb = new GradientDrawable();
-                        gb.setCornerRadii(new float[]{dp(10), dp(10), dp(10), dp(10), 0, 0, 0, 0});
-                        gb.setColor(Theme.getColor(Theme.key_chats_menuTopBackground));
-                        textCell.setBackground(gb);
+                        textCell.setBackground(setBackgroundForItem(-1));
                     } else if (position == starsRow) {
                         StarsController c = StarsController.getInstance(currentAccount);
                         long balance = c.getBalance().amount;
@@ -13755,10 +13740,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     } else if (position == premiumGiftingRow) {
                         textCell.setTextAndIcon(LocaleController.getString(R.string.SendAGift), R.drawable.menu_gift, false);
                         textCell.setImageLeft(23);
-                        GradientDrawable gb = new GradientDrawable();
-                        gb.setCornerRadii(new float[]{ 0, 0, 0, 0, dp(10), dp(10), dp(10), dp(10)});
-                        gb.setColor(Theme.getColor(Theme.key_chats_menuTopBackground));
-                        textCell.setBackground(gb);
+                        textCell.setBackground(setBackgroundForItem(1));
                     } else if (position == botPermissionLocation) {
                         textCell.setTextAndCheckAndColorfulIcon(LocaleController.getString(R.string.BotProfilePermissionLocation), botLocation != null && botLocation.granted(), R.drawable.filled_access_location, getThemedColor(Theme.key_color_green), botPermissionBiometry != -1);
                     } else if (position == botPermissionBiometry) {
@@ -14195,7 +14177,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else if (position == notificationsSimpleRow) {
                 return VIEW_TYPE_NOTIFICATIONS_CHECK_SIMPLE;
             } else if (position == lastSectionRow || position == membersSectionRow ||
-                    position == secretSettingsSectionRow || position == settingsSectionRow || position == devicesSectionRow ||
+                    position == secretSettingsSectionRow || position == settingsSectionRow || position == paddingBottomAvatarRow || position == devicesSectionRow ||
                     position == helpSectionCell || position == setAvatarSectionRow || position == passwordSuggestionSectionRow ||
                     position == phoneSuggestionSectionRow || position == premiumSectionsRow || position == reportDividerRow ||
                     position == channelDividerRow || position == graceSuggestionSectionRow || position == balanceDividerRow ||
@@ -14238,6 +14220,20 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 return VIEW_TYPE_MUSIC;
             }
             return 0;
+        }
+
+        private GradientDrawable setBackgroundForItem(int position) {
+            //-1 top, 0 null, 1 bottom
+            GradientDrawable gb = new GradientDrawable();
+            if (position == -1) {
+                gb.setCornerRadii(new float[]{dp(10), dp(10), dp(10), dp(10), 0, 0, 0, 0});
+            } else if (position == 1) {
+                gb.setCornerRadii(new float[]{ 0, 0, 0, 0, dp(10), dp(10), dp(10), dp(10)});
+            } else {
+                gb.setCornerRadius(0);
+            }
+            gb.setColor(Theme.getColor(Theme.key_chats_menuTopBackground));
+            return gb;
         }
     }
 
@@ -15489,6 +15485,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             put(++pointer, numberRow, sparseIntArray);
             put(++pointer, setUsernameRow, sparseIntArray);
             put(++pointer, bioRow, sparseIntArray);
+            put(++pointer, paddingBottomAvatarRow, sparseIntArray);
             put(++pointer, phoneSuggestionRow, sparseIntArray);
             put(++pointer, phoneSuggestionSectionRow, sparseIntArray);
             put(++pointer, passwordSuggestionRow, sparseIntArray);

@@ -348,6 +348,7 @@ public class TextCell extends FrameLayout {
         textView.setText(text);
         textView.setRightDrawable(null);
         valueTextView.setText(valueText = null, false);
+        imageView.setBackground(null);
         imageView.setImageResource(resId);
         imageView.setVisibility(VISIBLE);
         valueTextView.setVisibility(GONE);
@@ -384,6 +385,7 @@ public class TextCell extends FrameLayout {
         textView.setRightDrawable(null);
         valueTextView.setText(valueText = null, false);
         imageView.setColorFilter(null);
+        imageView.setBackground(null);
         if (drawable instanceof RLottieDrawable) {
             imageView.setAnimation((RLottieDrawable) drawable);
         } else {
@@ -407,6 +409,7 @@ public class TextCell extends FrameLayout {
         textView.setRightDrawable(null);
         valueTextView.setText(valueText = value, false);
         imageView.setColorFilter(null);
+        imageView.setBackground(null);
         if (drawable instanceof RLottieDrawable) {
             imageView.setAnimation((RLottieDrawable) drawable);
         } else {
@@ -519,6 +522,7 @@ public class TextCell extends FrameLayout {
         imageView.setTranslationY(0);
         imageView.setPadding(0, dp(7), 0, 0);
         imageView.setImageResource(resId);
+        imageView.setBackground(null);
         needDivider = divider;
         setWillNotDraw(!needDivider);
         if (checkBox != null) {
@@ -571,6 +575,7 @@ public class TextCell extends FrameLayout {
         imageView.setTranslationX(0);
         imageView.setTranslationY(0);
         imageView.setPadding(0, dp(7), 0, 0);
+        imageView.setBackground(null);
         imageView.setImageResource(resId);
         needDivider = divider;
         setWillNotDraw(!needDivider);
@@ -600,6 +605,7 @@ public class TextCell extends FrameLayout {
         imageView.setTranslationX(0);
         imageView.setTranslationY(0);
         imageView.setPadding(0, dp(7), 0, 0);
+        imageView.setBackground(null);
         imageView.setImageResource(resId);
         imageView.setBackground(Theme.createRoundRectDrawable(dp(6), backgroundColor));
         imageView.setPadding(dp(4), dp(4), dp(4), dp(4));
@@ -632,6 +638,7 @@ public class TextCell extends FrameLayout {
         imageView.setVisibility(VISIBLE);
         imageView.setPadding(dp(2), dp(2), dp(2), dp(2));
         imageView.setTranslationX(dp(LocaleController.isRTL ? 0 : -3));
+        imageView.setBackground(null);
         imageView.setImageResource(resId);
         imageView.setColorFilter(new PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN));
         imageView.setBackground(Theme.createRoundRectDrawable(dp(9), color));
@@ -669,6 +676,7 @@ public class TextCell extends FrameLayout {
         }
         imageView.setVisibility(VISIBLE);
         imageView.setPadding(0, dp(7), 0, 0);
+        imageView.setBackground(null);
         imageView.setImageResource(resId);
         needDivider = divider;
         setWillNotDraw(!needDivider);

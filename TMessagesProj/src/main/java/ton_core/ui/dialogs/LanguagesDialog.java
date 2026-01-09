@@ -135,8 +135,13 @@ public class LanguagesDialog extends BottomSheetDialogFragment implements Tongra
             if (bottomSheet != null) {
                 BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                bottomSheet.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                behavior.setSkipCollapsed(true);
+                behavior.setDraggable(false);
                 behavior.setHideable(false);
+
+                ViewGroup.LayoutParams params = bottomSheet.getLayoutParams();
+                params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+                bottomSheet.setLayoutParams(params);
             }
         }
     }

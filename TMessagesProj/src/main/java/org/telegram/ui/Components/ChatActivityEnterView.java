@@ -2519,6 +2519,17 @@ public class ChatActivityEnterView extends FrameLayout implements
         }
     }
 
+    public void updatePositionForAiEnhanceButton(boolean attachToSendContainer) {
+        if (aiEnhanceButton.getParent() != null) {
+            ((ViewGroup) aiEnhanceButton.getParent()).removeView(aiEnhanceButton);
+        }
+        if (attachToSendContainer) {
+            sendButtonContainer.addView(aiEnhanceButton, LayoutHelper.createFrame(DEFAULT_HEIGHT, DEFAULT_HEIGHT, Gravity.RIGHT | Gravity.BOTTOM, 0, 0, 40, 0));
+        } else {
+            attachLayout.addView(aiEnhanceButton, 0, LayoutHelper.createLinear(DEFAULT_HEIGHT, DEFAULT_HEIGHT));
+        }
+    }
+
     public ChatActivityEnterView(Activity context, SizeNotifierFrameLayout parent, ChatActivity fragment, final boolean isChat) {
         this(context, parent, fragment, isChat, null);
     }
@@ -3101,13 +3112,16 @@ public class ChatActivityEnterView extends FrameLayout implements
         aiEnhanceButton.setImageResource(R.drawable.ic_input_ai_enhance);
         aiEnhanceButton.setScaleType(ImageView.ScaleType.CENTER);
         aiEnhanceButton.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector)));
-        aiEnhanceButton.setVisibility(INVISIBLE);
+        if (isEnableAiTranslation) {
+        aiEnhanceButton.setVisibility(VISIBLE);
+        } else {
+        aiEnhanceButton.setVisibility(GONE);
+        }
         aiEnhanceButton.setContentDescription(getString(R.string.AiEnhance));
         aiEnhanceButton.setSoundEffectsEnabled(false);
-        aiEnhanceButton.setScaleX(0.1f);
-        aiEnhanceButton.setScaleY(0.1f);
-        aiEnhanceButton.setAlpha(0.0f);
-        sendButtonContainer.addView(aiEnhanceButton, LayoutHelper.createFrame(DEFAULT_HEIGHT, DEFAULT_HEIGHT, Gravity.RIGHT | Gravity.BOTTOM, 0, 0, 40, 0));
+//        aiEnhanceButton.setScaleX(0.1f);
+//        aiEnhanceButton.setScaleY(0.1f);
+//        aiEnhanceButton.setAlpha(0.0f);
         aiEnhanceButton.setOnClickListener(view -> {
             if ((messageSendPreview != null && messageSendPreview.isShowing()) || (runningAnimationAudio != null && runningAnimationAudio.isRunning()) || moveToSendStateRunnable != null) {
                 return;
@@ -7350,10 +7364,10 @@ public class ChatActivityEnterView extends FrameLayout implements
                     getSendButtonInternal().setAlpha(0.0f);
                     getSendButtonInternal().setVisibility(GONE);
 
-                    aiEnhanceButton.setVisibility(GONE);
-                    aiEnhanceButton.setScaleX(0.1f);
-                    aiEnhanceButton.setScaleY(0.1f);
-                    aiEnhanceButton.setAlpha(0.0f);
+//                    aiEnhanceButton.setVisibility(GONE);
+//                    aiEnhanceButton.setScaleX(0.1f);
+//                    aiEnhanceButton.setScaleY(0.1f);
+//                    aiEnhanceButton.setAlpha(0.0f);
 
                     cancelBotButton.setScaleX(0.1f);
                     cancelBotButton.setScaleY(0.1f);
@@ -7504,7 +7518,7 @@ public class ChatActivityEnterView extends FrameLayout implements
                         runningAnimationType = 1;
                         animators.add(animateSendButton(true));
                         getSendButtonInternal().setVisibility(VISIBLE);
-                        aiEnhanceButton.setVisibility(isEnableAiTranslation ? VISIBLE : INVISIBLE);
+//                        aiEnhanceButton.setVisibility(isEnableAiTranslation ? VISIBLE : INVISIBLE);
                     }
 
                     runningAnimation.playTogether(animators);
@@ -7733,10 +7747,10 @@ public class ChatActivityEnterView extends FrameLayout implements
                 getSendButtonInternal().setScaleY(0.1f);
                 getSendButtonInternal().setAlpha(0.0f);
                 getSendButtonInternal().setVisibility(GONE);
-                aiEnhanceButton.setVisibility(GONE);
-                aiEnhanceButton.setScaleX(0.1f);
-                aiEnhanceButton.setScaleY(0.1f);
-                aiEnhanceButton.setAlpha(0);
+//                aiEnhanceButton.setVisibility(GONE);
+//                aiEnhanceButton.setScaleX(0.1f);
+//                aiEnhanceButton.setScaleY(0.1f);
+//                aiEnhanceButton.setAlpha(0);
                 cancelBotButton.setScaleX(0.1f);
                 cancelBotButton.setScaleY(0.1f);
                 cancelBotButton.setAlpha(0.0f);
@@ -7888,9 +7902,9 @@ public class ChatActivityEnterView extends FrameLayout implements
                     animators.add(ObjectAnimator.ofFloat(getSendButtonInternal(), View.SCALE_Y, 0.1f));
                     animators.add(ObjectAnimator.ofFloat(getSendButtonInternal(), View.ALPHA, 0.0f));
 
-                    animators.add(ObjectAnimator.ofFloat(aiEnhanceButton, View.SCALE_X, 0.1f));
-                    animators.add(ObjectAnimator.ofFloat(aiEnhanceButton, View.SCALE_Y, 0.1f));
-                    animators.add(ObjectAnimator.ofFloat(aiEnhanceButton, View.ALPHA, 0.0f));
+//                    animators.add(ObjectAnimator.ofFloat(aiEnhanceButton, View.SCALE_X, 0.1f));
+//                    animators.add(ObjectAnimator.ofFloat(aiEnhanceButton, View.SCALE_Y, 0.1f));
+//                    animators.add(ObjectAnimator.ofFloat(aiEnhanceButton, View.ALPHA, 0.0f));
                 }
 
                 runningAnimation.playTogether(animators);
@@ -7978,6 +7992,7 @@ public class ChatActivityEnterView extends FrameLayout implements
                 suggestButton.setTranslationX(shownSendButton ? -Math.max(0, sendButton.width() - dp(64)) : dp(42));
             }
         }
+        updatePositionForAiEnhanceButton(shownSendButton);
     }
 
     private void setSlowModeButtonVisible(boolean visible) {
@@ -9479,9 +9494,9 @@ public class ChatActivityEnterView extends FrameLayout implements
             getSendButtonInternal().setScaleX(lerp(fromScaleX, toScaleX, t));
             getSendButtonInternal().setScaleY(lerp(fromScaleY, toScaleY, t));
 
-            aiEnhanceButton.setAlpha(lerp(fromAlpha, toAlpha, t));
-            aiEnhanceButton.setScaleX(lerp(fromScaleX, toScaleX, t));
-            aiEnhanceButton.setScaleY(lerp(fromScaleY, toScaleY, t));
+//            aiEnhanceButton.setAlpha(lerp(fromAlpha, toAlpha, t));
+//            aiEnhanceButton.setScaleX(lerp(fromScaleX, toScaleX, t));
+//            aiEnhanceButton.setScaleY(lerp(fromScaleY, toScaleY, t));
         });
         return a;
     }

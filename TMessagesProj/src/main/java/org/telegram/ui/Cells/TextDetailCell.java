@@ -206,6 +206,7 @@ public class TextDetailCell extends FrameLayout {
     }
 
     public void setImage(Drawable drawable, CharSequence imageContentDescription) {
+        imageView.setBackground(null);
         ((MarginLayoutParams) valueTextView.getLayoutParams()).rightMargin = !LocaleController.isRTL && drawable != null ? dp(28 + 12 + 12 + 6) : dp(23);
         imageView.setImageDrawable(drawable);
         imageView.setFocusable(drawable != null);
