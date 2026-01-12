@@ -321,28 +321,28 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
                 showDivider = true;
             }
         }
-        TLRPC.TL_attachMenuBots menuBots = MediaDataController.getInstance(UserConfig.selectedAccount).getAttachMenuBots();
-        if (menuBots != null && menuBots.bots != null) {
-            for (int i = 0; i < menuBots.bots.size(); i++) {
-                TLRPC.TL_attachMenuBot bot = menuBots.bots.get(i);
-                if (bot.show_in_side_menu) {
-                    if ("Wallet".equals(bot.short_name)) {
-                        bot.short_name = LocaleController.getString(R.string.TonWallet);
-                    }
-                    items.add(new Item(bot));
-                    showDivider = true;
-                }
-            }
-        }
+//        TLRPC.TL_attachMenuBots menuBots = MediaDataController.getInstance(UserConfig.selectedAccount).getAttachMenuBots();
+//        if (menuBots != null && menuBots.bots != null) {
+//            for (int i = 0; i < menuBots.bots.size(); i++) {
+//                TLRPC.TL_attachMenuBot bot = menuBots.bots.get(i);
+//                if (bot.show_in_side_menu) {
+//                    if ("Wallet".equals(bot.short_name)) {
+//                        bot.short_name = LocaleController.getString(R.string.TonWallet);
+//                    }
+//                    items.add(new Item(bot));
+//                    showDivider = true;
+//                }
+//            }
+//        }
         if (showDivider) {
             items.add(null); // divider
         }
 
-        items.add(new Item(18, LocaleController.getString(R.string.TonTV), R.drawable.tontv_icon, false));
-        items.add(new Item(19, LocaleController.getString(R.string.MiniAppStore), R.drawable.tongram_icon, false));
+        items.add(new Item(23, LocaleController.getString(R.string.TonX), R.drawable.ic_warning, true));
+//        items.add(new Item(19, LocaleController.getString(R.string.MiniAppStore), R.drawable.tongram_icon, false));
 //        items.add(new Item(21, LocaleController.getString(R.string.AITony), R.drawable.ic_ai_tony));
-        items.add(new Item(22, LocaleController.getString(R.string.CEXExchange), R.drawable.ic_cex_exchange, true));
-        items.add(new Item(23, LocaleController.getString(R.string.P2PExchange), R.drawable.ic_p2p_exchange, true));
+//        items.add(new Item(22, LocaleController.getString(R.string.CEXExchange), R.drawable.ic_cex_exchange, true));
+//        items.add(new Item(23, LocaleController.getString(R.string.P2PExchange), R.drawable.ic_p2p_exchange, true));
 
         if (showDivider) {
             items.add(null); // divider
