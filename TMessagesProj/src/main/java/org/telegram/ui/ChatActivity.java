@@ -328,6 +328,8 @@ import java.util.stream.Collectors;
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
 import me.vkryl.core.reference.ReferenceList;
+import ton_core.repositories.translated_message_repository.languages.ILanguageRepository;
+import ton_core.repositories.translated_message_repository.languages.LanguageRepository;
 import ton_core.services.IOnApiCallback;
 import ton_core.shared.Constants;
 import ton_core.shared.CustomLifecycleOwner;
@@ -375,6 +377,7 @@ public class ChatActivity extends BaseFragment implements
     private static final LongSparseArray<ArrayList<ChatMessageCell>> chatMessageCellsCache = new LongSparseArray<ArrayList<ChatMessageCell>>();
     private static final LongSparseArray<HashMap<Integer, TranslatedMessageEntity>> chatTranslatedMessageCache = new LongSparseArray<>();
     private ITranslatedMessageRepository translatedMessageRepository;
+    private ILanguageRepository languageRepository;
     private String shortLanguageName;
     private CustomLifecycleOwner lifecycleOwner;
     private static final ExecutorService detectLanguageExecutor =
@@ -2546,6 +2549,7 @@ public class ChatActivity extends BaseFragment implements
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(Constants.TONGRAM_CONFIG, Activity.MODE_PRIVATE);
         isEnableAiTranslation = preferences.getBoolean(Constants.IS_ENABLE_AI_TRANSLATION_KEY, true);
         translatedMessageRepository = TranslatedMessageRepository.getInstance(ApplicationLoader.applicationContext);
+        languageRepository = LanguageRepository.getInstance(ApplicationLoader.applicationContext);
         lifecycleOwner = new CustomLifecycleOwner();
         lifecycleOwner.onStart();
 
@@ -2561,14 +2565,14 @@ public class ChatActivity extends BaseFragment implements
             }
         });
         shortLanguageName = preferences.getString(Constants.OUT_MESSAGE_LANG_CODE_KEY, LocaleController.getInstance().getCurrentLocale().getLanguage());
-        ArrayList<LocaleController.LocaleInfo> arrayList = LocaleController.getInstance().languages;
-        tongramLanguages = new ArrayList<>();
-        tongramLanguages.add(new TongramLanguageModel("Japanese", "ja", "ja".equals(shortLanguageName)));
-        tongramLanguages.add(new TongramLanguageModel("Malay", "ms", "ms".equals(shortLanguageName)));
 
-        tongramLanguages.addAll(arrayList.stream()
-                .map(e -> new TongramLanguageModel(e.nameEnglish, e.shortName, e.shortName.equals(shortLanguageName)))
-                .collect(Collectors.toList()));
+        languageRepository.getLanguages().observe(lifecycleOwner, languages -> {
+            tongramLanguages = new ArrayList<>();
+
+            tongramLanguages.addAll(languages.stream()
+                    .map(e -> new TongramLanguageModel(e.name, e.code, e.nativeName, e.code.equals(shortLanguageName)))
+                    .collect(Collectors.toList()));
+        });
 
         final long chatId = arguments.getLong("chat_id", 0);
         final long userId = arguments.getLong("user_id", 0);

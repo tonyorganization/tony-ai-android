@@ -26,10 +26,12 @@ import org.telegram.ui.Components.LayoutHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
+import ton_core.repositories.translated_message_repository.languages.ILanguageRepository;
+import ton_core.repositories.translated_message_repository.languages.LanguageRepository;
 import ton_core.shared.Constants;
+import ton_core.shared.CustomLifecycleOwner;
 import ton_core.ui.dialogs.LanguagesDialog;
 import ton_core.ui.models.TongramLanguageModel;
 
@@ -41,15 +43,18 @@ public class AiTranslationSettingsActivity extends BaseFragment implements Langu
 
     @Override
     public boolean onFragmentCreate() {
+        ILanguageRepository languageRepository = LanguageRepository.getInstance(getContext());
+        CustomLifecycleOwner lifecycleOwner = new CustomLifecycleOwner();
+        lifecycleOwner.onStart();
         languageModels = new ArrayList<>();
-        ArrayList<LocaleController.LocaleInfo> arrayList = LocaleController.getInstance().languages;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(Constants.TONGRAM_CONFIG, Activity.MODE_PRIVATE);
-        final String targetLang = preferences.getString(Constants.TARGET_LANG_CODE_KEY, "en");
-        languageModels.add(new TongramLanguageModel("Japanese", "ja", "ja".equals(targetLang)));
-        languageModels.add(new TongramLanguageModel("Malay", "ms", "ms".equals(targetLang)));
-        languageModels.addAll(arrayList.stream()
-                .map(e -> new TongramLanguageModel(e.nameEnglish, e.shortName, e.shortName.equals(targetLang)))
-                .collect(Collectors.toList()));
+        languageRepository.getLanguages().observe(lifecycleOwner, languages -> {
+            SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(Constants.TONGRAM_CONFIG, Activity.MODE_PRIVATE);
+            final String targetLang = preferences.getString(Constants.TARGET_LANG_CODE_KEY, "en");
+            languageModels.addAll(languages.stream()
+                    .map(e -> new TongramLanguageModel(e.name, e.code, e.nativeName, e.code.equals(targetLang)))
+                    .collect(Collectors.toList()));
+        });
+
         return super.onFragmentCreate();
     }
 

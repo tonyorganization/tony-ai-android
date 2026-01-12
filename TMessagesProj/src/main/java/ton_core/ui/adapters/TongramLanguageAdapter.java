@@ -30,6 +30,7 @@ public class TongramLanguageAdapter extends RecyclerView.Adapter<TongramLanguage
         this.listener = listener;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setLanguages(List<TongramLanguageModel> languages) {
         this.languages = languages;
         notifyDataSetChanged();
@@ -54,7 +55,9 @@ public class TongramLanguageAdapter extends RecyclerView.Adapter<TongramLanguage
         holder.cbLanguage.setChecked(language.isSelected);
         holder.cbLanguage.setOnCheckedChangeListener(null);
         holder.tvLanguage.setText(language.languageName);
+        holder.tvNativeLanguage.setText(language.nativeLanguage);
         holder.tvLanguage.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+        holder.tvNativeLanguage.setTextColor(Theme.getColor(Theme.key_profile_title));
 
         if (language.isSelected) {
             holder.tvLanguage.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
@@ -90,11 +93,13 @@ public class TongramLanguageAdapter extends RecyclerView.Adapter<TongramLanguage
 
         CheckBox cbLanguage;
         TextView tvLanguage;
+        TextView tvNativeLanguage;
 
         public TongramLanguageViewHolder(View itemView) {
             super(itemView);
             cbLanguage = itemView.findViewById(R.id.cb_language);
             tvLanguage = itemView.findViewById(R.id.tv_language);
+            tvNativeLanguage = itemView.findViewById(R.id.tv_native_language);
         }
 
     }
