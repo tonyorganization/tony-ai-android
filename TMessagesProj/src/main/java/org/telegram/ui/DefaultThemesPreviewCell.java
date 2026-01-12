@@ -455,11 +455,11 @@ public class DefaultThemesPreviewCell extends LinearLayout {
             }
             if (dayNightCell != null) {
                 Theme.setSelectorDrawableColor(dayNightCell.getBackground(), Theme.getColor(Theme.key_listSelector), true);
-                dayNightCell.setColors(-1, Theme.key_windowBackgroundWhiteBlueText4);
+                dayNightCell.setColors(-1, Theme.key_profile_title);
             }
             if (browseThemesCell != null) {
                 browseThemesCell.setBackground(Theme.createSelectorWithBackgroundDrawable(Theme.getColor(Theme.key_windowBackgroundWhite), Theme.getColor(Theme.key_listSelector)));
-                browseThemesCell.setColors(Theme.key_windowBackgroundWhiteBlueText4, Theme.key_windowBackgroundWhiteBlueText4);
+                browseThemesCell.setColors(Theme.key_windowBackgroundWhiteBlueText4, Theme.key_profile_title);
             }
         }
     }

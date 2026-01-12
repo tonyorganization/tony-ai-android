@@ -97,7 +97,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
         });
 
         contentView = new FrameLayout(context);
-        contentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        contentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
 
         listView = new RecyclerListView(context);
         listView.setLayoutManager(layoutManager = new LinearLayoutManager(context));
@@ -397,17 +397,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 }
                 textInfoPrivacyCell.setText(item.text);
                 textInfoPrivacyCell.setContentDescription(item.text);
-                boolean top = position > 0 && items.get(position - 1).viewType != VIEW_TYPE_INFO;
-                boolean bottom = position + 1 < items.size() && items.get(position + 1).viewType != VIEW_TYPE_INFO;
-                if (top && bottom) {
-                    textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(getContext(), R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
-                } else if (top) {
-                    textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(getContext(), R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
-                } else if (bottom) {
-                    textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(getContext(), R.drawable.greydivider_top, Theme.key_windowBackgroundGrayShadow));
-                } else {
-                    textInfoPrivacyCell.setBackground(null);
-                }
+                textInfoPrivacyCell.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
             } else if (viewType == VIEW_TYPE_SWITCH || viewType == VIEW_TYPE_CHECKBOX) {
                 final boolean divider = position + 1 < items.size() && items.get(position + 1).viewType != VIEW_TYPE_INFO;
                 SwitchCell switchCell = (SwitchCell) holder.itemView;
@@ -477,7 +467,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             textView.setSingleLine(true);
             textView.setEllipsize(TextUtils.TruncateAt.END);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-            textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            textView.setTextColor(Theme.getColor(Theme.key_profile_title));
             textView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
             textView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
 
@@ -485,7 +475,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             countTextView.setAnimationProperties(.35f, 0, 200, CubicBezierInterpolator.EASE_OUT_QUINT);
             countTextView.setTypeface(AndroidUtilities.bold());
             countTextView.setTextSize(dp(14));
-            countTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            countTextView.setTextColor(Theme.getColor(Theme.key_profile_title));
             countTextView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
 
             arrowView = new ImageView(context);

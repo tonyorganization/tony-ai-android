@@ -40,7 +40,7 @@ public class ThemeColors {
         defaultColors[key_dialogCheckboxSquareUnchecked] = 0xff737373;
         defaultColors[key_dialogCheckboxSquareDisabled] = 0xffb0b0b0;
         defaultColors[key_dialogRadioBackground] = 0xffb3b3b3;
-        defaultColors[key_dialogRadioBackgroundChecked] = 0xff37a9f0;
+        defaultColors[key_dialogRadioBackgroundChecked] = 0xffAFC8FF;
         defaultColors[key_dialogLineProgress] = 0xff527da3;
         defaultColors[key_dialogLineProgressBackground] = 0xffdbdbdb;
         defaultColors[key_dialogButton] = 0xff4991cc;
@@ -128,7 +128,7 @@ public class ThemeColors {
         defaultColors[key_checkboxSquareDisabled] = 0xffb0b0b0;
         defaultColors[key_listSelector] = 0x0f000000;
         defaultColors[key_radioBackground] = 0xffb3b3b3;
-        defaultColors[key_radioBackgroundChecked] = 0xff37a9f0;
+        defaultColors[key_radioBackgroundChecked] = 0xffAFC8FF;
         defaultColors[key_windowBackgroundGray] = 0xfff0f0f0;
         defaultColors[key_windowBackgroundGrayShadow] = 0xff000000;
         defaultColors[key_emptyListPlaceholder] = 0xff959595;
@@ -571,7 +571,7 @@ public class ThemeColors {
         defaultColors[key_player_time] = 0xff8c9296;
         defaultColors[key_player_progressBackground] = 0xffEBEDF0;
         defaultColors[key_player_progressCachedBackground] = 0xffC5DCF0;
-        defaultColors[key_player_progress] = 0xff54AAEB;
+        defaultColors[key_player_progress] = 0xffAFC8FF;
         defaultColors[key_player_button] = 0xff333333;
         defaultColors[key_player_buttonActive] = 0xff4ca8ea;
 
@@ -610,7 +610,7 @@ public class ThemeColors {
         defaultColors[key_featuredStickers_buttonProgress] = 0xffffffff;
         defaultColors[key_featuredStickers_addButton] = 0xffAFC8FF;
         defaultColors[key_featuredStickers_addButtonPressed] = 0xff0A84FF;
-        defaultColors[key_featuredStickers_removeButtonText] = 0xff5093d3;
+        defaultColors[key_featuredStickers_removeButtonText] = 0xffAFC8FF;
         defaultColors[key_featuredStickers_buttonText] = 0xff000000;
         defaultColors[key_featuredStickers_unread] = 0xff4da6ea;
 
