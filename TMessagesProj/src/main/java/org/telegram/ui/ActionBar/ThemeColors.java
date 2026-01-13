@@ -320,6 +320,7 @@ public class ThemeColors {
         defaultColors[key_chat_inBubbleSelected] = 0xffecf7fd;
         defaultColors[key_chat_inBubbleShadow] = 0xff1d3753;
         defaultColors[key_chat_outBubble] = 0xffefffde;
+        defaultColors[key_chat_outBubbleDefault] = 0xffAFC8FF;
         defaultColors[key_chat_outBubbleGradientSelectedOverlay] = 0x14000000;
         defaultColors[key_chat_outBubbleSelected] = 0xffd9f7c5;
         defaultColors[key_chat_outBubbleShadow] = 0xff1e750c;
@@ -1123,6 +1124,7 @@ public class ThemeColors {
         colorKeysMap.put(key_chat_inBubbleSelectedOverlay, "chat_inBubbleSelectedOverlay");
         colorKeysMap.put(key_chat_inBubbleShadow, "chat_inBubbleShadow");
         colorKeysMap.put(key_chat_outBubble, "chat_outBubble");
+        colorKeysMap.put(key_chat_outBubbleDefault, "chat_outBubbleDefault");
         colorKeysMap.put(key_chat_outBubbleGradient1, "chat_outBubbleGradient");
         colorKeysMap.put(key_chat_outBubbleGradient2, "chat_outBubbleGradient2");
         colorKeysMap.put(key_chat_outBubbleGradient3, "chat_outBubbleGradient3");

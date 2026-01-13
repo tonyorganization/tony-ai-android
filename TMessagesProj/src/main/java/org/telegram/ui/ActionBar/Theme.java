@@ -2637,10 +2637,10 @@ public class Theme {
 
                 //override default themes
                 if (isHome(themeAccent) && name.equals("Dark Blue") || name.equals("Night")) {
-                    themeAccent.myMessagesAccentColor = 0xff6573f8;
-                    themeAccent.myMessagesGradientAccentColor1 = 0xff7644cb;
-                    themeAccent.myMessagesGradientAccentColor2 = 0xff8849b4;
-                    themeAccent.myMessagesGradientAccentColor3 = 0xffa751a8;
+                    themeAccent.myMessagesAccentColor = getColor(Theme.key_chat_outBubbleDefault);
+                    themeAccent.myMessagesGradientAccentColor1 = getColor(Theme.key_chat_outBubbleDefault);
+                    themeAccent.myMessagesGradientAccentColor2 = getColor(Theme.key_chat_outBubbleDefault);
+                    themeAccent.myMessagesGradientAccentColor3 = getColor(Theme.key_chat_outBubbleDefault);
                     if (name.equals("Night")) {
                         themeAccent.patternIntensity = -0.57f;
                         themeAccent.backgroundOverrideColor = 0xff6c7fa6;
@@ -3692,6 +3692,7 @@ public class Theme {
     //my messages bubbles
     public static final int myMessagesBubblesStartIndex = colorsCount;
     public static final int key_chat_outBubble = colorsCount++;
+    public static final int key_chat_outBubbleDefault = colorsCount++;
     public static final int key_chat_outBubbleSelected = colorsCount++;
     public static final int key_chat_outBubbleShadow = colorsCount++;
     public static final int key_chat_outBubbleGradient1 = colorsCount++;
