@@ -405,7 +405,7 @@ public abstract class GradientHeaderActivity extends BaseFragment {
                 canvas.drawRect(0, 0, getMeasuredWidth(), currentYOffset + yOffset + AndroidUtilities.dp(20), gradientTools.paint);
             }
 
-            int titleColor = ColorUtils.blendARGB(getThemedColor(Theme.key_dialogTextBlack), getThemedColor(whiteBackground ? Theme.key_windowBackgroundWhiteBlackText : Theme.key_premiumGradientBackgroundOverlay), alpha);
+            int titleColor = ColorUtils.blendARGB(getThemedColor(Theme.key_dialogTextBlack), getThemedColor(whiteBackground ? Theme.key_profile_title : Theme.key_premiumGradientBackgroundOverlay), alpha);
             actionBar.getBackButton().setColorFilter(titleColor);
             backgroundView.titleView.setTextColor(titleColor);
             headerBgPaint.setAlpha((int) (255 * (1f - alpha)));
@@ -522,7 +522,7 @@ public abstract class GradientHeaderActivity extends BaseFragment {
         particlesView.drawable.updateColors();
         if (backgroundView != null) {
             if (whiteBackground) {
-                backgroundView.titleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+                backgroundView.titleView.setTextColor(Theme.getColor(Theme.key_profile_title));
                 backgroundView.subtitleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                 backgroundView.subtitleView.setLinkTextColor(Theme.getColor(Theme.key_chat_messageLinkIn));
             } else {

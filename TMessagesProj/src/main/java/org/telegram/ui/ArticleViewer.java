@@ -1324,7 +1324,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         tableHalfLinePaint.setColor(getThemedColor(Theme.key_windowBackgroundWhiteInputField));
         tableLinePaint.setColor(getThemedColor(Theme.key_windowBackgroundWhiteInputField));
 
-        photoBackgroundPaint.setColor(0x0f000000);
+        photoBackgroundPaint.setColor(getThemedColor(Theme.key_windowBackgroundWhite));
         dividerPaint.setColor(getThemedColor(Theme.key_divider));
         webpageMarkPaint.setColor(getThemedColor(Theme.key_windowBackgroundWhiteLinkSelection) & 0x33ffffff);
         webpageMarkPaint.setPathEffect(LinkPath.getRoundedEffect());

@@ -80,6 +80,7 @@ public class ChangeBioActivity extends BaseFragment {
         doneButton.setContentDescription(LocaleController.getString(R.string.Done));
 
         fragmentView = new LinearLayout(context);
+        fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         LinearLayout linearLayout = (LinearLayout) fragmentView;
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         fragmentView.setOnTouchListener((v, event) -> true);

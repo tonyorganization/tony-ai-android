@@ -333,6 +333,9 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             }
 
             @Override
+            public void openOrApplyAiEnhanceDialog(CharSequence text) {}
+
+            @Override
             public void onTextSelectionChanged(int start, int end) {
 
             }

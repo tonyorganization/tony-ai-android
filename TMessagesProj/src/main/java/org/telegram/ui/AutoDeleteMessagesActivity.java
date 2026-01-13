@@ -83,7 +83,7 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
 
         fragmentView = new FrameLayout(context);
         FrameLayout frameLayout = (FrameLayout) fragmentView;
-        frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
 
         ScrollView scrollView = new ScrollView(getContext());
         LinearLayout mainContainer = new LinearLayout(getContext());

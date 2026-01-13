@@ -1780,10 +1780,9 @@ JNIEXPORT void Java_org_telegram_messenger_Intro_onDrawFrame(JNIEnv *env, jclass
         float alpha = 1;
         if (direct == 0) {
             alpha = t(0, 1, 0, duration_const, Linear);
-
-            fast_body.params.alpha = 1;
-            fast_body.params.scale = xyzMake(scale, scale, 1);
-            draw_textured_shape(&fast_body, main_matrix, NORMAL);
+//            fast_body.params.alpha = 1;
+//            fast_body.params.scale = xyzMake(scale, scale, 1);
+//            draw_textured_shape(&fast_body, main_matrix, NORMAL);
         }
 
         telegram_sphere.params.alpha = alpha;
@@ -2725,7 +2724,7 @@ JNIEXPORT void Java_org_telegram_messenger_Intro_onSurfaceCreated(JNIEnv *env, j
 
     telegram_sphere = create_textured_rectangle(CSizeMake(150, 150), telegram_sphere_texture);
     telegram_mask = create_textured_rectangle(CSizeMake(200, 150), telegram_mask_texture);
-    telegram_plane = create_textured_rectangle(CSizeMake(82, 74), telegram_plane_texture);
+    telegram_plane = create_textured_rectangle(CSizeMake(150, 150), telegram_plane_texture);
     telegram_plane.params.anchor = xyzMake(6, -5, 0);
 
     fast_body = create_textured_rectangle(CSizeMake(148, 148), fast_body_texture);

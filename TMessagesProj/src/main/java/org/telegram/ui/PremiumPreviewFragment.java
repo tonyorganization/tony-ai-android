@@ -449,6 +449,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
     @Override
     public View createView(Context context) {
         hasOwnBackground = true;
+        whiteBackground = true;
         shader = new LinearGradient(
             0, 0, 0, 100,
             new int[]{
@@ -650,9 +651,10 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                 }
                 gradientTools.gradientMatrix(0, 0, getMeasuredWidth(), getMeasuredHeight(), -getMeasuredWidth() * 0.1f * progress, 0);
                 if (whiteBackground) {
-                    backgroundPaint.setColor(ColorUtils.blendARGB(getThemedColor(Theme.key_windowBackgroundGray), getThemedColor(Theme.key_windowBackgroundWhite), progressToFull));
+                    backgroundPaint.setColor(getThemedColor(Theme.key_dialogBackground));
                     canvas.drawRect(0, 0, getMeasuredWidth(), currentYOffset + dp(20), backgroundPaint);
                 } else {
+                    gradientTools.paint.setColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     canvas.drawRect(0, 0, getMeasuredWidth(), currentYOffset + dp(20), gradientTools.paint);
                 }
 
@@ -1450,7 +1452,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                     break;
                 case TYPE_BOTTOM_PADDING:
                     view = new View(context);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+                    view.setBackgroundColor(Theme.getColor(Theme.key_dialogBackground));
                     break;
                 case TYPE_HEADER:
                     view = new HeaderCell(context);
@@ -1484,7 +1486,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                 TextInfoPrivacyCell privacyCell = (TextInfoPrivacyCell) holder.itemView;
 
                 Drawable shadowDrawable = Theme.getThemedDrawable(privacyCell.getContext(), R.drawable.greydivider, Theme.getColor(Theme.key_windowBackgroundGrayShadow));
-                Drawable background = new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundGray));
+                Drawable background = new ColorDrawable(Theme.getColor(Theme.key_dialogBackground));
                 CombinedDrawable combinedDrawable = new CombinedDrawable(background, shadowDrawable, 0, 0);
                 combinedDrawable.setFullsize(true);
                 privacyCell.setBackground(combinedDrawable);

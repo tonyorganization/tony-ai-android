@@ -16,28 +16,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.database.DataSetObserver;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.SurfaceTexture;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.opengl.GLES20;
-import android.opengl.GLUtils;
-import android.os.Build;
-import android.os.Looper;
 import android.os.Parcelable;
 import android.util.TypedValue;
-import android.view.Display;
 import android.view.Gravity;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -47,12 +35,6 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.BuildVars;
-import org.telegram.messenger.DispatchQueue;
-import org.telegram.messenger.EmuDetector;
-import org.telegram.messenger.FileLog;
-import org.telegram.messenger.GenericProvider;
 import org.telegram.messenger.Intro;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
@@ -76,13 +58,6 @@ import org.telegram.ui.Components.voip.CellFlickerDrawable;
 
 import java.util.ArrayList;
 
-import javax.microedition.khronos.egl.EGL10;
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.egl.EGLContext;
-import javax.microedition.khronos.egl.EGLDisplay;
-import javax.microedition.khronos.egl.EGLSurface;
-import javax.microedition.khronos.opengles.GL10;
-
 public class IntroActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private final static int ICON_WIDTH_DP = 200, ICON_HEIGHT_DP = 150;
 
@@ -105,12 +80,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
     private boolean startPressed = false;
     private String[] titles;
     private String[] messages;
-    private int currentViewPagerPage;
-    private EGLThread eglThread;
-    private long currentDate;
-    private boolean justEndDragging;
     private boolean dragging;
-    private int startDragX;
 
     private LocaleController.LocaleInfo localeInfo;
 
@@ -118,25 +88,32 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
 
     private boolean isOnLogout;
 
+    private ImageView introImageView;
+    private final int[] introDrawables = {
+            R.drawable.ic_tongram,
+            R.drawable.ic_cloud,
+            R.drawable.ic_contact,
+            R.drawable.ic_folder,
+            R.drawable.ic_switch
+    };
+
     @Override
     public boolean onFragmentCreate() {
         MessagesController.getGlobalMainSettings().edit().putLong("intro_crashed_time", System.currentTimeMillis()).apply();
 
         titles = new String[]{
                 LocaleController.getString(R.string.Page1Title),
-                LocaleController.getString(R.string.Page2Title),
-                LocaleController.getString(R.string.Page3Title),
-                LocaleController.getString(R.string.Page5Title),
-                LocaleController.getString(R.string.Page4Title),
-                LocaleController.getString(R.string.Page6Title)
+                "",
+                "",
+                "",
+                "",
         };
         messages = new String[]{
                 LocaleController.getString(R.string.Page1Message),
                 LocaleController.getString(R.string.Page2Message),
                 LocaleController.getString(R.string.Page3Message),
-                LocaleController.getString(R.string.Page5Message),
                 LocaleController.getString(R.string.Page4Message),
-                LocaleController.getString(R.string.Page6Message)
+                LocaleController.getString(R.string.Page5Message),
         };
         return true;
     }
@@ -144,6 +121,16 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
     @Override
     public View createView(Context context) {
         actionBar.setAddToContainer(false);
+
+//        SharedPreferences preferences = MessagesController.getGlobalMainSettings();
+//        if (!preferences.contains("theme_name") && !preferences.contains("isDark")) {
+//            Theme.ThemeInfo nightTheme = Theme.getTheme("Night");
+//            if (nightTheme != null) {
+//                Theme.applyTheme(nightTheme);
+//            }
+//        } else {
+//            Theme.applyDayNightThemeMaybe(true);
+//        }
 
         ScrollView scrollView = new ScrollView(context);
         scrollView.setFillViewport(true);
@@ -159,22 +146,26 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
                 super.onLayout(changed, left, top, right, bottom);
 
-                int oneFourth = (bottom - top) / 4;
+                int width = right - left;
+                int height = bottom - top;
+                int oneFourth = height / 4;
 
-                int y = (oneFourth * 3 - AndroidUtilities.dp(275)) / 2;
-                frameLayout2.layout(0, y, frameLayout2.getMeasuredWidth(), y + frameLayout2.getMeasuredHeight());
-                y += AndroidUtilities.dp(ICON_HEIGHT_DP);
-                y += AndroidUtilities.dp(122);
-                int x = (getMeasuredWidth() - bottomPages.getMeasuredWidth()) / 2;
-                bottomPages.layout(x, y, x + bottomPages.getMeasuredWidth(), y + bottomPages.getMeasuredHeight());
                 viewPager.layout(0, 0, viewPager.getMeasuredWidth(), viewPager.getMeasuredHeight());
 
-                y = oneFourth * 3 + (oneFourth - startMessagingButton.getMeasuredHeight()) / 2;
-                x = (getMeasuredWidth() - startMessagingButton.getMeasuredWidth()) / 2;
-                startMessagingButton.layout(x, y, x + startMessagingButton.getMeasuredWidth(), y + startMessagingButton.getMeasuredHeight());
-                y -= AndroidUtilities.dp(30);
-                x = (getMeasuredWidth() - switchLanguageTextView.getMeasuredWidth()) / 2;
-                switchLanguageTextView.layout(x, y - switchLanguageTextView.getMeasuredHeight(), x + switchLanguageTextView.getMeasuredWidth(), y);
+                int yIcon = (oneFourth * 3 - AndroidUtilities.dp(275)) / 2;
+                frameLayout2.layout(0, yIcon, frameLayout2.getMeasuredWidth(), yIcon + frameLayout2.getMeasuredHeight());
+
+                int yButton = height - startMessagingButton.getMeasuredHeight() - AndroidUtilities.dp(48);
+                int xButton = (width - startMessagingButton.getMeasuredWidth()) / 2;
+                startMessagingButton.layout(xButton, yButton, xButton + startMessagingButton.getMeasuredWidth(), yButton + startMessagingButton.getMeasuredHeight());
+
+                int yIndicators = yButton - bottomPages.getMeasuredHeight() - AndroidUtilities.dp(30);
+                int xIndicators = (width - bottomPages.getMeasuredWidth()) / 2;
+                bottomPages.layout(xIndicators, yIndicators, xIndicators + bottomPages.getMeasuredWidth(), yIndicators + bottomPages.getMeasuredHeight());
+
+                int yLang = yIndicators - AndroidUtilities.dp(12);
+                int xLang = (width - switchLanguageTextView.getMeasuredWidth()) / 2;
+                switchLanguageTextView.layout(xLang, yLang - switchLanguageTextView.getMeasuredHeight(), xLang + switchLanguageTextView.getMeasuredWidth(), yLang);
 
                 MarginLayoutParams marginLayoutParams = (MarginLayoutParams) themeFrameLayout.getLayoutParams();
                 int newTopMargin = AndroidUtilities.dp(themeMargin) + (AndroidUtilities.isTablet() ? 0 : AndroidUtilities.statusBarHeight);
@@ -230,50 +221,10 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         frameLayout2 = new FrameLayout(context);
         frameContainerView.addView(frameLayout2, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 0, 78, 0, 0));
 
-        TextureView textureView = new TextureView(context);
-        frameLayout2.addView(textureView, LayoutHelper.createFrame(ICON_WIDTH_DP, ICON_HEIGHT_DP, Gravity.CENTER));
-        textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
-            @Override
-            public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-                if (eglThread == null && surface != null) {
-                    eglThread = new EGLThread(surface);
-                    eglThread.setSurfaceTextureSize(width, height);
-                    eglThread.postRunnable(()->{
-                        float time = (System.currentTimeMillis() - currentDate) / 1000.0f;
-                        Intro.setPage(currentViewPagerPage);
-                        Intro.setDate(time);
-                        Intro.onDrawFrame(0);
-                        if (eglThread != null && eglThread.isAlive() && eglThread.eglDisplay != null && eglThread.eglSurface != null) {
-                            try {
-                                eglThread.egl10.eglSwapBuffers(eglThread.eglDisplay, eglThread.eglSurface);
-                            } catch (Exception ignored) {} // If display or surface already destroyed
-                        }
-                    });
-                    eglThread.postRunnable(eglThread.drawRunnable);
-                }
-            }
-
-            @Override
-            public void onSurfaceTextureSizeChanged(SurfaceTexture surface, final int width, final int height) {
-                if (eglThread != null) {
-                    eglThread.setSurfaceTextureSize(width, height);
-                }
-            }
-
-            @Override
-            public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-                if (eglThread != null) {
-                    eglThread.shutdown();
-                    eglThread = null;
-                }
-                return true;
-            }
-
-            @Override
-            public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-
-            }
-        });
+        introImageView = new ImageView(context);
+        introImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        frameLayout2.addView(introImageView, LayoutHelper.createFrame(ICON_WIDTH_DP, ICON_HEIGHT_DP, Gravity.CENTER));
+        introImageView.setImageResource(introDrawables[0]);
 
         viewPager = new ViewPager(context);
         viewPager.setAdapter(new IntroAdapter());
@@ -284,28 +235,21 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 bottomPages.setPageOffset(position, positionOffset);
-
-                float width = viewPager.getMeasuredWidth();
-                if (width == 0) {
-                    return;
-                }
-                float offset = (position * width + positionOffsetPixels - currentViewPagerPage * width) / width;
-                Intro.setScrollOffset(offset);
             }
 
             @Override
             public void onPageSelected(int i) {
-                currentViewPagerPage = i;
+                if (introImageView != null) {
+                    introImageView.setImageResource(introDrawables[i]);
+                }
             }
 
             @Override
             public void onPageScrollStateChanged(int i) {
                 if (i == ViewPager.SCROLL_STATE_DRAGGING) {
                     dragging = true;
-                    startDragX = viewPager.getCurrentItem() * viewPager.getMeasuredWidth();
                 } else if (i == ViewPager.SCROLL_STATE_IDLE || i == ViewPager.SCROLL_STATE_SETTLING) {
                     if (dragging) {
-                        justEndDragging = true;
                         dragging = false;
                     }
                     if (lastPage != viewPager.getCurrentItem()) {
@@ -358,7 +302,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             destroyed = true;
         });
 
-        bottomPages = new BottomPagesView(context, viewPager, 6);
+        bottomPages = new BottomPagesView(context, viewPager, 5);
         frameContainerView.addView(bottomPages, LayoutHelper.createFrame(66, 5, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, ICON_HEIGHT_DP + 200, 0, 0));
 
         switchLanguageTextView = new TextView(context);
@@ -382,7 +326,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
                         loaderDialog.dismiss();
 
                         NotificationCenter.getGlobalInstance().removeObserver(this, id);
-                        AndroidUtilities.runOnUIThread(()->{
+                        AndroidUtilities.runOnUIThread(() -> {
                             presentFragment(new LoginActivity().setIntroView(frameContainerView, startMessagingButton), true);
                             destroyed = true;
                         }, 100);
@@ -595,7 +539,6 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             super.setPrimaryItem(container, position, object);
             bottomPages.setCurrentPage(position);
-            currentViewPagerPage = position;
         }
 
         @Override
@@ -620,320 +563,6 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
-    public class EGLThread extends DispatchQueue {
-
-        private final static int EGL_CONTEXT_CLIENT_VERSION = 0x3098;
-        private final static int EGL_OPENGL_ES2_BIT = 4;
-        private SurfaceTexture surfaceTexture;
-        private EGL10 egl10;
-        private EGLDisplay eglDisplay;
-        private EGLConfig eglConfig;
-        private EGLContext eglContext;
-        private EGLSurface eglSurface;
-        private boolean initied;
-        private int[] textures = new int[24];
-
-        private float maxRefreshRate;
-        private long lastDrawFrame;
-
-        private GenericProvider<Void, Bitmap> telegramMaskProvider = v -> {
-            int size = AndroidUtilities.dp(ICON_HEIGHT_DP);
-            Bitmap bm = Bitmap.createBitmap(AndroidUtilities.dp(ICON_WIDTH_DP), size, Bitmap.Config.ARGB_8888);
-            Canvas c = new Canvas(bm);
-            c.drawColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-            c.drawCircle(bm.getWidth() / 2f, bm.getHeight() / 2f, size / 2f, paint);
-            return bm;
-        };
-
-        public EGLThread(SurfaceTexture surface) {
-            super("EGLThread");
-            surfaceTexture = surface;
-        }
-
-        private boolean initGL() {
-            egl10 = (EGL10) EGLContext.getEGL();
-
-            eglDisplay = egl10.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY);
-            if (eglDisplay == EGL10.EGL_NO_DISPLAY) {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("eglGetDisplay failed " + GLUtils.getEGLErrorString(egl10.eglGetError()));
-                }
-                finish();
-                return false;
-            }
-
-            int[] version = new int[2];
-            if (!egl10.eglInitialize(eglDisplay, version)) {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("eglInitialize failed " + GLUtils.getEGLErrorString(egl10.eglGetError()));
-                }
-                finish();
-                return false;
-            }
-
-            int[] configsCount = new int[1];
-            EGLConfig[] configs = new EGLConfig[1];
-            int[] configSpec;
-            if (EmuDetector.with(getParentActivity()).detect()) {
-                configSpec = new int[] {
-                        EGL10.EGL_RED_SIZE, 8,
-                        EGL10.EGL_GREEN_SIZE, 8,
-                        EGL10.EGL_BLUE_SIZE, 8,
-                        EGL10.EGL_ALPHA_SIZE, 8,
-                        EGL10.EGL_DEPTH_SIZE, 24,
-                        EGL10.EGL_NONE
-                };
-            } else {
-                configSpec = new int[] {
-                        EGL10.EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
-                        EGL10.EGL_RED_SIZE, 8,
-                        EGL10.EGL_GREEN_SIZE, 8,
-                        EGL10.EGL_BLUE_SIZE, 8,
-                        EGL10.EGL_ALPHA_SIZE, 8,
-                        EGL10.EGL_DEPTH_SIZE, 24,
-                        EGL10.EGL_STENCIL_SIZE, 0,
-                        EGL10.EGL_SAMPLE_BUFFERS, 1,
-                        EGL10.EGL_SAMPLES, 2,
-                        EGL10.EGL_NONE
-                };
-            }
-            if (!egl10.eglChooseConfig(eglDisplay, configSpec, configs, 1, configsCount)) {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("eglChooseConfig failed " + GLUtils.getEGLErrorString(egl10.eglGetError()));
-                }
-                finish();
-                return false;
-            } else if (configsCount[0] > 0) {
-                eglConfig = configs[0];
-            } else {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("eglConfig not initialized");
-                }
-                finish();
-                return false;
-            }
-
-            int[] attrib_list = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL10.EGL_NONE };
-            eglContext = egl10.eglCreateContext(eglDisplay, eglConfig, EGL10.EGL_NO_CONTEXT, attrib_list);
-            if (eglContext == null) {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("eglCreateContext failed " + GLUtils.getEGLErrorString(egl10.eglGetError()));
-                }
-                finish();
-                return false;
-            }
-
-            if (surfaceTexture instanceof SurfaceTexture) {
-                eglSurface = egl10.eglCreateWindowSurface(eglDisplay, eglConfig, surfaceTexture, null);
-            } else {
-                finish();
-                return false;
-            }
-
-            if (eglSurface == null || eglSurface == EGL10.EGL_NO_SURFACE) {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("createWindowSurface failed " + GLUtils.getEGLErrorString(egl10.eglGetError()));
-                }
-                finish();
-                return false;
-            }
-            if (!egl10.eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext)) {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("eglMakeCurrent failed " + GLUtils.getEGLErrorString(egl10.eglGetError()));
-                }
-                finish();
-                return false;
-            }
-
-            GLES20.glGenTextures(23, textures, 0);
-            loadTexture(R.drawable.intro_fast_arrow_shadow, 0);
-            loadTexture(R.drawable.intro_fast_arrow, 1);
-            loadTexture(R.drawable.intro_fast_body, 2);
-            loadTexture(R.drawable.intro_fast_spiral, 3);
-            loadTexture(R.drawable.intro_ic_bubble_dot, 4);
-            loadTexture(R.drawable.intro_ic_bubble, 5);
-            loadTexture(R.drawable.intro_ic_cam_lens, 6);
-            loadTexture(R.drawable.intro_ic_cam, 7);
-            loadTexture(R.drawable.intro_ic_pencil, 8);
-            loadTexture(R.drawable.intro_ic_pin, 9);
-            loadTexture(R.drawable.intro_ic_smile_eye, 10);
-            loadTexture(R.drawable.intro_ic_smile, 11);
-            loadTexture(R.drawable.intro_ic_videocam, 12);
-            loadTexture(R.drawable.intro_knot_down, 13);
-            loadTexture(R.drawable.intro_knot_up, 14);
-            loadTexture(R.drawable.intro_powerful_infinity_white, 15);
-            loadTexture(R.drawable.intro_powerful_infinity, 16);
-            loadTexture(R.drawable.intro_powerful_mask, 17, Theme.getColor(Theme.key_windowBackgroundWhite), false);
-            loadTexture(R.drawable.intro_powerful_star, 18);
-            loadTexture(R.drawable.intro_private_door, 19);
-            loadTexture(R.drawable.intro_private_screw, 20);
-            loadTexture(R.drawable.intro_tg_plane, 21);
-            loadTexture(v -> {
-                Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                paint.setColor(0xFF2CA5E0); // It's logo color, it should not be colored by the theme
-                int size = AndroidUtilities.dp(ICON_HEIGHT_DP);
-                Bitmap bm = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-                Canvas c = new Canvas(bm);
-                c.drawCircle(size / 2f, size / 2f, size / 2f, paint);
-                return bm;
-            }, 22);
-            loadTexture(telegramMaskProvider, 23);
-
-            updateTelegramTextures();
-            updatePowerfulTextures();
-            Intro.setPrivateTextures(textures[19], textures[20]);
-            Intro.setFreeTextures(textures[14], textures[13]);
-            Intro.setFastTextures(textures[2], textures[3], textures[1], textures[0]);
-            Intro.setIcTextures(textures[4], textures[5], textures[6], textures[7], textures[8], textures[9], textures[10], textures[11], textures[12]);
-            Intro.onSurfaceCreated();
-            currentDate = System.currentTimeMillis() - 1000;
-
-            return true;
-        }
-
-        public void updateTelegramTextures() {
-            Intro.setTelegramTextures(textures[22], textures[21], textures[23]);
-        }
-
-        public void updatePowerfulTextures() {
-            Intro.setPowerfulTextures(textures[17], textures[18], textures[16], textures[15]);
-        }
-
-        public void finish() {
-            if (eglSurface != null) {
-                egl10.eglMakeCurrent(eglDisplay, EGL10.EGL_NO_SURFACE, EGL10.EGL_NO_SURFACE, EGL10.EGL_NO_CONTEXT);
-                egl10.eglDestroySurface(eglDisplay, eglSurface);
-                eglSurface = null;
-            }
-            if (eglContext != null) {
-                egl10.eglDestroyContext(eglDisplay, eglContext);
-                eglContext = null;
-            }
-            if (eglDisplay != null) {
-                egl10.eglTerminate(eglDisplay);
-                eglDisplay = null;
-            }
-        }
-
-        private Runnable drawRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (!initied) {
-                    return;
-                }
-
-                long current = System.currentTimeMillis();
-                if (!eglContext.equals(egl10.eglGetCurrentContext()) || !eglSurface.equals(egl10.eglGetCurrentSurface(EGL10.EGL_DRAW))) {
-                    if (!egl10.eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext)) {
-                        if (BuildVars.LOGS_ENABLED) {
-                            FileLog.e("eglMakeCurrent failed " + GLUtils.getEGLErrorString(egl10.eglGetError()));
-                        }
-                        return;
-                    }
-                }
-                int deltaDrawMs = (int) Math.min(current - lastDrawFrame, 16);
-                float time = (current - currentDate) / 1000.0f;
-                Intro.setPage(currentViewPagerPage);
-                Intro.setDate(time);
-                Intro.onDrawFrame(deltaDrawMs);
-                egl10.eglSwapBuffers(eglDisplay, eglSurface);
-                lastDrawFrame = current;
-
-                if (maxRefreshRate == 0) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        WindowManager wm = (WindowManager) ApplicationLoader.applicationContext.getSystemService(Context.WINDOW_SERVICE);
-                        Display display = wm.getDefaultDisplay();
-                        float[] rates = display.getSupportedRefreshRates();
-                        float maxRate = 0;
-                        for (float rate : rates) {
-                            if (rate > maxRate) {
-                                maxRate = rate;
-                            }
-                        }
-                        maxRefreshRate = maxRate;
-                    } else maxRefreshRate = 60;
-                }
-
-                long drawMs = System.currentTimeMillis() - current;
-                postRunnable(drawRunnable, Math.max((long) (1000 / maxRefreshRate) - drawMs, 0));
-            }
-        };
-
-        private void loadTexture(GenericProvider<Void, Bitmap> bitmapProvider, int index) {
-            loadTexture(bitmapProvider, index, false);
-        }
-
-        private void loadTexture(GenericProvider<Void, Bitmap> bitmapProvider, int index, boolean rebind) {
-            if (rebind) {
-                GLES20.glDeleteTextures(1, textures, index);
-                GLES20.glGenTextures(1, textures, index);
-            }
-            Bitmap bm = bitmapProvider.provide(null);
-            GLES20.glBindTexture(GL10.GL_TEXTURE_2D, textures[index]);
-            GLES20.glTexParameteri(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
-            GLES20.glTexParameteri(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
-            GLES20.glTexParameteri(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE);
-            GLES20.glTexParameteri(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
-            GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bm, 0);
-            bm.recycle();
-        }
-
-        private void loadTexture(int resId, int index) {
-            loadTexture(resId, index, 0, false);
-        }
-
-        private void loadTexture(int resId, int index, int tintColor, boolean rebind) {
-            Drawable drawable = getParentActivity().getResources().getDrawable(resId);
-            if (drawable instanceof BitmapDrawable) {
-                if (rebind) {
-                    GLES20.glDeleteTextures(1, textures, index);
-                    GLES20.glGenTextures(1, textures, index);
-                }
-
-                Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                GLES20.glBindTexture(GL10.GL_TEXTURE_2D, textures[index]);
-                GLES20.glTexParameteri(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
-                GLES20.glTexParameteri(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
-                GLES20.glTexParameteri(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE);
-                GLES20.glTexParameteri(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
-
-                if (tintColor != 0) {
-                    Bitmap tempBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-                    Canvas canvas = new Canvas(tempBitmap);
-                    Paint tempPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
-                    tempPaint.setColorFilter(new PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN));
-                    canvas.drawBitmap(bitmap, 0, 0, tempPaint);
-                    GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, tempBitmap, 0);
-                    tempBitmap.recycle();
-                } else {
-                    GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
-                }
-            }
-        }
-
-        public void shutdown() {
-            postRunnable(() -> {
-                finish();
-                Looper looper = Looper.myLooper();
-                if (looper != null) {
-                    looper.quit();
-                }
-            });
-        }
-
-        public void setSurfaceTextureSize(int width, int height) {
-            Intro.onSurfaceChanged(width, height, Math.min(width / 150.0f, height / 150.0f), 0);
-        }
-
-        @Override
-        public void run() {
-            initied = initGL();
-            super.run();
-        }
-    }
-
     @Override
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         return SimpleThemeDescription.createThemeDescriptions(() -> updateColors(true), Theme.key_windowBackgroundWhite,
@@ -950,17 +579,6 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         darkThemeDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_changephoneinfo_image2), PorterDuff.Mode.SRC_IN));
         bottomPages.invalidate();
         if (fromTheme) {
-            if (eglThread != null) {
-                eglThread.postRunnable(()->{
-                    eglThread.loadTexture(R.drawable.intro_powerful_mask, 17, Theme.getColor(Theme.key_windowBackgroundWhite), true);
-                    eglThread.updatePowerfulTextures();
-
-                    eglThread.loadTexture(eglThread.telegramMaskProvider, 23, true);
-                    eglThread.updateTelegramTextures();
-
-                    Intro.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                });
-            }
             for (int i = 0; i < viewPager.getChildCount(); i++) {
                 View ch = viewPager.getChildAt(i);
                 TextView headerTextView = ch.findViewWithTag(pagerHeaderTag);

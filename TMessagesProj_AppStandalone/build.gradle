@@ -142,10 +142,16 @@ android {
     buildFeatures {
         buildConfig = true
     }
-    namespace 'io.toncorp.tonmessenger.web'
+    namespace 'io.toncorp.tongramapp.web'
 
     lintOptions {
         checkReleaseBuilds false
+    }
+
+    packaging {
+        resources {
+            excludes += '/META-INF/versions/9/OSGI-INF/MANIFEST.MF'
+        }
     }
 }
 

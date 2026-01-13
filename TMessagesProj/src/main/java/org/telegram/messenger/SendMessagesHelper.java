@@ -68,6 +68,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.AnimatedFileDrawable;
+import org.telegram.ui.Components.ReplyMessageLine;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stars.StarsController;
 import org.telegram.ui.Stars.StarsIntroActivity;
@@ -1737,6 +1738,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 sendMessage(arrayList, did, true, false, true, 0, null, -1, payStars, monoForumPeerId, suggestionParams);
             }
         } else if (messageObject.messageOwner.message != null) {
+
             TLRPC.WebPage webPage = null;
             if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaWebPage) {
                 webPage = messageObject.messageOwner.media.webpage;
@@ -3958,9 +3960,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         }
                         type = 2;
                     } else if (
-                        retryMessageObject.type == MessageObject.TYPE_VIDEO ||
-                        retryMessageObject.type == MessageObject.TYPE_ROUND_VIDEO ||
-                        retryMessageObject.videoEditedInfo != null
+                            retryMessageObject.type == MessageObject.TYPE_VIDEO ||
+                                    retryMessageObject.type == MessageObject.TYPE_ROUND_VIDEO ||
+                                    retryMessageObject.videoEditedInfo != null
                     ) {
                         type = 3;
                         document = (TLRPC.TL_document) newMsg.media.document;
@@ -3980,11 +3982,11 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         user.id = newMsg.media.user_id;
                         type = 6;
                     } else if (
-                        retryMessageObject.type == MessageObject.TYPE_GIF ||
-                        retryMessageObject.type == MessageObject.TYPE_FILE ||
-                        retryMessageObject.type == MessageObject.TYPE_STICKER ||
-                        retryMessageObject.type == MessageObject.TYPE_MUSIC ||
-                        retryMessageObject.type == MessageObject.TYPE_ANIMATED_STICKER
+                            retryMessageObject.type == MessageObject.TYPE_GIF ||
+                                    retryMessageObject.type == MessageObject.TYPE_FILE ||
+                                    retryMessageObject.type == MessageObject.TYPE_STICKER ||
+                                    retryMessageObject.type == MessageObject.TYPE_MUSIC ||
+                                    retryMessageObject.type == MessageObject.TYPE_ANIMATED_STICKER
                     ) {
                         document = (TLRPC.TL_document) newMsg.media.document;
                         type = 7;

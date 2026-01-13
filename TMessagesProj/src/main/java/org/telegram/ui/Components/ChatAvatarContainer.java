@@ -245,7 +245,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             }
         }
         avatarImageView.setContentDescription(LocaleController.getString(R.string.AccDescrProfilePicture));
-        avatarImageView.setRoundRadius(dp(21));
+        avatarImageView.setRoundRadius(dp(15));
         addView(avatarImageView);
         if (avatarClickable) {
             avatarImageView.setOnClickListener(v -> {
@@ -1262,6 +1262,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
 
     public void setChatAvatar(TLRPC.Chat chat) {
         avatarDrawable.setInfo(currentAccount, chat);
+        avatarDrawable.setRoundRadius(dp(15));
         if (avatarImageView != null) {
             avatarImageView.setForUserOrChat(chat, avatarDrawable);
             avatarImageView.setRoundRadius(ChatObject.isForum(chat) ? dp(ChatObject.hasStories(chat) ? 11 : 16) : dp(21));
@@ -1274,6 +1275,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
 
     public void setUserAvatar(TLRPC.User user, boolean showSelf) {
         avatarDrawable.setInfo(currentAccount, user);
+        avatarDrawable.setRoundRadius(dp(15));
         if (UserObject.isReplyUser(user)) {
             avatarDrawable.setAvatarType(AvatarDrawable.AVATAR_TYPE_REPLIES);
             avatarDrawable.setScaleSize(.8f);
@@ -1319,6 +1321,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
         if (user != null) {
             avatarDrawable.setInfo(currentAccount, user);
+            avatarDrawable.setRoundRadius(dp(15));
             if (UserObject.isReplyUser(user)) {
                 avatarDrawable.setScaleSize(.8f);
                 avatarDrawable.setAvatarType(AvatarDrawable.AVATAR_TYPE_REPLIES);
@@ -1360,11 +1363,13 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                 if (dialogId > 0) {
                     final TLRPC.User user2 = parentFragment.getMessagesController().getUser(dialogId);
                     avatarDrawable.setInfo(user2);
+                    avatarDrawable.setRoundRadius(dp(15));
                     avatarImageView.setAnimatedEmojiDrawable(null);
                     avatarImageView.setForUserOrChat(user2, avatarDrawable);
                 } else {
                     final TLRPC.Chat chat2 = parentFragment.getMessagesController().getChat(-dialogId);
                     avatarDrawable.setInfo(chat2);
+                    avatarDrawable.setRoundRadius(dp(15));
                     avatarImageView.setAnimatedEmojiDrawable(null);
                     avatarImageView.setForUserOrChat(chat2, avatarDrawable);
                 }
@@ -1376,11 +1381,12 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         } else if (chat != null) {
             avatarDrawable.setScaleSize(1f);
             avatarDrawable.setInfo(currentAccount, chat);
+            avatarDrawable.setRoundRadius(dp(15));
 
             if (avatarImageView != null) {
                 avatarImageView.setAnimatedEmojiDrawable(null);
                 avatarImageView.setForUserOrChat(chat, avatarDrawable);
-                avatarImageView.setRoundRadius(chat.forum ? dp(ChatObject.hasStories(chat) ? 11 : 16) : dp(21));
+                avatarImageView.setRoundRadius(chat.forum ? dp(ChatObject.hasStories(chat) ? 11 : 16) : dp(15));
             }
         }
     }

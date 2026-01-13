@@ -105,6 +105,6 @@ public class BoostTypeCell extends BaseCell {
         }
         radioButton.setChecked(isSelected, animated);
         imageView.setImageDrawable(avatarDrawable);
-        imageView.setRoundRadius(dp(20));
+        imageView.setRoundRadius(dp(15));
     }
 }

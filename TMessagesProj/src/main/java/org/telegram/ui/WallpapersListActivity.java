@@ -91,7 +91,6 @@ public class WallpapersListActivity extends BaseFragment implements Notification
     private int rowCount;
     private int uploadImageRow;
     private int setColorRow;
-    private int sectionRow;
     private int wallPaperStartRow;
     private int totalWallpaperRows;
     private int resetSectionRow;
@@ -1390,19 +1389,16 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         if (currentType == TYPE_ALL) {
             uploadImageRow = rowCount++;
             setColorRow = rowCount++;
-            sectionRow = rowCount++;
             galleryRow = -1;
             galleryHintRow = -1;
         } else if (currentType == TYPE_CHANNEL_PATTERNS) {
             uploadImageRow = -1;
             setColorRow = -1;
-            sectionRow = -1;
             galleryRow = rowCount++;
             galleryHintRow = rowCount++;
         } else {
             uploadImageRow = -1;
             setColorRow = -1;
-            sectionRow = -1;
             galleryRow = -1;
             galleryHintRow = -1;
         }
@@ -1859,7 +1855,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                 case 1: {
                     view = new ShadowSectionCell(mContext);
                     Drawable drawable = Theme.getThemedDrawableByKey(mContext, wallPaperStartRow == -1 ? R.drawable.greydivider_bottom : R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow);
-                    CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundGray)), drawable);
+                    CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundWhite)), drawable);
                     combinedDrawable.setFullsize(true);
                     view.setBackgroundDrawable(combinedDrawable);
                     break;
@@ -1867,7 +1863,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                 case 3: {
                     view = new TextInfoPrivacyCell(mContext);
                     Drawable drawable = Theme.getThemedDrawableByKey(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow);
-                    CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundGray)), drawable);
+                    CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundWhite)), drawable);
                     combinedDrawable.setFullsize(true);
                     view.setBackgroundDrawable(combinedDrawable);
                     break;
@@ -1990,7 +1986,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         public int getItemViewType(int position) {
             if (position == uploadImageRow || position == galleryRow || position == setColorRow || position == resetRow) {
                 return 0;
-            } else if (position == sectionRow || position == resetSectionRow) {
+            } else if (position == resetSectionRow) {
                 return 1;
             } else if (position == resetInfoRow || position == galleryHintRow) {
                 return 3;

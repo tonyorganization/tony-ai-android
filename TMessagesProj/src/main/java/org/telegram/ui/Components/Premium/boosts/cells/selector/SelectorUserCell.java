@@ -193,7 +193,7 @@ public class SelectorUserCell extends BaseCell {
         this.user = user;
         this.chat = null;
         avatarDrawable.setInfo(user);
-        imageView.setRoundRadius(dp(20));
+        imageView.setRoundRadius(dp(15));
         imageView.setForUserOrChat(user, avatarDrawable);
         titleTextView.setText(UserObject.getUserName(user));
         isOnline[0] = false;
@@ -217,7 +217,7 @@ public class SelectorUserCell extends BaseCell {
         optionsView.setVisibility(View.GONE);
         this.user = null;
         this.chat = null;
-        imageView.setRoundRadius(dp(20));
+        imageView.setRoundRadius(dp(15));
         imageView.setImageDrawable(icon);
         titleTextView.setText(title);
         isOnline[0] = false;
@@ -235,7 +235,7 @@ public class SelectorUserCell extends BaseCell {
         this.chat = chat;
         this.user = null;
         avatarDrawable.setInfo(chat);
-        imageView.setRoundRadius(dp(ChatObject.isForum(chat) ? 12 : 20));
+        imageView.setRoundRadius(dp(15));
         imageView.setForUserOrChat(chat, avatarDrawable);
 
         titleTextView.setText(chat.title);
@@ -263,7 +263,7 @@ public class SelectorUserCell extends BaseCell {
         this.chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(-DialogObject.getPeerDialogId(boost.peer));
 
         avatarDrawable.setInfo(chat);
-        imageView.setRoundRadius(dp(20));
+        imageView.setRoundRadius(dp(15));
         imageView.setForUserOrChat(chat, avatarDrawable);
 
         titleTextView.setText(chat.title);

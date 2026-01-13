@@ -61,7 +61,7 @@ public class ChatCell extends BaseCell {
         this.removable = removable;
         this.chat = chat;
         avatarDrawable.setInfo(chat);
-        imageView.setRoundRadius(AndroidUtilities.dp(20));
+        imageView.setRoundRadius(AndroidUtilities.dp(15));
         imageView.setForUserOrChat(chat, avatarDrawable);
 
         CharSequence text = chat.title;

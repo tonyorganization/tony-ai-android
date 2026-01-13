@@ -627,7 +627,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                 } else if (item.red) {
                     cell.setColors(Theme.key_text_RedBold, Theme.key_text_RedRegular);
                 } else {
-                    cell.setColors(Theme.key_windowBackgroundWhiteGrayIcon, Theme.key_windowBackgroundWhiteBlackText);
+                    cell.setColors(Theme.key_windowBackgroundWhiteGrayIcon, Theme.key_profile_title);
                 }
                 break;
             case VIEW_TYPE_CHECK:
@@ -715,10 +715,10 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                 } else {
                     drawable = R.drawable.field_carret_empty;
                 }
-                Drawable shadowDrawable = Theme.getThemedDrawableByKey(context, drawable, Theme.key_windowBackgroundGrayShadow, resourcesProvider);
+                Drawable shadowDrawable = Theme.getThemedDrawableByKey(context, drawable, Theme.key_dialogBackground, resourcesProvider);
                 if (dialog) {
                     cell3.setBackground(new LayerDrawable(new Drawable[]{
-                            new ColorDrawable(getThemedColor(Theme.key_dialogBackgroundGray)),
+                            new ColorDrawable(getThemedColor(Theme.key_dialogBackground)),
                             shadowDrawable
                     }));
                 } else {

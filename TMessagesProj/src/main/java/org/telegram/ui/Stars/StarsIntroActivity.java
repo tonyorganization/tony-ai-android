@@ -257,7 +257,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
 
     @Override
     public int getNavigationBarColor() {
-        return Theme.getColor(Theme.key_dialogBackgroundGray);
+        return Theme.getColor(Theme.key_dialogBackground);
     }
 
     @Override
@@ -282,7 +282,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                 super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(firstViewHeight, MeasureSpec.EXACTLY));
             }
         };
-        emptyLayout.setBackgroundColor(Theme.getColor(Theme.key_dialogBackgroundGray));
+        emptyLayout.setBackgroundColor(Theme.getColor(Theme.key_dialogBackground));
 
         super.createView(context);
 
@@ -708,9 +708,8 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
 
         if (giftButton != null) {
             giftButton.setVisibility(getMessagesController().starsGiftsEnabled ? View.VISIBLE : View.GONE);
+            items.add(UItem.asShadow(null));
         }
-
-        items.add(UItem.asShadow(null));
 
         if (getMessagesController().starrefConnectAllowed) {
             items.add(AffiliateProgramFragment.ColorfulTextCell.Factory.as(BUTTON_AFFILIATE, getThemedColor(Theme.key_color_green), R.drawable.filled_earn_stars, applyNewSpan(getString(R.string.UserAffiliateProgramRowTitle)), getString(R.string.UserAffiliateProgramRowText)));
@@ -939,7 +938,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             textView = new TextView(context);
             textView.setTypeface(AndroidUtilities.bold());
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-            textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
+            textView.setTextColor(Theme.getColor(Theme.key_profile_title, resourcesProvider));
             addView(textView, LayoutHelper.createFrameRelatively(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL | Gravity.START, 48, 0, 0, 0));
 
             textView2 = new AnimatedTextView(context);
@@ -1090,7 +1089,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             final boolean animated = lastId == item.id;
             lastId = item.id;
             textView.setText(item.text, animated);
-            final int color = Theme.getColor(item.accent ? Theme.key_windowBackgroundWhiteBlueText2 : Theme.key_windowBackgroundWhiteBlackText);
+            final int color = Theme.getColor(Theme.key_windowBackgroundWhiteBlackText);
             textView.setTextColor(color);
             arrowView.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
             if (animated) {
@@ -1105,7 +1104,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             final boolean animated = lastId == -1;
             lastId = -1;
             textView.setText(text, animated);
-            final int color = Theme.getColor(Theme.key_windowBackgroundWhiteBlueText2);
+            final int color = Theme.getColor(Theme.key_windowBackgroundWhiteBlackText);
             textView.setTextColor(color);
             arrowView.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
             if (animated) {
@@ -3015,7 +3014,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             itemAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             itemAnimator.setDurations(350);
             recyclerListView.setItemAnimator(itemAnimator);
-            setBackgroundColor(Theme.getColor(Theme.key_dialogBackgroundGray, resourcesProvider));
+            setBackgroundColor(Theme.getColor(Theme.key_dialogBackground, resourcesProvider));
 
             headerView = new HeaderView(context, currentAccount, resourcesProvider);
 

@@ -44,7 +44,7 @@ public class BoostTypeSingleCell extends BoostTypeCell {
             setSubtitle(subtitle);
         }
         imageView.setImageDrawable(avatarDrawable);
-        imageView.setRoundRadius(dp(20));
+        imageView.setRoundRadius(dp(15));
     }
 
     @Override

@@ -3395,6 +3395,9 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             }
 
             @Override
+            public void openOrApplyAiEnhanceDialog(CharSequence text) {}
+
+            @Override
             public void onTextSelectionChanged(int start, int end) {
 
             }

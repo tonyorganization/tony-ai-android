@@ -1259,7 +1259,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
 
         public void updateColors() {
-            listView.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundGray));
+            listView.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
             if (button != null) {
                 button.updateColors();
             }
@@ -1267,7 +1267,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
                 messagesCellPreview.invalidate();
             }
             updateProfilePreview(true);
-            buttonContainer.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundGray));
+            buttonContainer.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
             buttonShadow.setBackgroundColor(getThemedColor(Theme.key_divider));
             AndroidUtilities.forEachViews(listView, view -> {
                 if (view instanceof PeerColorGrid) {
@@ -1944,7 +1944,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
 
     @SuppressLint("NotifyDataSetChanged")
     private void updateColors() {
-        contentView.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundGray));
+        contentView.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
         if (titleView != null) {
             titleView.setTextColor(getThemedColor(Theme.key_actionBarDefaultTitle));
         }
@@ -2114,7 +2114,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
 
         public void updateColors() {
             drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(isChannelOrGroup ? Theme.key_windowBackgroundWhiteGrayIcon : Theme.key_windowBackgroundWhiteBlueText4, resourcesProvider), PorterDuff.Mode.SRC_IN));
-            buttonText.setColor(Theme.getColor(isChannelOrGroup ? Theme.key_windowBackgroundWhiteBlackText : Theme.key_windowBackgroundWhiteBlueText4, resourcesProvider));
+            buttonText.setColor(Theme.getColor(Theme.key_profile_title, resourcesProvider));
 
             if (userText != null && userTextBackgroundPaint != null && userTextColorKey != -1) {
                 final int color = Theme.getColor(userTextColorKey, resourcesProvider);

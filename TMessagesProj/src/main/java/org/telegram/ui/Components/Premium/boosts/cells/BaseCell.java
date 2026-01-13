@@ -55,10 +55,10 @@ public abstract class BaseCell extends FrameLayout {
         addView(backgroundView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         backgroundView.setBackgroundColor(Theme.getColor(Theme.key_dialogBackground, resourcesProvider));
 
-        avatarDrawable.setRoundRadius(AndroidUtilities.dp(40));
+        avatarDrawable.setRoundRadius(AndroidUtilities.dp(15));
 
         imageView = new BackupImageView(context);
-        imageView.setRoundRadius(AndroidUtilities.dp(20));
+        imageView.setRoundRadius(AndroidUtilities.dp(15));
         addView(imageView);
 
         titleTextView = new SimpleTextView(context) {

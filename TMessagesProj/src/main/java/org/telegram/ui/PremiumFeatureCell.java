@@ -54,7 +54,7 @@ public class PremiumFeatureCell extends FrameLayout {
         title = new SimpleTextView(context);
         title.setTypeface(AndroidUtilities.bold());
         title.setTextSize(15);
-        title.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
+        title.setTextColor(Theme.getColor(Theme.key_profile_title, resourcesProvider));
         linearLayout.addView(title, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
         description = new TextView(context);

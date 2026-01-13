@@ -56,7 +56,7 @@ public class RadioCell extends FrameLayout {
         if (dialog) {
             textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider));
         } else {
-            textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
+            textView.setTextColor(Theme.getColor(Theme.key_profile_title, resourcesProvider));
         }
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         textView.setLines(1);

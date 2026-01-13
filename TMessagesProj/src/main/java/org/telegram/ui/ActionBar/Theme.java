@@ -3429,6 +3429,8 @@ public class Theme {
     public static final int key_dialogGiftsTabText = colorsCount++;
 
     public static final int key_windowBackgroundWhite = colorsCount++;
+    public static final int key_windowBackgroundWhiteShadow = colorsCount++;
+    public static final int key_countMessageBackground = colorsCount++;
     public static final int key_windowBackgroundUnchecked = colorsCount++;
     public static final int key_windowBackgroundChecked = colorsCount++;
     public static final int key_windowBackgroundCheckText = colorsCount++;
@@ -3457,6 +3459,9 @@ public class Theme {
     public static final int key_windowBackgroundWhiteGrayText7 = colorsCount++;
     public static final int key_windowBackgroundWhiteGrayText8 = colorsCount++;
     public static final int key_windowBackgroundWhiteBlackText = colorsCount++;
+    public static final int key_input_text = colorsCount++;
+    public static final int key_input_stroke = colorsCount++;
+    public static final int key_text_title_color = colorsCount++;
     public static final int key_windowBackgroundWhiteHintText = colorsCount++;
     public static final int key_windowBackgroundWhiteValueText = colorsCount++;
     public static final int key_windowBackgroundWhiteLinkText = colorsCount++;
@@ -3516,6 +3521,10 @@ public class Theme {
     public static final int key_contextProgressOuter4 = colorsCount++;
 
     public static final int key_avatar_text = colorsCount++;
+    public static final int key_icon_color = colorsCount++;
+    public static final int key_coming_soon = colorsCount++;
+    public static final int key_button_disable = colorsCount++;
+    public static final int key_button_enable = colorsCount++;
     public static final int key_avatar_backgroundSaved = colorsCount++;
     public static final int key_avatar_background2Saved = colorsCount++;
     public static final int key_avatar_backgroundArchived = colorsCount++;
@@ -3555,6 +3564,7 @@ public class Theme {
     public static int[] keys_avatar_nameInMessage = {key_avatar_nameInMessageRed, key_avatar_nameInMessageOrange, key_avatar_nameInMessageViolet, key_avatar_nameInMessageGreen, key_avatar_nameInMessageCyan, key_avatar_nameInMessageBlue, key_avatar_nameInMessagePink};
 
     public static final int key_actionBarDefault = colorsCount++;
+    public static final int key_windowBackgroundTransparent = colorsCount++;
     public static final int key_actionBarDefaultSelector = colorsCount++;
     public static final int key_actionBarWhiteSelector = colorsCount++;
     public static final int key_actionBarDefaultIcon = colorsCount++;
@@ -3636,6 +3646,7 @@ public class Theme {
     public static final int key_chats_archivePullDownBackgroundActive = colorsCount++;
     public static final int key_chats_tabUnreadActiveBackground = colorsCount++;
     public static final int key_chats_tabUnreadUnactiveBackground = colorsCount++;
+    public static final int key_folder_background_unselected = colorsCount++;
 
     public static final int key_chat_attachCheckBoxCheck = colorsCount++;
     public static final int key_chat_attachCheckBoxBackground = colorsCount++;
@@ -3767,6 +3778,7 @@ public class Theme {
 
     public static final int key_chat_inBubbleSelected = colorsCount++;
     public static final int key_chat_messageTextIn = colorsCount++;
+    public static final int key_chat_translate = colorsCount++;
     public static final int key_chat_messageTextOut = colorsCount++;
     public static final int key_chat_messageLinkIn = colorsCount++;
     public static final int key_chat_messageLinkOut = colorsCount++;
@@ -3860,6 +3872,10 @@ public class Theme {
     public static final int key_chat_wallpaper_gradient_to3 = colorsCount++;
     public static final int key_chat_wallpaper_gradient_rotation = colorsCount++;
     public static final int key_chat_messagePanelBackground = colorsCount++;
+    public static final int key_input_background = colorsCount++;
+    public static final int key_text_disable = colorsCount++;
+    public static final int key_text_enable = colorsCount++;
+    public static final int key_stroke_default = colorsCount++;
     public static final int key_chat_messagePanelShadow = colorsCount++;
     public static final int key_chat_messagePanelText = colorsCount++;
     public static final int key_chat_messagePanelHint = colorsCount++;

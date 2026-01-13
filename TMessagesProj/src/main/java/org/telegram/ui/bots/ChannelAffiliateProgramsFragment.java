@@ -267,7 +267,6 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
         items.add(AffiliateProgramFragment.FeatureCell.Factory.as(R.drawable.menu_feature_reliable, getString(R.string.ChannelAffiliateProgramFeature1Title), getString(R.string.ChannelAffiliateProgramFeature1)));
         items.add(AffiliateProgramFragment.FeatureCell.Factory.as(R.drawable.menu_feature_transparent, getString(R.string.ChannelAffiliateProgramFeature2Title), getString(R.string.ChannelAffiliateProgramFeature2)));
         items.add(AffiliateProgramFragment.FeatureCell.Factory.as(R.drawable.menu_feature_simple, getString(R.string.ChannelAffiliateProgramFeature3Title), getString(R.string.ChannelAffiliateProgramFeature3)));
-        items.add(UItem.asShadow(1, null));
 
         final BotStarsController.ChannelConnectedBots connectedBots = BotStarsController.getInstance(currentAccount).getChannelConnectedBots(dialogId);
         if (!connectedBots.bots.isEmpty() || connectedBots.count > 0) {
@@ -438,7 +437,7 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
             this.resourcesProvider = resourcesProvider;
 
             imageView = new BackupImageView(context);
-            imageView.setRoundRadius(dp(46));
+            imageView.setRoundRadius(dp(15));
             addView(imageView, LayoutHelper.createFrame(46, 46, Gravity.CENTER_VERTICAL | Gravity.LEFT, 13, 0, 13, 0));
 
             linkBgView = new View(context);
@@ -489,6 +488,7 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
             final TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(bot.bot_id);
 
             AvatarDrawable avatarDrawable = new AvatarDrawable();
+            avatarDrawable.setRoundRadius(dp(15));
             avatarDrawable.setInfo(user);
             imageView.setForUserOrChat(user, avatarDrawable);
 
@@ -526,6 +526,7 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
             final TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(bot.bot_id);
 
             AvatarDrawable avatarDrawable = new AvatarDrawable();
+            avatarDrawable.setRoundRadius(dp(15));
             avatarDrawable.setInfo(user);
             imageView.setForUserOrChat(user, avatarDrawable);
 

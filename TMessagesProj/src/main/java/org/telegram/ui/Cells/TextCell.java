@@ -31,7 +31,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.tgnet.TLRPC;
@@ -39,7 +38,6 @@ import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedTextView;
-import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
@@ -95,7 +93,7 @@ public class TextCell extends FrameLayout {
         leftPadding = left;
 
         textView = new SimpleTextView(context);
-        textView.setTextColor(Theme.getColor(dialog ? Theme.key_dialogTextBlack : Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
+        textView.setTextColor(Theme.getColor(dialog ? Theme.key_dialogTextBlack : Theme.key_text_title_color, resourcesProvider));
         textView.setTextSize(16);
         textView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
         textView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
@@ -288,9 +286,9 @@ public class TextCell extends FrameLayout {
     }
 
     public void updateColors() {
-        int textKey = textView.getTag() instanceof Integer ? (int) textView.getTag() : Theme.key_windowBackgroundWhiteBlackText;
+        int textKey = textView.getTag() instanceof Integer ? (int) textView.getTag() : Theme.key_text_title_color;
         int textColor = Theme.getColor(textKey, resourcesProvider);
-        if (textKey != Theme.key_dialogTextBlack && textKey != Theme.key_windowBackgroundWhiteBlackText) {
+        if (textKey != Theme.key_dialogTextBlack && textKey != Theme.key_text_title_color) {
             textColor = processColor(textColor);
         }
         textView.setTextColor(textColor);
@@ -350,6 +348,7 @@ public class TextCell extends FrameLayout {
         textView.setText(text);
         textView.setRightDrawable(null);
         valueTextView.setText(valueText = null, false);
+        imageView.setBackground(null);
         imageView.setImageResource(resId);
         imageView.setVisibility(VISIBLE);
         valueTextView.setVisibility(GONE);
@@ -386,6 +385,7 @@ public class TextCell extends FrameLayout {
         textView.setRightDrawable(null);
         valueTextView.setText(valueText = null, false);
         imageView.setColorFilter(null);
+        imageView.setBackground(null);
         if (drawable instanceof RLottieDrawable) {
             imageView.setAnimation((RLottieDrawable) drawable);
         } else {
@@ -409,6 +409,7 @@ public class TextCell extends FrameLayout {
         textView.setRightDrawable(null);
         valueTextView.setText(valueText = value, false);
         imageView.setColorFilter(null);
+        imageView.setBackground(null);
         if (drawable instanceof RLottieDrawable) {
             imageView.setAnimation((RLottieDrawable) drawable);
         } else {
@@ -521,6 +522,7 @@ public class TextCell extends FrameLayout {
         imageView.setTranslationY(0);
         imageView.setPadding(0, dp(7), 0, 0);
         imageView.setImageResource(resId);
+        imageView.setBackground(null);
         needDivider = divider;
         setWillNotDraw(!needDivider);
         if (checkBox != null) {
@@ -573,7 +575,41 @@ public class TextCell extends FrameLayout {
         imageView.setTranslationX(0);
         imageView.setTranslationY(0);
         imageView.setPadding(0, dp(7), 0, 0);
+        imageView.setBackground(null);
         imageView.setImageResource(resId);
+        needDivider = divider;
+        setWillNotDraw(!needDivider);
+        if (checkBox != null) {
+            checkBox.setVisibility(GONE);
+        }
+        if (emojiDrawable != null) {
+            emojiDrawable.set((Drawable) null, false);
+        }
+    }
+
+    public void setTextAndValueAndIcon(CharSequence text, CharSequence value, boolean animated, int resId, boolean divider, int backgroundColor) {
+        imageLeft = 21;
+        offsetFromImage = getOffsetFromImage(false);
+        textView.setText(text);
+        textView.setRightDrawable(null);
+        imageView.setVisibility(VISIBLE);
+        if (value != null) {
+            int availableWidth = (int) Math.max(1, AndroidUtilities.displaySize.x - (dp(offsetFromImage) + HintView2.measureCorrectly(text, textView.getTextPaint()) + dp(16)));
+            valueTextView.setText(value == null ? "" : TextUtils.ellipsize(valueText = value, valueTextView.getPaint(), availableWidth, TextUtils.TruncateAt.END), animated);
+        } else {
+            valueTextView.setText("", animated);
+        }
+        valueTextView.setVisibility(VISIBLE);
+        valueSpoilersTextView.setVisibility(GONE);
+        valueImageView.setVisibility(GONE);
+        imageView.setTranslationX(0);
+        imageView.setTranslationY(0);
+        imageView.setPadding(0, dp(7), 0, 0);
+        imageView.setBackground(null);
+        imageView.setImageResource(resId);
+        imageView.setBackground(Theme.createRoundRectDrawable(dp(6), backgroundColor));
+        imageView.setPadding(dp(4), dp(4), dp(4), dp(4));
+        imageView.setColorFilter(new PorterDuffColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN));
         needDivider = divider;
         setWillNotDraw(!needDivider);
         if (checkBox != null) {
@@ -602,6 +638,7 @@ public class TextCell extends FrameLayout {
         imageView.setVisibility(VISIBLE);
         imageView.setPadding(dp(2), dp(2), dp(2), dp(2));
         imageView.setTranslationX(dp(LocaleController.isRTL ? 0 : -3));
+        imageView.setBackground(null);
         imageView.setImageResource(resId);
         imageView.setColorFilter(new PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN));
         imageView.setBackground(Theme.createRoundRectDrawable(dp(9), color));
@@ -639,6 +676,7 @@ public class TextCell extends FrameLayout {
         }
         imageView.setVisibility(VISIBLE);
         imageView.setPadding(0, dp(7), 0, 0);
+        imageView.setBackground(null);
         imageView.setImageResource(resId);
         needDivider = divider;
         setWillNotDraw(!needDivider);

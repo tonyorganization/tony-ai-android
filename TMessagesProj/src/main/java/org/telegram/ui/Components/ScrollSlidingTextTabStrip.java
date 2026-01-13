@@ -12,7 +12,6 @@ import static org.telegram.messenger.AndroidUtilities.dp;
 import static org.telegram.messenger.AndroidUtilities.dpr;
 import static org.telegram.messenger.AndroidUtilities.lerp;
 
-import android.animation.LayoutTransition;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -22,7 +21,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.SystemClock;
 import android.text.Layout;
-import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.util.TypedValue;
@@ -30,7 +28,6 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -41,7 +38,6 @@ import androidx.annotation.NonNull;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
-import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 
@@ -497,7 +493,7 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
             };
             tab.setGravity(Gravity.CENTER);
             tab.setTextAlignment(TEXT_ALIGNMENT_CENTER);
-            tab.setBackground(Theme.createSelectorDrawable(Theme.multAlpha(processColor(Theme.getColor(activeTextColorKey, resourcesProvider)), .15f), 3));
+//            tab.setBackground(Theme.createSelectorDrawable(Theme.multAlpha(processColor(Theme.getColor(activeTextColorKey, resourcesProvider)), .15f), 3));
             tab.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
 //            tab.setSingleLine(true);
             tab.setMaxLines(2);
@@ -515,7 +511,7 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
         text = Emoji.replaceEmoji(text, tab.getPaint().getFontMetricsInt(), false);
         tab.setText(text);
         int tabWidth = (int) Math.ceil(tab.getPaint().measureText(text, 0, text.length())) + tab.getPaddingLeft() + tab.getPaddingRight();
-        tabsContainer.addView(tab, LayoutHelper.createLinear(0, LayoutHelper.MATCH_PARENT));
+        tabsContainer.addView(tab, LayoutHelper.createLinear(0, LayoutHelper.MATCH_PARENT, 0, 0, 6, 0));
         allTextWidth += tabWidth;
         positionToWidth.put(position, tabWidth);
     }
@@ -592,7 +588,7 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
         for (int a = 0; a < count; a++) {
             TextView tab = (TextView) tabsContainer.getChildAt(a);
             tab.setTextColor(processColor(Theme.getColor(currentPosition == a ? activeTextColorKey : unactiveTextColorKey, resourcesProvider)));
-            tab.setBackground(Theme.createSelectorDrawable(Theme.multAlpha(processColor(Theme.getColor(activeTextColorKey, resourcesProvider)), .15f), 3));
+//            tab.setBackground(Theme.createSelectorDrawable(Theme.multAlpha(processColor(Theme.getColor(activeTextColorKey, resourcesProvider)), .15f), 3));
         }
         selectorDrawable.setColor(processColor(Theme.getColor(tabLineColorKey, resourcesProvider)));
         invalidate();
@@ -628,23 +624,11 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
         boolean result = super.drawChild(canvas, child, drawingTime);
         if (child == tabsContainer) {
-            final int height = getMeasuredHeight();
-            float l = indicatorX + indicatorXAnimationDx;
-            float r = l + indicatorWidth + indicatorWidthAnimationDx;
-
-            final View current = tabsContainer.getChildAt(currentPosition);
-            if (reordering && current != null) {
-                l += current.getTranslationX();
-                r += current.getTranslationX();
+            int count = tabsContainer.getChildCount();
+            for (int a = 0; a < count; a++) {
+                TextView tab = (TextView) tabsContainer.getChildAt(a);
+                tab.setBackground(Theme.createRoundRectDrawable(dp(15), Theme.getColor(currentPosition == a ? Theme.key_chats_actionBackground : Theme.key_folder_background_unselected, resourcesProvider)));
             }
-            selectorDrawable.setAlpha((int) (0xFF * tabsContainer.getAlpha()));
-            selectorDrawable.setBounds(
-                (int) l,
-                height - dpr(4),
-                (int) r,
-                height
-            );
-            selectorDrawable.draw(canvas);
         }
         return result;
     }

@@ -78,7 +78,7 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
         this.resourcesProvider = resourcesProvider;
 
         textView = new TextView(context);
-        textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+        textView.setTextColor(Theme.getColor(Theme.key_profile_title));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         textView.setLines(1);
         textView.setMaxLines(1);

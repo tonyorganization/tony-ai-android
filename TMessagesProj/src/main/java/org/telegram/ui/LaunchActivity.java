@@ -252,6 +252,9 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import ton_core.repositories.translated_message_repository.languages.ILanguageRepository;
+import ton_core.repositories.translated_message_repository.languages.LanguageRepository;
+
 public class LaunchActivity extends BasePermissionsActivity implements INavigationLayout.INavigationLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate, IPipActivity {
     public final static String EXTRA_FORCE_NOT_INTERNAL_APPS = "force_not_internal_apps";
     public final static String EXTRA_FORCE_REQUEST = "force_request";
@@ -717,6 +720,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 } else if (id == 19) {
                     Browser.openUrl(LaunchActivity.this, LocaleController.getString(R.string.TonGramAppStoreFeatureUrl));
                     drawerLayoutContainer.closeDrawer(false);
+                } else if (id == 21) {
+                    Toast.makeText(LaunchActivity.this, LocaleController.getString(R.string.ComingSoon), Toast.LENGTH_LONG).show();
+                    drawerLayoutContainer.closeDrawer(false);
+                } else if (id == 22) {
+                    Toast.makeText(LaunchActivity.this, LocaleController.getString(R.string.ComingSoon), Toast.LENGTH_LONG).show();
+                    drawerLayoutContainer.closeDrawer(false);
+                } else if (id == 23) {
+                    Toast.makeText(LaunchActivity.this, LocaleController.getString(R.string.ComingSoon), Toast.LENGTH_LONG).show();
+                    drawerLayoutContainer.closeDrawer(false);
                 }
             }
         });
@@ -1041,6 +1053,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         BackupAgent.requestBackup(this);
 
         RestrictedLanguagesSelectActivity.checkRestrictedLanguages(false);
+
+        ILanguageRepository languageRepository = LanguageRepository.getInstance(getApplicationContext());
+        LanguageRepository.getInstance(getApplicationContext()).fetchLanguages();
     }
 
     private void showAttachMenuBot(TLRPC.TL_attachMenuBot attachMenuBot, String startApp, boolean sidemenu) {
