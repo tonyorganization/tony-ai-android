@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:38247677898:android:fc4704f4815b5ae74dd933",
+        "mobilesdk_app_id": "1:38247677898:android:fe5d92784de578564dd933",
         "android_client_info": {
-          "package_name": "io.toncorp.tongram"
+          "package_name": "io.toncorp.tongramapp"
         }
       },
       "oauth_client": [
@@ -36,9 +36,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:38247677898:android:b0b3ba93cf62958b4dd933",
+        "mobilesdk_app_id": "1:38247677898:android:24a46db3ff22789f4dd933",
         "android_client_info": {
-          "package_name": "io.toncorp.tongram.beta"
+          "package_name": "io.toncorp.tongramapp.beta"
         }
       },
       "oauth_client": [
@@ -65,9 +65,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:38247677898:android:a0f9240d6b4bade74dd933",
+        "mobilesdk_app_id": "1:38247677898:android:24dd2718c34f7e704dd933",
         "android_client_info": {
-          "package_name": "io.toncorp.tongram.web"
+          "package_name": "io.toncorp.tongramapp.web"
         }
       },
       "oauth_client": [
