@@ -388,9 +388,9 @@ public class ThemeColors {
         defaultColors[key_chat_inReplyMessageText] = 0xff000000;
         defaultColors[key_chat_outReplyMessageText] = 0xff000000;
         defaultColors[key_chat_inReplyMediaMessageText] = 0xffa1aab3;
-        defaultColors[key_chat_outReplyMediaMessageText] = 0xff65b05b;
+        defaultColors[key_chat_outReplyMediaMessageText] = 0xff000000;
         defaultColors[key_chat_inReplyMediaMessageSelectedText] = 0xff89b4c1;
-        defaultColors[key_chat_outReplyMediaMessageSelectedText] = 0xff65b05b;
+        defaultColors[key_chat_outReplyMediaMessageSelectedText] = 0xff000000;
         defaultColors[key_chat_stickerReplyMessageText] = 0xffffffff;
         defaultColors[key_chat_inPreviewLine] = 0xff70b4e8;
         defaultColors[key_chat_outPreviewLine] = 0xff88c97b;
