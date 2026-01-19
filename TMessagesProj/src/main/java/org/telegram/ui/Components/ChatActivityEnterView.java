@@ -3178,6 +3178,7 @@ public class ChatActivityEnterView extends FrameLayout implements
         isAiEnhanceApplied = isApply;
         int resId = isApply ? R.drawable.ic_undo_left_round_square : R.drawable.ic_input_ai_enhance;
         aiEnhanceButton.setImageResource(resId);
+        aiEnhanceButton.setBackgroundColor(Theme.key_icon_color);
         aiEnhanceButton.invalidate();
     }
 
@@ -13243,6 +13244,7 @@ public class ChatActivityEnterView extends FrameLayout implements
             priceText.setOverrideFullWidth(AndroidUtilities.displaySize.x);
 
             drawable = context.getResources().getDrawable(resId).mutate();
+            drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_icon_color), PorterDuff.Mode.SRC_IN));
             inactiveDrawable = context.getResources().getDrawable(resId).mutate();
             drawableInverse = context.getResources().getDrawable(resId).mutate();
             emojiDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this, dp(14));
