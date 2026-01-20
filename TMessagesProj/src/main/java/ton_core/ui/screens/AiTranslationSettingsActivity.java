@@ -164,7 +164,7 @@ public class AiTranslationSettingsActivity extends BaseFragment implements Langu
         llPreferences.addView(targetLanguageLayout, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 20, 10, 20, 0));
 
         TextCheckCell switchAutoDetectIncoming = new TextCheckCell(context);
-        switchAutoDetectIncoming.setTextAndCheck(LocaleController.getString(R.string.EnableAITranslation), false, false);
+        switchAutoDetectIncoming.setTextAndCheck(LocaleController.getString(R.string.AutoDetectIncoming), true, false);
 //        switchAutoDetectIncoming.setOnClickListener(v -> switchAutoDetectIncoming.setChecked(!switchAutoDetectIncoming.isChecked()));
 
         llPreferences.addView(switchAutoDetectIncoming, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));

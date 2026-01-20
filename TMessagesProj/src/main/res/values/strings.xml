@@ -10056,4 +10056,5 @@
     <string name="TargetLanguage">Target Language</string>
     <string name="TranslationError">Translation unavailable, try again.</string>
     <string name="TonX">TonX</string>
+    <string name="AutoDetectIncoming">Auto-detect Incoming</string>
 </resources>
