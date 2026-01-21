@@ -2284,21 +2284,19 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                     }
                                     resetPressedLink(1);
                                     pressedEmoji = null;
-                                } else if (link[0] instanceof URLSpanNoUnderline && link[0] == pressedLink.getSpan() && pressedLink != null) {
-                                    if (((URLSpanNoUnderline) link[0]).getURL().equals("t9n:copy")) {
+                                } else if (pressedLink != null && link[0] == pressedLink.getSpan()) {
+                                    if (link[0] instanceof URLSpanNoUnderline && ((URLSpanNoUnderline) link[0]).getURL().equals("t9n:copy")) {
                                         AndroidUtilities.addToClipboard(currentMessageObject.translatedText.toString());
                                         BaseFragment lastFragment = LaunchActivity.getLastFragment();
                                         BulletinFactory.of(lastFragment).createCopyBulletin(getString("MessageCopied", R.string.MessageCopied)).show();
                                         resetPressedLink(1);
                                         return true;
-                                    } else if (((URLSpanNoUnderline) link[0]).getURL().equals("t9n:translation")) {
+                                    }
+                                    if (link[0] instanceof URLSpanNoUnderline && ((URLSpanNoUnderline) link[0]).getURL().equals("t9n:translation")) {
                                         delegate.didTranslate(this, false);
                                         resetPressedLink(1);
                                         return true;
                                     }
-                                    resetPressedLink(1);
-                                    return true;
-                                } else if (pressedLink != null && link[0] == pressedLink.getSpan()) {
                                     delegate.didPressUrl(this, pressedLink.getSpan(), false);
                                     resetPressedLink(1);
                                     return true;

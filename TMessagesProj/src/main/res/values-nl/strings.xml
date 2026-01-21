@@ -452,8 +452,8 @@
     <string name="TermsOfService">Gebruiksvoorwaarden</string>
     <string name="TermsOfServiceLogin">Door je aan te melden, ga je akkoord met de *Gebruiksvoorwaarden*.</string>
     <string name="PrivacyPolicyUrl">https://messenger.tongram.app/privacy-policy/</string>
-    <string name="TermsOfServiceUrl">https://Tongram.org/tos</string>
-    <string name="WebAppDisclaimerUrl">https://Tongram.org/tos/mini-apps</string>
+    <string name="TermsOfServiceUrl">https://Telegram.org/tos</string>
+    <string name="WebAppDisclaimerUrl">https://Telegram.org/tos/mini-apps</string>
     <string name="DeleteLocalizationTitle">Vertaalbestand verwijderen</string>
     <string name="DeleteLocalizationText">Taalbestand **%1$s** echt verwijderen?</string>
     <string name="IncorrectLocalization">Ongeldig vertalingsbestand</string>
@@ -692,8 +692,8 @@
     <string name="AuthAnotherClientScan">Scan QR-code</string>
     <string name="AuthAnotherClientNotFound">Geen authenticatie-token gevonden</string>
     <string name="AuthAnotherClientOk">Authenticatie gelukt</string>
-    <string name="AuthAnotherClientDownloadClientUrl">https://desktop.Tongram.org/</string>
-    <string name="AuthAnotherWebClientUrl">https://web.Tongram.org/</string>
+    <string name="AuthAnotherClientDownloadClientUrl">https://desktop.Telegram.org/</string>
+    <string name="AuthAnotherWebClientUrl">https://web.Telegram.org/</string>
     <string name="AuthAnotherClientInfo1">Download Tongram op je computer via *desktop.Tongram.org*</string>
     <string name="AuthAnotherClientInfo2">Gebruik Tongram Desktop om de QR-code te krijgen.</string>
     <string name="AuthAnotherClientInfo3">Scan de QR-Code om met je account te verbinden.</string>
@@ -737,7 +737,7 @@
     <string name="ChannelDescriptionChanged">Kanaalbeschrijving bijgewerkt</string>
     <string name="CheckPhoneNumber">Is %1$s nog steeds je nummer?</string>
     <string name="CheckPhoneNumberInfo">Houd je nummer actueel zodat je altijd op Tongram kunt inloggen. **Lees meer**</string>
-    <string name="CheckPhoneNumberLearnMoreUrl">https://Tongram.org/faq#q-i-have-a-new-phone-number-what-do-i-do</string>
+    <string name="CheckPhoneNumberLearnMoreUrl">https://Telegram.org/faq#q-i-have-a-new-phone-number-what-do-i-do</string>
     <string name="CheckPhoneNumberYes">Ja</string>
     <string name="CheckPhoneNumberNo">Nee</string>
     <!--password view-->
