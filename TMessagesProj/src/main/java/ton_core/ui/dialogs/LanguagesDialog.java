@@ -65,6 +65,7 @@ public class LanguagesDialog extends BottomSheetDialogFragment implements Tongra
         Drawable background = view.findViewById(R.id.cl_root).getBackground();
 
         if (background != null) {
+            background = background.mutate();
             int themeColor = Theme.getColor(Theme.key_windowBackgroundWhiteShadow);
             background.setColorFilter(new PorterDuffColorFilter(themeColor, PorterDuff.Mode.SRC_IN));
         }
@@ -83,12 +84,15 @@ public class LanguagesDialog extends BottomSheetDialogFragment implements Tongra
         final int textColor = Theme.getColor(Theme.key_profile_title);
         title.setTextColor(textColor);
 
-        final int colorAlpha = ColorUtils.setAlphaComponent(textColor, 180);
         LinearLayout llSearch = view.findViewById(R.id.ll_search);
         Drawable searchBackground = llSearch.getBackground();
-        searchBackground.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_input_background), PorterDuff.Mode.SRC_IN));
-        searchBackground.setAlpha(colorAlpha);
+        if (searchBackground != null) {
+            searchBackground = searchBackground.mutate();
+            searchBackground.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_input_background), PorterDuff.Mode.SRC_ATOP));
+            searchBackground.setAlpha(180);
+        }
 
+        final int colorAlpha = ColorUtils.setAlphaComponent(textColor, 180);
         EditText edtSearch = view.findViewById(R.id.edt_search);
         edtSearch.setHintTextColor(colorAlpha);
         edtSearch.setTextColor(Theme.getColor(Theme.key_profile_title));

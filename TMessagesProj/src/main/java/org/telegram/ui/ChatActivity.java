@@ -378,7 +378,8 @@ public class ChatActivity extends BaseFragment implements
     private static final LongSparseArray<HashMap<Integer, TranslatedMessageEntity>> chatTranslatedMessageCache = new LongSparseArray<>();
     private ITranslatedMessageRepository translatedMessageRepository;
     private ILanguageRepository languageRepository;
-    private String shortLanguageName;
+    private String outMessageLangCode;
+    private String targetLangCode;
     private CustomLifecycleOwner lifecycleOwner;
     private static final ExecutorService detectLanguageExecutor =
             Executors.newFixedThreadPool(3);
@@ -2564,13 +2565,14 @@ public class ChatActivity extends BaseFragment implements
                 messagesMap.put(entity.messageId, entity);
             }
         });
-        shortLanguageName = preferences.getString(Constants.OUT_MESSAGE_LANG_CODE_KEY, LocaleController.getInstance().getCurrentLocale().getLanguage());
+        outMessageLangCode = preferences.getString(Constants.OUT_MESSAGE_LANG_CODE_KEY, LocaleController.getInstance().getCurrentLocale().getLanguage());
+        targetLangCode = preferences.getString(Constants.TARGET_LANG_CODE_KEY, LocaleController.getInstance().getCurrentLocale().getLanguage());
 
         languageRepository.getLanguages().observe(lifecycleOwner, languages -> {
             tongramLanguages = new ArrayList<>();
 
             tongramLanguages.addAll(languages.stream()
-                    .map(e -> new TongramLanguageModel(e.name, e.code, e.nativeName, e.code.equals(shortLanguageName)))
+                    .map(e -> new TongramLanguageModel(e.name, e.code, e.nativeName, e.code.equals(outMessageLangCode)))
                     .collect(Collectors.toList()));
         });
 
@@ -20243,7 +20245,7 @@ public class ChatActivity extends BaseFragment implements
                 detectLanguageExecutor.execute(() -> {
                     for (MessageObject ms : latestMessages) {
                         LanguageDetector.detectLanguage(ms.removeEntities(), lng -> AndroidUtilities.runOnUIThread(() -> {
-                            if (!lng.equals(shortLanguageName) && !lng.equals("und")) {
+                            if (!lng.equals(targetLangCode) && !lng.equals("und")) {
                                 ms.isActiveTranslation = true;
                                 ms.resetLayout();
                                 updateMessageAnimatedInternal(ms, false);
@@ -21233,7 +21235,7 @@ public class ChatActivity extends BaseFragment implements
             if (!newMessage.isOutOwner() && newMessage.type == MessageObject.TYPE_TEXT) {
                 detectLanguageExecutor.execute(() -> {
                 LanguageDetector.detectLanguage(newMessage.removeEntities(), lng -> AndroidUtilities.runOnUIThread(() -> {
-                        if (!lng.equals(shortLanguageName) && !lng.equals("und")) {
+                        if (!lng.equals(targetLangCode) && !lng.equals("und")) {
                             newMessage.isActiveTranslation = true;
                             newMessage.resetLayout();
                             updateMessageAnimatedInternal(newMessage, false);
@@ -37635,7 +37637,7 @@ public class ChatActivity extends BaseFragment implements
                 if (messageCache == null) {
                     translatedMessageRepository.translate(
                             cell.getPrimaryMessageObject().messageText.toString(),
-                            shortLanguageName,
+                            targetLangCode,
                             messageId,
                             chatId,
                             currentAccount, new IOnApiCallback<TranslatedMessageEntity>() {
