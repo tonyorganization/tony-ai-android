@@ -142,7 +142,7 @@ android {
     buildFeatures {
         buildConfig = true
     }
-    namespace 'io.toncorp.tongramapp.web'
+    namespace 'io.toncorp.tongramai.web'
 
     lintOptions {
         checkReleaseBuilds false

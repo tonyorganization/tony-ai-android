@@ -174,7 +174,7 @@ public class ApplicationLoader extends Application {
         } catch (Exception e) {
             FileLog.e(e);
         }
-        return new File("/data/data/io.toncorp.tongramapp/files");
+        return new File("/data/data/io.toncorp.tongramai/files");
     }
 
     public static File getFilesDirFixed(String child) {
