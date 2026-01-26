@@ -237,12 +237,9 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
 
         ivAction = view.findViewById(R.id.iv_action);
         setStyleForSendButton();
-        ivAction.setOnClickListener(v -> {
-            if (edtInput != null && !edtInput.getText().toString().isEmpty() && selectedLanguage != null) {
-                setTextApply(false);
-                translateMessage();
-            }
-        });
+        ivAction.setOnClickListener(v -> handleTranslateMessage());
+
+        handleTranslateMessage();
 
         androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
             v.setPadding(0, 0, 0, insets.getSystemWindowInsetBottom());
@@ -250,6 +247,13 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
         });
 
         return view;
+    }
+
+    private void handleTranslateMessage() {
+        if (edtInput != null && !edtInput.getText().toString().isEmpty() && selectedLanguage != null) {
+            setTextApply(false);
+            translateMessage();
+        }
     }
 
     private void setLanguage() {
@@ -312,8 +316,6 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
                 tvResult.setText(input);
                 stopResultJumpAnimation();
                 setTextApply(true);
-            } else if (lng.equals("und")) {
-                handleTranslateError(getString(R.string.UnableDetectLanguage));
             } else {
                 translate();
             }

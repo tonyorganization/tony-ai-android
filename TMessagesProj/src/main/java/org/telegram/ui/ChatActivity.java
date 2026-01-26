@@ -20234,28 +20234,28 @@ public class ChatActivity extends BaseFragment implements
 
             final HashMap<Integer, TranslatedMessageEntity> messageCache = chatTranslatedMessageCache.get(currentAccount);
 
-            if (isEnableAiTranslation) {
-                List<MessageObject> latestMessages =
-                        messArr.stream()
-                                .filter(e -> !e.isOutOwner() && e.type == MessageObject.TYPE_TEXT)
-                                .sorted((a, b) -> Integer.compare(b.getId(), a.getId())) // sort DESC
-                                .limit(3)
-                                .collect(Collectors.toList());
-
-                detectLanguageExecutor.execute(() -> {
-                    for (MessageObject ms : latestMessages) {
-                        LanguageDetector.detectLanguage(ms.removeEntities(), lng -> AndroidUtilities.runOnUIThread(() -> {
-                            if (!lng.equals(targetLangCode) && !lng.equals("und")) {
-                                ms.isActiveTranslation = true;
-                                ms.resetLayout();
-                                updateMessageAnimatedInternal(ms, false);
-                            }
-                        }), err -> AndroidUtilities.runOnUIThread(() -> {
-
-                        }));
-                    }
-                });
-            }
+//            if (isEnableAiTranslation) {
+//                List<MessageObject> latestMessages =
+//                        messArr.stream()
+//                                .filter(e -> !e.isOutOwner() && e.type == MessageObject.TYPE_TEXT)
+//                                .sorted((a, b) -> Integer.compare(b.getId(), a.getId())) // sort DESC
+//                                .limit(3)
+//                                .collect(Collectors.toList());
+//
+//                detectLanguageExecutor.execute(() -> {
+//                    for (MessageObject ms : latestMessages) {
+//                        LanguageDetector.detectLanguage(ms.removeEntities(), lng -> AndroidUtilities.runOnUIThread(() -> {
+//                            if (!lng.equals(targetLangCode) && !lng.equals("und")) {
+//                                ms.isActiveTranslation = true;
+//                                ms.resetLayout();
+//                                updateMessageAnimatedInternal(ms, false);
+//                            }
+//                        }), err -> AndroidUtilities.runOnUIThread(() -> {
+//
+//                        }));
+//                    }
+//                });
+//            }
 
             for (int a = 0; a < messArr.size(); a++) {
                 MessageObject obj = messArr.get(a);
@@ -20268,11 +20268,13 @@ public class ChatActivity extends BaseFragment implements
                     TranslatedMessageEntity translatedMessageEntity = messageCache.get(messageId);
 
                     if (translatedMessageEntity != null && !obj.isOutOwner()) {
-                        obj.isActiveTranslation = true;
+//                        obj.isActiveTranslation = true;
                         obj.isTranslated = translatedMessageEntity.isShow;
                         obj.translatedText = translatedMessageEntity.translatedMessage;
-                        obj.resetLayout();
+//                        obj.resetLayout();
                     }
+                    obj.isActiveTranslation = true;
+                    obj.resetLayout();
                 }
                 if (threadMessageId != 0) {
                     if (messageId <= (obj.isOut() ? threadMaxOutboxReadId : threadMaxInboxReadId)) {
