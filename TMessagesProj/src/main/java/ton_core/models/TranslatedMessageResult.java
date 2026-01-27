@@ -4,7 +4,6 @@ import java.util.List;
 
 public class TranslatedMessageResult {
     private long created;
-    private Usage usage;
     private String model;
     private String id;
     private List<TranslatedChoice> choices;
@@ -13,9 +12,6 @@ public class TranslatedMessageResult {
 
     public long getCreated() { return created; }
     public void setCreated(long value) { this.created = value; }
-
-    public Usage getUsage() { return usage; }
-    public void setUsage(Usage value) { this.usage = value; }
 
     public String getModel() { return model; }
     public void setModel(String value) { this.model = value; }

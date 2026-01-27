@@ -6791,9 +6791,9 @@ public class MessageObject {
     private boolean captionTranslated;
 
     public void generateCaption() {
-        if (caption != null && (messageOwner.translatedText != null && translated) == captionTranslated || isRoundVideo()) {
-            return;
-        }
+//        if (caption != null && (messageOwner.translatedText != null && translated) == captionTranslated || isRoundVideo()) {
+//            return;
+//        }
         String text = messageOwner.message;
         ArrayList<TLRPC.MessageEntity> entities = messageOwner.entities;
         boolean forceManualEntities = false;
@@ -6852,6 +6852,121 @@ public class MessageObject {
                 addUrlsByPattern(isOutOwner(), caption, true, 3, (int) getDuration(), false);
             } else if (isMusic() || isVoice()) {
                 addUrlsByPattern(isOutOwner(), caption, true, 4, (int) getDuration(), false);
+            }
+
+            if (isActiveTranslation) {
+
+                int maxWidth = getMaxMessageTextWidth();
+
+                if (hasSingleQuote) {
+                    maxWidth -= AndroidUtilities.dp(32);
+                } else if (hasSingleCode) {
+                    maxWidth -= AndroidUtilities.dp(15);
+                }
+
+                TextPaint paint;
+                if (getMedia(messageOwner) instanceof TLRPC.TL_messageMediaGame) {
+                    paint = Theme.chat_msgGameTextPaint;
+                } else {
+                    paint = Theme.chat_msgTextPaint;
+                }
+
+                SpannableStringBuilder builder;
+                if (caption instanceof SpannableStringBuilder) {
+                    builder = (SpannableStringBuilder) caption;
+                } else {
+                    builder = new SpannableStringBuilder(caption);
+                }
+
+                if (isTranslated) {
+                    builder.append("\n");
+
+                    int dividerStart = builder.length();
+                    StaticLayout measureLayout = makeStaticLayout(translatedText, paint, maxWidth, 1f, 0, false);
+
+                    float textWidthResult = 0;
+                    try {
+                        for (int i = 0; i < measureLayout.getLineCount(); i++) {
+                            textWidthResult = Math.max(textWidthResult, measureLayout.getLineWidth(i));
+                        }
+                    } catch (Exception e) {
+                        textWidthResult = maxWidth;
+                    }
+                    textWidthResult = Math.min(maxWidth, textWidthResult) - dp(10);
+
+                    String dash = "─";
+                    float dashWidth = paint.measureText(dash);
+                    StringBuilder dividerSb = new StringBuilder();
+
+                    if (dashWidth > 0) {
+                        float currentWidth = 0;
+                        while (currentWidth <= textWidthResult) {
+                            dividerSb.append(dash);
+                            currentWidth += dashWidth;
+                        }
+
+                        if (dividerSb.length() < 5 && textWidthResult > dashWidth * 5) {
+                            while (dividerSb.length() < 5) {
+                                dividerSb.append(dash);
+                            }
+                        }
+                    } else {
+                        dividerSb.append("────────────");
+                    }
+
+                    builder.append(dividerSb.toString());
+
+                    int dividerColor = Theme.getColor(Theme.key_divider);
+                    builder.setSpan(new ForegroundColorSpan(dividerColor), dividerStart, builder.length(),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    builder.setSpan(new RelativeSizeSpan(1f), dividerStart, builder.length(),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    builder.append("\n");
+                    builder.append(translatedText);
+
+                    builder.append(" ");
+                    int iconStart = builder.length();
+                    builder.append(" ");
+
+                    Drawable copyDrawable = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.msg_copy).mutate();
+                    copyDrawable.setBounds(0, 0, AndroidUtilities.dp(20), AndroidUtilities.dp(20));
+                    int color = Theme.getColor(Theme.key_chat_translate);
+                    copyDrawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+
+                    ColoredImageSpan imageSpan = new ColoredImageSpan(copyDrawable);
+                    imageSpan.setSize(AndroidUtilities.dp(20));
+                    builder.setSpan(imageSpan, iconStart, iconStart + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    builder.setSpan(new URLSpanNoUnderline("t9n:copy") {
+                        @Override
+                        public void updateDrawState(TextPaint ds) {
+                            ds.setUnderlineText(false);
+                        }
+                    }, iconStart, iconStart + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    subMessage = LocaleController.getString(R.string.HideTranslation);
+                } else if (subMessage == null) {
+                    subMessage = LocaleController.getString(R.string.TranslateMessage);
+                }
+
+                int startTranslate = builder.length();
+                builder.append("\n\n");
+                builder.append(subMessage);
+
+                ClickableSpan translateSpan = new URLSpanNoUnderline("t9n:translation") {
+                    @Override
+                    public void updateDrawState(TextPaint ds) {
+                        super.updateDrawState(ds);
+                        ds.setColor(Theme.getColor(Theme.key_chat_translate));
+                        ds.setTextSize(AndroidUtilities.dp(14));
+                        ds.setUnderlineText(false);
+                    }
+                };
+
+                builder.setSpan(translateSpan, startTranslate, builder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                caption = builder;
             }
         }
     }

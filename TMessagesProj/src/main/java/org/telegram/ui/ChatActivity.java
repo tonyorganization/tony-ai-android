@@ -20266,14 +20266,16 @@ public class ChatActivity extends BaseFragment implements
                 int messageId = obj.getId();
                 if (isEnableAiTranslation) {
                     TranslatedMessageEntity translatedMessageEntity = messageCache.get(messageId);
-
+                    obj.isActiveTranslation = true;
                     if (translatedMessageEntity != null && !obj.isOutOwner()) {
 //                        obj.isActiveTranslation = true;
                         obj.isTranslated = translatedMessageEntity.isShow;
                         obj.translatedText = translatedMessageEntity.translatedMessage;
 //                        obj.resetLayout();
                     }
-                    obj.isActiveTranslation = true;
+                    if (obj.caption != null && !TextUtils.isEmpty(obj.caption)) {
+                        obj.generateCaption();
+                    }
                     obj.resetLayout();
                 }
                 if (threadMessageId != 0) {
@@ -37626,7 +37628,7 @@ public class ChatActivity extends BaseFragment implements
         }
 
         @Override
-        public void didTranslate(ChatMessageCell cell, boolean anchorScroll) {
+        public void didTranslate(ChatMessageCell cell, boolean isTranslateCaption) {
             if (cell == null) return;
             MessageObject messageObject = cell.getPrimaryMessageObject();
             if (messageObject == null) return;
@@ -37636,9 +37638,13 @@ public class ChatActivity extends BaseFragment implements
 
             if (!messageObject.isTranslated) {
                 messageObject.subMessage = LocaleController.getString(R.string.Translating);
+                if (isTranslateCaption) {
+                    messageObject.forceUpdate = true;
+                    messageObject.generateCaption();
+                }
                 if (messageCache == null) {
-                    translatedMessageRepository.translate(
-                            cell.getPrimaryMessageObject().messageText.toString(),
+                   translatedMessageRepository.translate(
+                            isTranslateCaption ? messageObject.messageOwner.message.toString() : messageObject.messageText.toString(),
                             targetLangCode,
                             messageId,
                             chatId,
@@ -37647,8 +37653,12 @@ public class ChatActivity extends BaseFragment implements
                                 public void onSuccess(TranslatedMessageEntity data) {
                                     if (data != null) {
                                         messageObject.isTranslated = true;
-                                        chatTranslatedMessageCache.get(currentAccount).put(data.messageId, data);
                                         messageObject.translatedText = data.translatedMessage;
+                                        if (isTranslateCaption) {
+                                            messageObject.forceUpdate = true;
+                                            messageObject.generateCaption();
+                                        }
+                                        chatTranslatedMessageCache.get(currentAccount).put(data.messageId, data);
                                         messageObject.resetLayout();
                                         updateMessageAnimatedInternal(messageObject, false);
                                     } else {
@@ -37661,6 +37671,10 @@ public class ChatActivity extends BaseFragment implements
                                     Toast.makeText(getContext(), LocaleController.getString(R.string.TranslationError), Toast.LENGTH_LONG).show();
                                     messageObject.isTranslated = false;
                                     messageObject.subMessage = LocaleController.getString(R.string.TranslateError);
+                                    if (isTranslateCaption) {
+                                        messageObject.forceUpdate = true;
+                                        messageObject.generateCaption();
+                                    }
                                     messageObject.resetLayout();
                                     updateMessageAnimatedInternal(messageObject, false);
                                 }
@@ -37668,14 +37682,22 @@ public class ChatActivity extends BaseFragment implements
                 } else {
                     messageObject.translatedText = messageCache.translatedMessage;
                     translatedMessageRepository.updateTranslatedState(messageId, true);
-                    chatTranslatedMessageCache.get(currentAccount).remove(messageId);
                     messageCache.isShow = true;
                     messageObject.isTranslated = true;
+                    if (isTranslateCaption) {
+                        messageObject.forceUpdate = true;
+                        messageObject.generateCaption();
+                    }
+                    chatTranslatedMessageCache.get(currentAccount).remove(messageId);
                     chatTranslatedMessageCache.get(currentAccount).put(messageId, messageCache);
                 }
             } else {
                 messageObject.isTranslated = false;
                 messageObject.subMessage = LocaleController.getString(R.string.TranslateMessage);
+                if (isTranslateCaption) {
+                    messageObject.forceUpdate = true;
+                    messageObject.generateCaption();
+                }
                 translatedMessageRepository.updateTranslatedState(messageId, false);
                 chatTranslatedMessageCache.get(currentAccount).remove(messageId);
                 messageCache.isShow = false;

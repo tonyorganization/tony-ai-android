@@ -791,7 +791,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
         }
 
-        default void didTranslate(ChatMessageCell cell, boolean anchorScroll) { }
+        default void didTranslate(ChatMessageCell cell, boolean isTranslateCaption) { }
     }
 
     private final static int DOCUMENT_ATTACH_TYPE_NONE = 0;
@@ -2518,6 +2518,18 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                     resetPressedLink(1);
                                     pressedEmoji = null;
                                 } else if (pressedLink != null && link[0] == pressedLink.getSpan()) {
+                                    if (link[0] instanceof URLSpanNoUnderline && ((URLSpanNoUnderline) link[0]).getURL().equals("t9n:copy")) {
+                                        AndroidUtilities.addToClipboard(currentMessageObject.translatedText.toString());
+                                        BaseFragment lastFragment = LaunchActivity.getLastFragment();
+                                        BulletinFactory.of(lastFragment).createCopyBulletin(getString("MessageCopied", R.string.MessageCopied)).show();
+                                        resetPressedLink(1);
+                                        return true;
+                                    }
+                                    if (link[0] instanceof URLSpanNoUnderline && ((URLSpanNoUnderline) link[0]).getURL().equals("t9n:translation")) {
+                                        delegate.didTranslate(this, true);
+                                        resetPressedLink(1);
+                                        return true;
+                                    }
                                     delegate.didPressUrl(this, pressedLink.getSpan(), false);
                                     resetPressedLink(1);
                                     return true;
