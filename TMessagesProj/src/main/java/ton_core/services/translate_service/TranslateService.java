@@ -1,4 +1,4 @@
-package ton_core.services.sample_service;
+package ton_core.services.translate_service;
 
 import org.telegram.messenger.BuildConfig;
 import ton_core.TonApiClient;

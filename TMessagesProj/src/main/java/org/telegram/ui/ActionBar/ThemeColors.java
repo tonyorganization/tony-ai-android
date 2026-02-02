@@ -838,6 +838,8 @@ public class ThemeColors {
         defaultColors[key_profile_drawer_background] = 0xFFFFFFFF;
         defaultColors[key_title_black_white] = 0xFF000000;
         defaultColors[key_icon_white_gray] = 0xFFffffff;
+        defaultColors[key_view_pager_title_color] = 0xFF000000;
+        defaultColors[key_background_selected] = 0xFF1B2135;
 
         return defaultColors;
     }

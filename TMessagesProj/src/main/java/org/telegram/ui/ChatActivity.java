@@ -1255,6 +1255,7 @@ public class ChatActivity extends BaseFragment implements
 
     private ValueAnimator searchExpandAnimator;
     private float searchExpandProgress;
+    ArrayList<MessageObject> unreadOnly = new ArrayList<>();
 
     public static ChatActivity of(long dialogId) {
         Bundle bundle = new Bundle();
@@ -1448,6 +1449,39 @@ public class ChatActivity extends BaseFragment implements
     public void onTranslatedApply(String text) {
         chatActivityEnterView.setFieldText(text);
         chatActivityEnterView.setAiEnhanceButtonDrawable(true);
+    }
+
+    @Override
+    public void onTransformApply(String text) {
+        chatActivityEnterView.setFieldText(text);
+        chatActivityEnterView.setAiEnhanceButtonDrawable(true);
+    }
+
+    public void getLatestUnreadMessages() {
+        unreadOnly.clear();
+        TLRPC.Dialog dialog = getMessagesController().dialogs_dict.get(dialog_id);
+        if (dialog != null && dialog.unread_count > 0) {
+            int countToLoad = Math.min(dialog.unread_count, 100);
+
+            getMessagesController().loadMessages(
+                    dialog_id,
+                    mergeDialogId,
+                    false,
+                    countToLoad,
+                    0,
+                    0,
+                    true,
+                    0,
+                    classGuid,
+                    0,
+                    0,
+                    chatMode,
+                    threadMessageId,
+                    0,
+                    0,
+                    isTopic
+            );
+        }
     }
 
     private interface ChatActivityDelegate {
@@ -1980,7 +2014,7 @@ public class ChatActivity extends BaseFragment implements
             if (getParentActivity() instanceof androidx.fragment.app.FragmentActivity) {
                 androidx.fragment.app.FragmentManager fragmentManager =
                         ((androidx.fragment.app.FragmentActivity) getParentActivity()).getSupportFragmentManager();
-                AiEnhanceDialog.newInstance(ChatActivity.this, resourceProvider, tongramLanguages, translatedMessageRepository, text).show(fragmentManager, null);
+                AiEnhanceDialog.newInstance(ChatActivity.this, resourceProvider, tongramLanguages, translatedMessageRepository, text, unreadOnly).show(fragmentManager, null);
             }
         }
 
@@ -3076,6 +3110,8 @@ public class ChatActivity extends BaseFragment implements
         if (chatMode == MODE_SAVED) {
             getMessagesController().getSavedMessagesController().checkSavedDialogCount(getTopicId());
         }
+
+        getLatestUnreadMessages();
 
         return true;
     }
@@ -19779,6 +19815,15 @@ public class ChatActivity extends BaseFragment implements
                 postponedScrollToLastMessageQueryIndex = 0;
             }
             ArrayList<MessageObject> messArr = (ArrayList<MessageObject>) args[2];
+            TLRPC.Dialog dialog = getMessagesController().dialogs_dict.get(dialog_id);
+
+            int unreadMaxId = (dialog != null) ? dialog.read_inbox_max_id : 0;
+
+            for (MessageObject ms : messArr) {
+                if (ms.getId() > unreadMaxId && !ms.isOut() && ms.type == 0) {
+                    unreadOnly.add(ms);
+                }
+            }
 
             boolean universalNotify = false;
             HashMap<Integer, MessageObject> oldMessages = null;

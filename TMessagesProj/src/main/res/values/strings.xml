@@ -10057,4 +10057,24 @@
     <string name="TranslationError">Translation unavailable, try again.</string>
     <string name="TonX">TonX</string>
     <string name="AutoDetectIncoming">Auto-detect Incoming</string>
+    <string name="ChatSummary">Summary</string>
+    <string name="Summarize">Summarize</string>
+    <string name="Summarizing">Summarizing</string>
+    <string name="NoUnreadMessages">No unread messages to summarize</string>
+    <string name="SummarizeUnreadMessages">Summarize the last 300 messages in this chat.</string>
+    <string name="SelectTransformation">Select transformation</string>
+    <string name="FixGrammarAndSpelling">Fix Grammar &amp; Spelling</string>
+    <string name="MakeProfessional">Make Professional</string>
+    <string name="MakeCasual">Make Casual</string>
+    <string name="MakePolite">Make Polite</string>
+    <string name="HelpMeWrite">Help Me Write</string>
+    <string name="WriteEmail">Write Email</string>
+    <string name="WriteGreeting">Write Greeting</string>
+    <string name="MeetingRequest">Meeting Request</string>
+    <string name="ThankForNote">Thank For Note</string>
+    <string name="Template">Template</string>
+    <string name="Improve">Improve</string>
+    <string name="PleaseEnterTextToUseAI">Please enter text to use AI Tony’s %s feature.</string>
+    <string name="ResultNumberWithType">Result %1$d - %2$s</string>
+    <string name="AnalyzingSummarizeChat">Analyzing %1$s unread messages....</string>
 </resources>

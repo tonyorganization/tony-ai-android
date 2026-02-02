@@ -5,10 +5,10 @@
     android:id="@+id/cl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@drawable/rectangle_corner_topleft_topright"
     android:clipChildren="false"
     android:clipToPadding="false"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <ImageView
@@ -62,54 +62,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/ll_title" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_tongram_feature"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_title" />
-
-    <include
-        android:id="@+id/ic_translation"
-        layout="@layout/tongram_ai_translation_layout"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/ai_view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintBottom_toTopOf="@id/ll_input"
-        app:layout_constraintTop_toBottomOf="@id/rv_tongram_feature" />
-
-    <LinearLayout
-        android:id="@+id/ll_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingVertical="12dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/ll_title">
 
-        <EditText
-            android:id="@+id/edt_input"
-            style="@style/TextAppearance.AppCompat.Small"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/transparent"
-            android:paddingHorizontal="8dp"
-            android:textSize="16sp" />
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/ai_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="0dp"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="scrollable"
+            app:tabPaddingBottom="6dp"
+            app:tabPaddingEnd="4dp"
+            app:tabPaddingStart="4dp"
+            app:tabPaddingTop="6dp"
+            app:tabRippleColor="@android:color/transparent" />
 
-        <ImageView
-            android:id="@+id/iv_action"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="bottom"
-            android:layout_marginEnd="12dp"
-            android:background="@drawable/rectangle_circle_blue"
-            android:contentDescription="@null"
-            android:padding="8dp"
-            android:src="@drawable/ic_arrow_up" />
-    </LinearLayout>
+    </androidx.viewpager.widget.ViewPager>
 </androidx.constraintlayout.widget.ConstraintLayout>

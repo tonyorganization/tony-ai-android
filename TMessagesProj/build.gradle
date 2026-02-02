@@ -80,6 +80,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:32.7.0')
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
 }
 
@@ -165,8 +166,8 @@ android {
             buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "true"
             buildConfigField "boolean", "BUILD_HOST_IS_WINDOWS", isWindows
             buildConfigField "int", "VERSION_NUM", "1"
-            buildConfigField "String", "TON_API_URL", "\"https://tongram-ai-dev-v2.motcaigido.xyz/ton-api/api/v1/\""
-            buildConfigField "String", "TON_API_KEY", "\"393a7937f6002ced4f9ad22d9421d3db\""
+            buildConfigField "String", "TON_API_URL", "\"https://tongramai-services.tongram.app/\""
+            buildConfigField "String", "TON_API_KEY", "\"7aff3c66fd29e56901e731e7ab7cfc6d\""
         }
 
         HA_public {
@@ -182,8 +183,8 @@ android {
             buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "false"
             buildConfigField "boolean", "BUILD_HOST_IS_WINDOWS", isWindows
             buildConfigField "int", "VERSION_NUM", "4"
-            buildConfigField "String", "TON_API_URL", "\"https://tongram-ai-dev-v2.motcaigido.xyz/ton-api/api/v1/\""
-            buildConfigField "String", "TON_API_KEY", "\"393a7937f6002ced4f9ad22d9421d3db\""
+            buildConfigField "String", "TON_API_URL", "\"https://tongramai-services.tongram.app/\""
+            buildConfigField "String", "TON_API_KEY", "\"7aff3c66fd29e56901e731e7ab7cfc6d\""
         }
 
         HA_hardcore {
@@ -199,8 +200,8 @@ android {
             buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "true"
             buildConfigField "boolean", "BUILD_HOST_IS_WINDOWS", isWindows
             buildConfigField "int", "VERSION_NUM", "5"
-            buildConfigField "String", "TON_API_URL", "\"https://tongram-ai-dev-v2.motcaigido.xyz/ton-api/api/v1/\""
-            buildConfigField "String", "TON_API_KEY", "\"393a7937f6002ced4f9ad22d9421d3db\""
+            buildConfigField "String", "TON_API_URL", "\"https://tongramai-services.tongram.app/\""
+            buildConfigField "String", "TON_API_KEY", "\"7aff3c66fd29e56901e731e7ab7cfc6d\""
         }
 
         standalone {

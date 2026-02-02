@@ -4037,6 +4037,8 @@ public class Theme {
 
     public static final int key_profile_creatorIcon = colorsCount++;
     public static final int key_profile_title = colorsCount++;
+    public static final int key_view_pager_title_color = colorsCount++;
+    public static final int key_background_selected = colorsCount++;
     public static final int key_profile_actionIcon = colorsCount++;
     public static final int key_profile_actionBackground = colorsCount++;
     public static final int key_profile_actionPressedBackground = colorsCount++;

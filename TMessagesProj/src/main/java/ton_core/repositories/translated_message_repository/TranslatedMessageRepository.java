@@ -11,8 +11,8 @@ import ton_core.models.TranslatedChoice;
 import ton_core.models.TranslatedMessage;
 import ton_core.models.TranslatedMessageResult;
 import ton_core.services.IOnApiCallback;
-import ton_core.services.sample_service.ITranslateService;
-import ton_core.services.sample_service.TranslateService;
+import ton_core.services.translate_service.ITranslateService;
+import ton_core.services.translate_service.TranslateService;
 
 public class TranslatedMessageRepository implements ITranslatedMessageRepository {
     private static TranslatedMessageRepository INSTANCE;
