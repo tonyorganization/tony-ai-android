@@ -10681,7 +10681,7 @@ un2에게 채널을 공유함</string>
     <string name="Gift2AuctionsChangeRecipient">수신자 변경</string>
     <string name="Gift2AuctionsChangeRecipient2">이미 **%s**에 대해 이 선물에 입찰했습니다. 입찰가를 올리고 수신자를 변경하시겠습니까?</string>
     <string name="TonTV">TONtv</string>
-    <string name="MiniAppStore">미니 앱 스토어</string>
+    <string name="MiniAppStore">미니 앱</string>
     <string name="TonWallet">Ton 월렛</string>
     <string name="AITony">AI Tony</string>
     <string name="CEXExchange">CEX 거래소</string>

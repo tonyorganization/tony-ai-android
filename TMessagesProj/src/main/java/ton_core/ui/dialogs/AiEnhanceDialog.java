@@ -1,5 +1,7 @@
 package ton_core.ui.dialogs;
 
+import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE;
+
 import android.app.Dialog;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -173,7 +175,6 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITran
         super.onStart();
         Dialog dialog = getDialog();
         if (dialog != null) {
-            Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
             FrameLayout bottomSheet = dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
             if (bottomSheet != null) {
                 BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
@@ -187,6 +188,17 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITran
                 bottomSheet.setLayoutParams(params);
             }
         }
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        if (dialog.getWindow() != null) {
+            Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            AndroidUtilities.showKeyboard(dialog.getCurrentFocus());
+        }
+        return super.onCreateDialog(savedInstanceState);
     }
 
     @Override
