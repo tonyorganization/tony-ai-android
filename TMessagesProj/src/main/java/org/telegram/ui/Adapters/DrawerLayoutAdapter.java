@@ -338,8 +338,9 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             items.add(null); // divider
         }
 
+        items.add(new Item(18, LocaleController.getString(R.string.TonTV), R.drawable.tontv_icon, false));
+        items.add(new Item(19, LocaleController.getString(R.string.MiniAppStore), R.drawable.tongram_icon, false));
         items.add(new Item(23, LocaleController.getString(R.string.TonX), R.drawable.ic_warning, true));
-//        items.add(new Item(19, LocaleController.getString(R.string.MiniAppStore), R.drawable.tongram_icon, false));
 //        items.add(new Item(21, LocaleController.getString(R.string.AITony), R.drawable.ic_ai_tony));
 //        items.add(new Item(22, LocaleController.getString(R.string.CEXExchange), R.drawable.ic_cex_exchange, true));
 //        items.add(new Item(23, LocaleController.getString(R.string.P2PExchange), R.drawable.ic_p2p_exchange, true));

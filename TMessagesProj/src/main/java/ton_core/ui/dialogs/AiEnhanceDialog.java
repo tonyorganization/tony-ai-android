@@ -1,5 +1,7 @@
 package ton_core.ui.dialogs;
 
+import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.SharedPreferences;
@@ -124,7 +126,6 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
         super.onStart();
         Dialog dialog = getDialog();
         if (dialog != null) {
-            Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
             FrameLayout bottomSheet = dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
             if (bottomSheet != null) {
                 BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
@@ -140,6 +141,17 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
         }
     }
 
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        if (dialog.getWindow() != null) {
+            Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            AndroidUtilities.showKeyboard(dialog.getCurrentFocus());
+        }
+        return super.onCreateDialog(savedInstanceState);
+    }
+
     @Override
     public void dismiss() {
         clearResult();
@@ -153,6 +165,27 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tongram_ai_layout, container, false);
+
+        edtInput = view.findViewById(R.id.edt_input);
+        edtInput.requestFocus();
+        edtInput.setTextColor(Theme.getColor(Theme.key_profile_title, resourcesProvider));
+        edtInput.setText(input);
+        edtInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                setStyleForSendButton();
+            }
+        });
 
         Drawable background = view.findViewById(R.id.cl_root).getBackground();
 
@@ -214,26 +247,6 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
         RecyclerView rvFeatures = view.findViewById(R.id.rv_tongram_feature);
         rvFeatures.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rvFeatures.setAdapter(tongramAiFeatureAdapter);
-
-        edtInput = view.findViewById(R.id.edt_input);
-        edtInput.setTextColor(Theme.getColor(Theme.key_profile_title, resourcesProvider));
-        edtInput.setText(input);
-        edtInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                setStyleForSendButton();
-            }
-        });
 
         ivAction = view.findViewById(R.id.iv_action);
         setStyleForSendButton();

@@ -1244,7 +1244,7 @@
     <string name="RemindDayAt">\'ذكّرني بتاريخ\' d MMM \'عند\' HH:mm</string>
     <string name="RemindDayYearAt">\'ذكّرني بتاريخ\' d MMM yyyy \'عند\' HH:mm</string>
     <string name="TonTV">TONtv</string>
-    <string name="MiniAppStore">Mini App Store</string>
+    <string name="MiniAppStore">Mini App</string>
     <string name="TonWallet">Ton Wallet</string>
     <string name="AITony">AI Tony</string>
     <string name="CEXExchange">CEX Exchange</string>

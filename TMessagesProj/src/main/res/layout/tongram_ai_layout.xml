@@ -95,6 +95,8 @@
             android:id="@+id/edt_input"
             style="@style/TextAppearance.AppCompat.Small"
             android:layout_width="0dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/transparent"
