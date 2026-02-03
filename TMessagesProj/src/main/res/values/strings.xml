@@ -10029,7 +10029,7 @@
     <string name="Gift2AuctionsChangeRecipient">Change Recipient</string>
     <string name="Gift2AuctionsChangeRecipient2">You’ve already placed a bid on this gift for **%s.** Do you want to raise your bid and change the recipient to **%s?**</string>
     <string name="TonTV">TONtv</string>
-    <string name="MiniAppStore">Mini App Store</string>
+    <string name="MiniAppStore">Mini App</string>
     <string name="TonWallet">Ton Wallet</string>
     <string name="AITony">AI Tony</string>
     <string name="CEXExchange">CEX Exchange</string>
