@@ -34,6 +34,7 @@ import ton_core.repositories.translated_message_repository.assist_repository.Ass
 import ton_core.repositories.translated_message_repository.assist_repository.IAssistRepository;
 import ton_core.services.IOnApiCallback;
 import ton_core.ui.adapters.WritingAssistantResultAdapter;
+import ton_core.ui.dialogs.LoadingDialog;
 import ton_core.ui.models.WritingAssistantResultModel;
 
 public class AIUnreadSummaryFragment extends Fragment implements WritingAssistantResultAdapter.IWritingAssistantResultDelegate {
@@ -43,8 +44,8 @@ public class AIUnreadSummaryFragment extends Fragment implements WritingAssistan
 
     private WritingAssistantResultAdapter resultAdapter;
     private final List<WritingAssistantResultModel> results;
-    private RecyclerView rvResults;
     private final IAIUnreadSummaryDelegate delegate;
+    private final LoadingDialog loadingDialog;
 
     public AIUnreadSummaryFragment(List<MessageObject> unreadMessages, IAIUnreadSummaryDelegate delegate, WritingAssistantResultModel result) {
         this.unreadMessages = unreadMessages;
@@ -54,6 +55,8 @@ public class AIUnreadSummaryFragment extends Fragment implements WritingAssistan
         if (result != null) {
             results.add(result);
         }
+        final String message = LocaleController.formatString(R.string.AnalyzingSummarizeChat, unreadMessages.size());
+        loadingDialog = LoadingDialog.newInstance(message);
     }
 
     public interface IAIUnreadSummaryDelegate {
@@ -99,19 +102,17 @@ public class AIUnreadSummaryFragment extends Fragment implements WritingAssistan
         db.setColor(Theme.getColor(Theme.key_icon_color));
         btnSummarize.setBackground(db);
         btnSummarize.setOnClickListener(e -> {
-            rvResults.setVisibility(View.GONE);
-            llNoUnreadMessages.setVisibility(View.VISIBLE);
-            tvNoUnreadMessages.setText(LocaleController.formatString(R.string.AnalyzingSummarizeChat, unreadMessages.size()));
+            loadingDialog.show(getChildFragmentManager(), LoadingDialog.TAG);
             btnSummarize.setText(LocaleController.getString(R.string.Summarizing));
 
             assistRepository.summarizeChat(new SummaryRequest(getSummarizedText()), new IOnApiCallback<SummaryResponse>() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onSuccess(SummaryResponse data) {
-                    llNoUnreadMessages.setVisibility(View.GONE);
-                    rvResults.setVisibility(View.VISIBLE);
+                    loadingDialog.dismiss();
                     btnSummarize.setText(LocaleController.getString(R.string.Summarize));
                     btnSummarize.setVisibility(View.GONE);
+                    llNoUnreadMessages.setVisibility(View.GONE);
 
                     if (data != null && !data.getChoices().isEmpty()) {
                         final Choice summarized = data.getChoices().get(0);
@@ -129,17 +130,17 @@ public class AIUnreadSummaryFragment extends Fragment implements WritingAssistan
 
                 @Override
                 public void onError(String errorMessage) {
-                    llNoUnreadMessages.setVisibility(View.VISIBLE);
-                    rvResults.setVisibility(View.GONE);
+                    loadingDialog.dismiss();
                     tvNoUnreadMessages.setText(errorMessage);
                     btnSummarize.setText(LocaleController.getString(R.string.Summarize));
+                    llNoUnreadMessages.setVisibility(View.VISIBLE);
                 }
             });
         });
 
         resultAdapter = new WritingAssistantResultAdapter(results, this);
         resultAdapter.setType(LocaleController.getString(R.string.ChatSummary));
-        rvResults = view.findViewById(R.id.rv_results);
+        RecyclerView rvResults = view.findViewById(R.id.rv_results);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rvResults.setLayoutManager(linearLayoutManager);
         rvResults.setNestedScrollingEnabled(false);
@@ -151,7 +152,12 @@ public class AIUnreadSummaryFragment extends Fragment implements WritingAssistan
 
         if (unreadMessages.isEmpty()) {
             llNoUnreadMessages.setVisibility(View.VISIBLE);
+            tvNoUnreadMessages.setText(LocaleController.getString(R.string.NoUnreadMessages));
             btnSummarize.setVisibility(View.GONE);
+        } else if (results.isEmpty()) {
+            llNoUnreadMessages.setVisibility(View.VISIBLE);
+            tvNoUnreadMessages.setText(LocaleController.getString(R.string.SummarizeUnreadMessages));
+            btnSummarize.setVisibility(View.VISIBLE);
         } else {
             llNoUnreadMessages.setVisibility(View.GONE);
             btnSummarize.setVisibility(View.VISIBLE);

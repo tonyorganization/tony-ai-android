@@ -1,4 +1,4 @@
-package ton_core.shared;
+package ton_core.ui.dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,9 +19,14 @@ import org.telegram.messenger.R;
 public class LoadingDialog extends DialogFragment {
 
     public static final String TAG = "LoadingDialog";
+    public static final String CONTENT = "CONTENT";
 
-    public static LoadingDialog newInstance() {
-        return new LoadingDialog();
+    public static LoadingDialog newInstance(String content) {
+        LoadingDialog fragment = new LoadingDialog();
+        Bundle args = new Bundle();
+        args.putString(CONTENT, content);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -43,6 +49,12 @@ public class LoadingDialog extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ImageView ivLoading = view.findViewById(R.id.iv_loading);
+        TextView tvContent = view.findViewById(R.id.tv_content);
+
+        if (getArguments() != null) {
+            final String content = getArguments().getString(CONTENT, null);
+            tvContent.setText(content);
+        }
 
         Glide.with(this)
                 .asGif()

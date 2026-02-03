@@ -38,7 +38,7 @@ import ton_core.repositories.translated_message_repository.chat_repository.ChatR
 import ton_core.repositories.translated_message_repository.chat_repository.IChatRepository;
 import ton_core.services.IOnApiCallback;
 import ton_core.shared.Constants;
-import ton_core.shared.LoadingDialog;
+import ton_core.ui.dialogs.LoadingDialog;
 import ton_core.ui.adapters.WritingAssistantResultAdapter;
 import ton_core.ui.models.TongramAiFeatureModel;
 import ton_core.ui.models.WritingAssistantResultModel;
