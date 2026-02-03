@@ -65,11 +65,11 @@ public class AIImproveFragment extends Fragment implements WritingAssistantResul
     public void onWritingAssistantResultSelected(WritingAssistantResultModel result) {
         results.forEach(e -> e.isSelected = result.id == e.id);
         resultAdapter.notifyDataSetChanged();
-        delegate.onImproved(results);
+        delegate.onImproved(results, feature.subId);
     }
 
     public interface IAIImproveDelegate {
-        void onImproved(List<WritingAssistantResultModel> results);
+        void onImproved(List<WritingAssistantResultModel> results, int typeId);
     }
 
     public AIImproveFragment(CharSequence input, List<WritingAssistantResultModel> results, IAIImproveDelegate delegate, TongramAiFeatureModel feature) {
@@ -128,9 +128,9 @@ public class AIImproveFragment extends Fragment implements WritingAssistantResul
         ivAction.setOnClickListener(v -> {
             loadingDialog.show(getChildFragmentManager(), LoadingDialog.TAG);
             results.clear();
+            final String messageRequest = edtInput.getText().toString();
+            edtInput.setText("");
             if (feature.subId == Constants.AIImproveId.FIX_GRAMMAR.id) {
-                final String messageRequest = edtInput.getText().toString();
-                edtInput.setText("");
                 chatRepository.fixGrammar(new WritingAssistantRequest(messageRequest), new IOnApiCallback<FixGrammarResponse>() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
@@ -143,7 +143,7 @@ public class AIImproveFragment extends Fragment implements WritingAssistantResul
                             results.add(result);
                             resultAdapter.notifyDataSetChanged();
                             setResultsVisibility();
-                            delegate.onImproved(results);
+                            delegate.onImproved(results, feature.subId);
                         } else {
                             onError("No results found");
                         }
@@ -157,9 +157,8 @@ public class AIImproveFragment extends Fragment implements WritingAssistantResul
                     }
                 });
             } else {
-                final String messageRequest = edtInput.getText().toString();
-                edtInput.setText("");
-                chatRepository.writeAssistant(new WritingAssistantRequest(messageRequest, "professional"), new IOnApiCallback<WritingAssistantResponse>() {
+
+                chatRepository.writeAssistant(new WritingAssistantRequest(messageRequest, getTone()), new IOnApiCallback<WritingAssistantResponse>() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onSuccess(WritingAssistantResponse data) {
@@ -170,13 +169,13 @@ public class AIImproveFragment extends Fragment implements WritingAssistantResul
                             for (int i = 0; i < choices.size(); i++) {
                                 final Message message = choices.get(i).getMessage();
                                 if (message != null && !message.getContent().isEmpty()) {
-                                    final WritingAssistantResultModel result = new WritingAssistantResultModel(i, message.getContent(), false);
+                                    final WritingAssistantResultModel result = new WritingAssistantResultModel(i, message.getContent(), true);
                                     results.add(result);
                                 }
                             }
                             setResultsVisibility();
                             resultAdapter.notifyDataSetChanged();
-                            delegate.onImproved(results);
+                            delegate.onImproved(results, feature.subId);
                         } else {
                             onError("No results found");
                         }
@@ -206,6 +205,16 @@ public class AIImproveFragment extends Fragment implements WritingAssistantResul
         setResultsVisibility();
 
         return view;
+    }
+
+    private String getTone() {
+        if (feature.subId == Constants.AIImproveId.MAKE_FORMAL.id) {
+            return Constants.ToneKey.MAKE_FORMAL.key;
+        } else if (feature.subId == Constants.AIImproveId.MAKE_FRIENDLY.id) {
+            return Constants.ToneKey.MAKE_FRIENDLY.key;
+        } else {
+            return Constants.ToneKey.MAKE_POLITE.key;
+        }
     }
 
     private void setStyleForSendButton() {

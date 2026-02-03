@@ -33,10 +33,10 @@ public class Constants {
     }
 
     public enum AIImproveId {
-        MAKE_FORMAL(0),
-        MAKE_FRIENDLY(1),
-        FIX_GRAMMAR(4),
-        MAKE_POLITE(2);
+        MAKE_FORMAL(4),
+        MAKE_FRIENDLY(5),
+        FIX_GRAMMAR(6),
+        MAKE_POLITE(7);
 
         public final int id;
 
@@ -45,14 +45,14 @@ public class Constants {
         }
     }
 
-    public enum WriteAssistantType {
-        MAKE_PROFESSIONAL("professional"),
-        MAKE_CASUAL("casual"),
+    public enum ToneKey {
+        MAKE_FORMAL("formal"),
+        MAKE_FRIENDLY("friendly"),
         MAKE_POLITE("polite");
 
         public final String key;
 
-        WriteAssistantType(String key) {
+        ToneKey(String key) {
             this.key = key;
         }
     }

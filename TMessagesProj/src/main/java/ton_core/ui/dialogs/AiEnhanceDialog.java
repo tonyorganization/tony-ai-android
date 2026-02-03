@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.collection.LongSparseArray;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -63,14 +64,18 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITran
     public List<WritingAssistantResultModel> transformed;
 
     public CharSequence improveInput;
-    public List<WritingAssistantResultModel> improved;
+    private final LongSparseArray<List<WritingAssistantResultModel>> improvedList = new LongSparseArray<>();
 
     public WritingAssistantResultModel summarized;
 
     @Override
-    public void onImproved(List<WritingAssistantResultModel> results) {
-        this.improved = results;
-        setTextApply(getImprovedSelectedResult() != null);
+    public void onImproved(List<WritingAssistantResultModel> results, int typeId) {
+        if (improvedList.get(typeId) == null) {
+            improvedList.put(typeId, results);
+        } else {
+            improvedList.replace(typeId, results);
+        }
+        setTextApply(getImprovedSelectedResult(typeId) != null);
     }
 
     @Override
@@ -84,9 +89,9 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITran
         return transformed.stream().filter(e -> e.isSelected).findFirst().orElse(null);
     }
 
-    private WritingAssistantResultModel getImprovedSelectedResult() {
-        if (improved == null) return null;
-        return improved.stream().filter(e -> e.isSelected).findFirst().orElse(null);
+    private WritingAssistantResultModel getImprovedSelectedResult(int typeId) {
+        if (improvedList.get(typeId) == null) return null;
+        return Objects.requireNonNull(improvedList.get(typeId)).stream().filter(e -> e.isSelected).findFirst().orElse(null);
     }
 
     @Override
@@ -106,7 +111,7 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITran
             if (feature.id == Constants.AITypeId.TEMPLATE.id) {
                 return new AITemplateFragment(transformInput, AiEnhanceDialog.this, transformed, feature);
             } else if (feature.id == Constants.AITypeId.IMPROVE.id) {
-                return new AIImproveFragment(improveInput, improved, AiEnhanceDialog.this, feature);
+                return new AIImproveFragment(improveInput, improvedList.get(feature.subId), AiEnhanceDialog.this, feature);
             } else if (feature.id == Constants.AITypeId.SUMMARY.id) {
                 return new AIUnreadSummaryFragment(unreadMessages, AiEnhanceDialog.this, summarized);
             } else {
@@ -140,7 +145,7 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITran
         aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.SUMMARY.id, Constants.AITypeId.SUMMARY.id, R.drawable.ic_summary, LocaleController.getString(R.string.Summarize), false, false));
         aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.IMPROVE.id, Constants.AIImproveId.FIX_GRAMMAR.id, R.drawable.ic_writing_assistant, LocaleController.getString(R.string.FixGrammar), false, false));
         aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.IMPROVE.id, Constants.AIImproveId.MAKE_FORMAL.id, R.drawable.ic_make_formal, LocaleController.getString(R.string.MakeFormal), false, false));
-        aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.IMPROVE.id, Constants.AIImproveId.MAKE_FRIENDLY.id, R.drawable.ic_make_friendly, LocaleController.getString(R.string.MakeCasual), false, false));
+        aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.IMPROVE.id, Constants.AIImproveId.MAKE_FRIENDLY.id, R.drawable.ic_make_friendly, LocaleController.getString(R.string.MakeFriendly), false, false));
         aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.IMPROVE.id, Constants.AIImproveId.MAKE_POLITE.id, R.drawable.ic_make_polite, LocaleController.getString(R.string.MakePolite), false, false));
         aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.TEMPLATE.id, Constants.AITemplateId.SET_MEETING.id, R.drawable.ic_set_meeting, LocaleController.getString(R.string.SetMeeting), false, false));
         aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.TEMPLATE.id, Constants.AITemplateId.WRITE_EMAIL.id, R.drawable.ic_write_email, LocaleController.getString(R.string.WriteEmail), false, false));
@@ -236,7 +241,7 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITran
                     }
                     delegate.onTransformApply(result.message);
                 } else if (selectedFeature.id == Constants.AITypeId.IMPROVE.id) {
-                    final WritingAssistantResultModel result = getImprovedSelectedResult();
+                    final WritingAssistantResultModel result = getImprovedSelectedResult(selectedFeature.subId);
                     if (result == null) {
                         return;
                     }
@@ -311,7 +316,7 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITran
             setTextApply(getTransformedSelectedResult() != null);
         } else if (model.id == Constants.AITypeId.IMPROVE.id) {
             tvApply.setVisibility(View.VISIBLE);
-            setTextApply(getImprovedSelectedResult() != null);
+            setTextApply(getImprovedSelectedResult(model.subId) != null);
         } else if (model.id == Constants.AITypeId.SUMMARY.id) {
             tvApply.setVisibility(View.GONE);
             setTextApply(false);

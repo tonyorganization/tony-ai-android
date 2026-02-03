@@ -7,6 +7,7 @@
     android:layout_marginTop="20dp">
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv_result_number"
         style="@style/TextAppearance.AppCompat"
         android:layout_width="match_parent"
@@ -20,7 +21,6 @@
         style="@style/TextAppearance.AppCompat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

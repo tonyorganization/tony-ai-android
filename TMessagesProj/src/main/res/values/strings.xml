@@ -10065,7 +10065,7 @@
     <string name="SelectTransformation">Select transformation</string>
     <string name="FixGrammar">Fix Grammar</string>
     <string name="MakeFormal">Make Formal</string>
-    <string name="MakeCasual">Make Casual</string>
+    <string name="MakeFriendly">Make Friendly</string>
     <string name="MakePolite">Make Polite</string>
     <string name="HelpMeWrite">Help Me Write</string>
     <string name="WriteEmail">Write Email</string>
