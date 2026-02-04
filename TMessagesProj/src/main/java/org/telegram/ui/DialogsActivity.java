@@ -107,7 +107,6 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.FilesMigrationService;
-import org.telegram.messenger.GiftAuctionController;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LiteMode;
@@ -250,6 +249,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import ton_core.shared.Constants;
+import ton_core.ui.dialogs.AIFeaturePermissionDialog;
+
 public class DialogsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, FloatingDebugProvider {
 
     public final static boolean DISPLAY_SPEEDOMETER_IN_DOWNLOADS_SEARCH = true;
@@ -282,6 +284,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private boolean storiesOverscrollCalled;
     private boolean wasDrawn;
     private int fragmentContextTopPadding;
+    private AIFeaturePermissionDialog aiFeaturePermissionDialog;
 
     public MessagesStorage.TopicKey getOpenedDialogId() {
         return openedDialogId;
@@ -5435,6 +5438,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         contentView.addView(rightSlidingDialogContainer, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         contentView.addView(dialogStoriesCell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, DialogStoriesCell.HEIGHT_IN_DP));
         updateStoriesVisibility(false);
+
+        if (getParentActivity() instanceof androidx.fragment.app.FragmentActivity) {
+            androidx.fragment.app.FragmentManager fragmentManager = ((androidx.fragment.app.FragmentActivity) getParentActivity()).getSupportFragmentManager();
+            if (aiFeaturePermissionDialog == null && !ApplicationLoader.applicationContext.getSharedPreferences(Constants.TONGRAM_CONFIG, Activity.MODE_PRIVATE).getBoolean(Constants.PERMISSION_ENABLE_APPLIED, false)) {
+                aiFeaturePermissionDialog = new AIFeaturePermissionDialog();
+                aiFeaturePermissionDialog.show(fragmentManager, AIFeaturePermissionDialog.TAG);
+            }
+        }
         return fragmentView;
     }
 

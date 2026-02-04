@@ -330,6 +330,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import ton_core.shared.Constants;
+import ton_core.ui.screens.AIFeatureSettingsActivity;
 import ton_core.ui.screens.AiTranslationSettingsActivity;
 
 public class ProfileActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate, SharedMediaLayout.SharedMediaPreloaderDelegate, ImageUpdater.ImageUpdaterDelegate, SharedMediaLayout.Delegate {
@@ -616,6 +617,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private int notificationRow;
     private int languageRow;
     private int aiTranslationRow;
+    private int aiTonyRow;
     private int privacyRow;
     private int dataRow;
     private int chatRow;
@@ -4406,6 +4408,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 presentFragment(new LanguageSelectActivity());
             } else if (position == aiTranslationRow) {
                 presentFragment(new AiTranslationSettingsActivity());
+            } else if (position == aiTonyRow) {
+                presentFragment(new AIFeatureSettingsActivity());
             } else if (position == setUsernameRow) {
                 presentFragment(new ChangeUsernameActivity());
             } else if (position == bioRow) {
@@ -10452,6 +10456,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         notificationRow = -1;
         languageRow = -1;
         aiTranslationRow = -1;
+        aiTonyRow = -1;
         premiumRow = -1;
         starsRow = -1;
         tonRow = -1;
@@ -10624,6 +10629,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 devicesRow = rowCount++;
                 languageRow = rowCount++;
                 aiTranslationRow = rowCount++;
+                aiTonyRow = rowCount++;
                 devicesSectionRow = rowCount++;
                 if (!getMessagesController().premiumFeaturesBlocked()) {
                     premiumRow = rowCount++;
@@ -13679,7 +13685,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         final String targetLang = preferences.getString(Constants.TARGET_LANG_NAME_KEY, LocaleController.getCurrentLanguageName());
                         textCell.setTextAndValueAndIcon(LocaleController.getString(R.string.AiTranslationSettings), targetLang, false, R.drawable.settings_translation, false, Theme.getColor(Theme.key_chats_actionBackground));
                         textCell.setImageLeft(23);
-                        textCell.setBackground(setBackgroundForItem(1));
                     } else if (position == notificationRow) {
                         textCell.setTextAndIcon(LocaleController.getString(R.string.NotificationsAndSounds), R.drawable.msg2_notifications, true);
                     } else if (position == privacyRow) {
@@ -13688,6 +13693,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         textCell.setTextAndIcon(LocaleController.getString(R.string.DataSettings), R.drawable.msg2_data, true);
                     } else if (position == chatRow) {
                         textCell.setTextAndIcon(LocaleController.getString(R.string.ChatSettings), R.drawable.msg2_discussion, true);
+                    } else if (position == aiTonyRow) {
+                        textCell.setTextAndIcon(LocaleController.getString(R.string.AITony), R.drawable.ic_input_ai_enhance, false, true);
+                        textCell.setBackground(setBackgroundForItem(1));
                     } else if (position == filtersRow) {
                         textCell.setTextAndIcon(LocaleController.getString(R.string.Filters), R.drawable.msg2_folder, true);
                     } else if (position == stickersRow) {
@@ -14117,7 +14125,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (notificationRow != -1) {
                 int position = holder.getAdapterPosition();
                 return position == notificationRow || position == numberRow || position == privacyRow ||
-                        position == languageRow || position == aiTranslationRow || position == setUsernameRow || position == bioRow ||
+                        position == languageRow || position == aiTranslationRow || position == aiTonyRow ||position == setUsernameRow || position == bioRow ||
                         position == versionRow || position == dataRow || position == chatRow ||
                         position == questionRow || position == devicesRow || position == filtersRow || position == stickersRow ||
                         position == faqRow || position == policyRow || position == sendLogsRow || position == sendLastLogsRow ||
@@ -14164,7 +14172,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     position == subscribersRow || position == subscribersRequestsRow || position == administratorsRow || position == settingsRow || position == blockedUsersRow ||
                     position == addMemberRow || position == joinRow || position == unblockRow ||
                     position == sendMessageRow || position == notificationRow || position == privacyRow ||
-                    position == languageRow || position == aiTranslationRow || position == dataRow || position == chatRow ||
+                    position == languageRow || position == aiTranslationRow || position == dataRow || position == chatRow || position == aiTonyRow ||
                     position == questionRow || position == devicesRow || position == filtersRow || position == stickersRow ||
                     position == faqRow || position == policyRow || position == sendLogsRow || position == sendLastLogsRow ||
                     position == clearLogsRow || position == switchBackendRow || position == setAvatarRow || position == addToGroupButtonRow ||
@@ -15502,6 +15510,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             put(++pointer, notificationRow, sparseIntArray);
             put(++pointer, languageRow, sparseIntArray);
             put(++pointer, aiTranslationRow, sparseIntArray);
+            put(++pointer, aiTonyRow, sparseIntArray);
             put(++pointer, premiumRow, sparseIntArray);
             put(++pointer, starsRow, sparseIntArray);
             put(++pointer, businessRow, sparseIntArray);

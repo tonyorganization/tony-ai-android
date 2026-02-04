@@ -437,7 +437,7 @@ public class TextCheckCell extends FrameLayout {
         attached = false;
     }
 
-    public void setColorfullIcon(int color, int resId) {
+    public void setColorfullIcon(int color, int resId, boolean isSetBackground) {
         if (imageView == null) {
             imageView = new RLottieImageView(getContext());
             imageView.setScaleType(ImageView.ScaleType.CENTER);
@@ -449,7 +449,9 @@ public class TextCheckCell extends FrameLayout {
         imageView.setVisibility(VISIBLE);
         imageView.setPadding(AndroidUtilities.dp(2), AndroidUtilities.dp(2), AndroidUtilities.dp(2), AndroidUtilities.dp(2));
         imageView.setImageResource(resId);
-        imageView.setColorFilter(new PorterDuffColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN));
-        imageView.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(8), color));
+        if (isSetBackground) {
+            imageView.setColorFilter(new PorterDuffColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN));
+            imageView.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(8), color));
+        }
     }
 }

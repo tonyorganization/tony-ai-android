@@ -362,6 +362,29 @@ public class TextCell extends FrameLayout {
         }
     }
 
+    public void setTextAndIcon(CharSequence text, int resId, boolean divider, boolean useOriginalColor) {
+        imageLeft = 21;
+        offsetFromImage = getOffsetFromImage(false);
+        textView.setText(text);
+        textView.setRightDrawable(null);
+        valueTextView.setText(valueText = null, false);
+        imageView.setBackground(null);
+        imageView.setImageResource(resId);
+        if (useOriginalColor) {
+            imageView.clearColorFilter();
+        }
+        imageView.setVisibility(VISIBLE);
+        valueTextView.setVisibility(GONE);
+        valueSpoilersTextView.setVisibility(GONE);
+        valueImageView.setVisibility(GONE);
+        imageView.setPadding(0, dp(7), 0, 0);
+        needDivider = divider;
+        setWillNotDraw(!needDivider);
+        if (emojiDrawable != null) {
+            emojiDrawable.set((Drawable) null, false);
+        }
+    }
+
     public void setTextAndColorfulIcon(CharSequence text, int resId, int color, boolean divider) {
         imageLeft = 21;
         offsetFromImage = 71;

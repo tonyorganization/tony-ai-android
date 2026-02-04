@@ -2,7 +2,9 @@ package ton_core.ui.dialogs;
 
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
@@ -30,6 +32,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
@@ -143,17 +146,31 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITran
         this.transformInput = input;
         this.improveInput = input;
         aiTabs = new ArrayList<>();
-        aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.TRANSLATION.id, Constants.AITypeId.TRANSLATION.id, R.drawable.ic_ai_translate, LocaleController.getString(R.string.PassportTranslation), false, true));
-        aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.SUMMARY.id, Constants.AITypeId.SUMMARY.id, R.drawable.ic_summary, LocaleController.getString(R.string.Summarize), false, false));
-        aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.IMPROVE.id, Constants.AIImproveId.FIX_GRAMMAR.id, R.drawable.ic_writing_assistant, LocaleController.getString(R.string.FixGrammar), false, false));
-        aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.IMPROVE.id, Constants.AIImproveId.MAKE_FORMAL.id, R.drawable.ic_make_formal, LocaleController.getString(R.string.MakeFormal), false, false));
-        aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.IMPROVE.id, Constants.AIImproveId.MAKE_FRIENDLY.id, R.drawable.ic_make_friendly, LocaleController.getString(R.string.MakeFriendly), false, false));
-        aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.IMPROVE.id, Constants.AIImproveId.MAKE_POLITE.id, R.drawable.ic_make_polite, LocaleController.getString(R.string.MakePolite), false, false));
-        aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.TEMPLATE.id, Constants.AITemplateId.SET_MEETING.id, R.drawable.ic_set_meeting, LocaleController.getString(R.string.SetMeeting), false, false));
-        aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.TEMPLATE.id, Constants.AITemplateId.WRITE_EMAIL.id, R.drawable.ic_write_email, LocaleController.getString(R.string.WriteEmail), false, false));
-        aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.TEMPLATE.id, Constants.AITemplateId.SAY_HI.id, R.drawable.ic_say_hi, LocaleController.getString(R.string.SayHi), false, false));
-        aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.TEMPLATE.id, Constants.AITemplateId.SAY_THANKS.id, R.drawable.ic_thanks, LocaleController.getString(R.string.ThankForNote), false, false));
 
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(Constants.TONGRAM_CONFIG, Activity.MODE_PRIVATE);
+        final boolean isEnableTranslation = preferences.getBoolean(Constants.ENABLE_AI_TRANSLATION, false);
+        final boolean isEnableWritingAssistant = preferences.getBoolean(Constants.ENABLE_AI_WRITING_ASSISTANT, false);
+        final boolean isEnableChatSummary = preferences.getBoolean(Constants.ENABLE_AI_CHAT_SUMMARY, false);
+
+        boolean hasSelectedTab = false;
+        if (isEnableTranslation) {
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.TRANSLATION.id, Constants.AITypeId.TRANSLATION.id, R.drawable.ic_ai_translate, LocaleController.getString(R.string.PassportTranslation), false, true));
+            hasSelectedTab = true;
+        }
+        if (isEnableChatSummary) {
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.SUMMARY.id, Constants.AITypeId.SUMMARY.id, R.drawable.ic_summary, LocaleController.getString(R.string.Summarize), false, !hasSelectedTab));
+            hasSelectedTab = true;
+        }
+        if (isEnableWritingAssistant) {
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.IMPROVE.id, Constants.AIImproveId.FIX_GRAMMAR.id, R.drawable.ic_writing_assistant, LocaleController.getString(R.string.FixGrammar), false, !hasSelectedTab));
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.IMPROVE.id, Constants.AIImproveId.MAKE_FORMAL.id, R.drawable.ic_make_formal, LocaleController.getString(R.string.MakeFormal), false, false));
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.IMPROVE.id, Constants.AIImproveId.MAKE_FRIENDLY.id, R.drawable.ic_make_friendly, LocaleController.getString(R.string.MakeFriendly), false, false));
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.IMPROVE.id, Constants.AIImproveId.MAKE_POLITE.id, R.drawable.ic_make_polite, LocaleController.getString(R.string.MakePolite), false, false));
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.TEMPLATE.id, Constants.AITemplateId.SET_MEETING.id, R.drawable.ic_set_meeting, LocaleController.getString(R.string.SetMeeting), false, false));
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.TEMPLATE.id, Constants.AITemplateId.WRITE_EMAIL.id, R.drawable.ic_write_email, LocaleController.getString(R.string.WriteEmail), false, false));
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.TEMPLATE.id, Constants.AITemplateId.SAY_HI.id, R.drawable.ic_say_hi, LocaleController.getString(R.string.SayHi), false, false));
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.TEMPLATE.id, Constants.AITemplateId.SAY_THANKS.id, R.drawable.ic_thanks, LocaleController.getString(R.string.ThankForNote), false, false));
+        }
     }
 
     public synchronized static AiEnhanceDialog newInstance(Delegate delegate,

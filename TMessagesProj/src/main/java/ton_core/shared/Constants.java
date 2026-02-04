@@ -8,6 +8,13 @@ public class Constants {
     public static String OUT_MESSAGE_LANG_NAME_KEY = "OUT_MESSAGE_LANG_NAME_KEY";
     public static String IS_ENABLE_AI_TRANSLATION_KEY = "IS_ENABLE_AI_TRANSLATION_KEY";
 
+    public static String ENABLE_AI_TONY = "ENABLE_AI_TONY";
+    public static String ENABLE_AI_TRANSLATION = "ENABLE_AI_TRANSLATION";
+    public static String ENABLE_AI_WRITING_ASSISTANT = "ENABLE_AI_WRITING_ASSISTANT";
+    public static String ENABLE_AI_CHAT_SUMMARY = "ENABLE_AI_CHAT_SUMMARY";
+
+    public static String PERMISSION_ENABLE_APPLIED = "PERMISSION_ENABLE_APPLIED";
+
     public enum AITypeId {
         TRANSLATION(0),
         TEMPLATE(1),

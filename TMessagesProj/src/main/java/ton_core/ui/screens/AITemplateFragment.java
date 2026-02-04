@@ -94,6 +94,7 @@ public class AITemplateFragment extends Fragment implements WritingAssistantResu
         rvResults.setAdapter(resultAdapter);
 
         edtInput = view.findViewById(R.id.edt_input);
+        edtInput.requestFocus();
         edtInput.setTextColor(Theme.getColor(Theme.key_profile_title));
         edtInput.setHintTextColor(Theme.getColor(Theme.key_text_disable));
         edtInput.setText(input);
