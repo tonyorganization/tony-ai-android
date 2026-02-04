@@ -10085,4 +10085,6 @@
     <string name="EnableAITonyContent">AI features enhance your messaging:</string>
     <string name="AITonyContent">Your messages are processed by our AI servers. We don’t store or train on your data.</string>
     <string name="MaybeLater">Maybe Later</string>
+    <string name="AITonyHistory">AI Tony History</string>
+    <string name="ClearAIHistory">Clear History</string>
 </resources>
