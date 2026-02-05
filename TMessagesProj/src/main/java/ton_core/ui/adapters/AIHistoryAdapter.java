@@ -52,17 +52,19 @@ public class AIHistoryAdapter extends RecyclerView.Adapter<AIHistoryAdapter.View
     public void onBindViewHolder(@NonNull AIHistoryAdapter.ViewHolder holder, int position) {
         final AIHistoryModel model = historyModels.get(position);
         holder.ivType.setImageResource(getIconType(model.type));
-        holder.ivType.setColorFilter(Theme.getColor(Theme.key_icon_color));
+        holder.ivType.setColorFilter(Theme.getColor(Theme.key_icon_black_blue));
         setItemBackground(holder.llResult, 5);
         setItemBackground(holder.llType, 10);
         holder.tvResult.setText(model.result);
+        holder.tvResult.setTextColor(Theme.getColor(Theme.key_text_title_color));
         holder.tvType.setText(getFeatureName(model.type));
+        holder.tvType.setTextColor(Theme.getColor(Theme.key_text_title_color));
         holder.tvTime.setText(Utils.formatTime(model.time));
 
         holder.tvResult.setMaxLines(model.isExpand ? Integer.MAX_VALUE : 1);
         holder.ivExpand.setRotation(model.isExpand ? 180f : 0f);
 
-        holder.ivExpand.setColorFilter(Theme.getColor(Theme.key_icon_color));
+        holder.ivExpand.setColorFilter(Theme.getColor(Theme.key_icon_black_blue));
 
         holder.llResult.setOnClickListener(v -> {
             model.isExpand = !model.isExpand;
