@@ -29,17 +29,15 @@ import org.telegram.ui.ActionBar.Theme;
 import java.util.ArrayList;
 import java.util.List;
 
-import ton_core.models.Choice;
-import ton_core.models.Message;
-import ton_core.models.requests.WritingAssistantRequest;
+import ton_core.models.requests.ToneTransformRequest;
 import ton_core.models.responses.FixGrammarResponse;
-import ton_core.models.responses.WritingAssistantResponse;
+import ton_core.models.responses.ToneTransformResponse;
 import ton_core.repositories.translated_message_repository.chat_repository.ChatRepository;
 import ton_core.repositories.translated_message_repository.chat_repository.IChatRepository;
 import ton_core.services.IOnApiCallback;
 import ton_core.shared.Constants;
-import ton_core.ui.dialogs.LoadingDialog;
 import ton_core.ui.adapters.WritingAssistantResultAdapter;
+import ton_core.ui.dialogs.LoadingDialog;
 import ton_core.ui.models.TongramAiFeatureModel;
 import ton_core.ui.models.WritingAssistantResultModel;
 
@@ -132,7 +130,7 @@ public class AIImproveFragment extends Fragment implements WritingAssistantResul
             final String messageRequest = edtInput.getText().toString();
             edtInput.setText("");
             if (feature.subId == Constants.AIImproveId.FIX_GRAMMAR.id) {
-                chatRepository.fixGrammar(new WritingAssistantRequest(messageRequest), new IOnApiCallback<FixGrammarResponse>() {
+                chatRepository.fixGrammar(new ToneTransformRequest(messageRequest), new IOnApiCallback<FixGrammarResponse>() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onSuccess(FixGrammarResponse data) {
@@ -159,20 +157,17 @@ public class AIImproveFragment extends Fragment implements WritingAssistantResul
                 });
             } else {
 
-                chatRepository.writeAssistant(new WritingAssistantRequest(messageRequest, getTone()), new IOnApiCallback<WritingAssistantResponse>() {
+                chatRepository.toneTransform(new ToneTransformRequest(messageRequest, getTone()), new IOnApiCallback<ToneTransformResponse>() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
-                    public void onSuccess(WritingAssistantResponse data) {
+                    public void onSuccess(ToneTransformResponse data) {
                         loadingDialog.dismiss();
                         AndroidUtilities.hideKeyboard(view);
-                        if (data != null && !data.getChoices().isEmpty()) {
-                            final List<Choice> choices = data.getChoices();
-                            for (int i = 0; i < choices.size(); i++) {
-                                final Message message = choices.get(i).getMessage();
-                                if (message != null && !message.getContent().isEmpty()) {
-                                    final WritingAssistantResultModel result = new WritingAssistantResultModel(i, message.getContent(), true);
-                                    results.add(result);
-                                }
+                        if (data != null && !data.getTransformedText().isEmpty()) {
+                            final String message = data.getTransformedText();
+                            if (message != null) {
+                                final WritingAssistantResultModel result = new WritingAssistantResultModel(0, message, true);
+                                results.add(result);
                             }
                             setResultsVisibility();
                             resultAdapter.notifyDataSetChanged();

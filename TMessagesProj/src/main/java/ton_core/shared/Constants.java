@@ -63,4 +63,17 @@ public class Constants {
             this.key = key;
         }
     }
+
+    public enum TemplateType {
+        WRITE_EMAIL("email"),
+        SAY_HI("say-hi"),
+        SAY_THANKS("say-thanks"),
+        SET_MEETING("set-meeting");
+
+        public final String key;
+
+        TemplateType(String key) {
+            this.key = key;
+        }
+    }
 }

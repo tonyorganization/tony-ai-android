@@ -29,14 +29,14 @@ import org.telegram.ui.ActionBar.Theme;
 import java.util.ArrayList;
 import java.util.List;
 
-import ton_core.models.Choice;
-import ton_core.models.Message;
-import ton_core.models.requests.WritingAssistantRequest;
-import ton_core.models.responses.WritingAssistantResponse;
+import ton_core.models.requests.GenerateTemplateRequest;
+import ton_core.models.responses.GenerateTemplateResponse;
 import ton_core.repositories.translated_message_repository.chat_repository.ChatRepository;
 import ton_core.repositories.translated_message_repository.chat_repository.IChatRepository;
 import ton_core.services.IOnApiCallback;
+import ton_core.shared.Constants;
 import ton_core.ui.adapters.WritingAssistantResultAdapter;
+import ton_core.ui.dialogs.LoadingDialog;
 import ton_core.ui.models.TongramAiFeatureModel;
 import ton_core.ui.models.WritingAssistantResultModel;
 
@@ -52,17 +52,18 @@ public class AITemplateFragment extends Fragment implements WritingAssistantResu
     private RecyclerView rvResults;
     private final IChatRepository chatRepository;
     private final TongramAiFeatureModel feature;
+    private final LoadingDialog loadingDialog;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onWritingAssistantResultSelected(WritingAssistantResultModel result) {
         results.forEach(e -> e.isSelected = result.id == e.id);
         resultAdapter.notifyDataSetChanged();
-        delegate.onTransformed(results);
+        delegate.onTransformed(results, feature.subId);
     }
 
     public interface IAITemplateDelegate {
-        void onTransformed(List<WritingAssistantResultModel> results);
+        void onTransformed(List<WritingAssistantResultModel> results, int typeId);
     }
 
     public AITemplateFragment(CharSequence input, IAITemplateDelegate delegate, List<WritingAssistantResultModel> results, TongramAiFeatureModel feature) {
@@ -76,6 +77,7 @@ public class AITemplateFragment extends Fragment implements WritingAssistantResu
             this.results = results;
         }
         chatRepository = ChatRepository.getInstance();
+        loadingDialog = new LoadingDialog();
     }
 
     @Nullable
@@ -118,26 +120,24 @@ public class AITemplateFragment extends Fragment implements WritingAssistantResu
         ivAction = view.findViewById(R.id.iv_action);
         setStyleForSendButton();
         ivAction.setOnClickListener(v -> {
+            loadingDialog.show(getChildFragmentManager(), LoadingDialog.TAG);
+            final String messageRequest = edtInput.getText().toString();
             edtInput.setText("");
             results.clear();
 
-            chatRepository.writeAssistant(new WritingAssistantRequest(edtInput.getText().toString(), "professional"), new IOnApiCallback<WritingAssistantResponse>() {
+            chatRepository.generateTemplate(new GenerateTemplateRequest(getTemplateType(), messageRequest), new IOnApiCallback<GenerateTemplateResponse>() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
-                public void onSuccess(WritingAssistantResponse data) {
+                public void onSuccess(GenerateTemplateResponse data) {
+                    loadingDialog.dismiss();
                     AndroidUtilities.hideKeyboard(view);
-                    if (data != null && !data.getChoices().isEmpty()) {
-                        final List<Choice> choices = data.getChoices();
-                        for (int i = 0; i < choices.size(); i++) {
-                            final Message message = choices.get(i).getMessage();
-                            if (message != null && !message.getContent().isEmpty()) {
-                                final WritingAssistantResultModel result = new WritingAssistantResultModel(i, message.getContent(), false);
-                                results.add(result);
-                            }
-                        }
+                    if (data != null && !data.draft.isEmpty()) {
+                        final String message = data.draft;
+                        final WritingAssistantResultModel result = new WritingAssistantResultModel(0, message, true);
+                        results.add(result);
                         setResultsVisibility();
                         resultAdapter.notifyDataSetChanged();
-                        delegate.onTransformed(results);
+                        delegate.onTransformed(results, feature.subId);
                     } else {
                         AndroidUtilities.hideKeyboard(view);
                         onError("No results found");
@@ -146,6 +146,8 @@ public class AITemplateFragment extends Fragment implements WritingAssistantResu
 
                 @Override
                 public void onError(String errorMessage) {
+                    loadingDialog.dismiss();
+                    AndroidUtilities.hideKeyboard(view);
                     setResultsVisibility();
                 }
             });
@@ -163,6 +165,18 @@ public class AITemplateFragment extends Fragment implements WritingAssistantResu
         setResultsVisibility();
 
         return view;
+    }
+
+    private String getTemplateType() {
+        if (feature.subId == Constants.AITemplateId.WRITE_EMAIL.id) {
+            return Constants.TemplateType.WRITE_EMAIL.key;
+        } else if (feature.subId == Constants.AITemplateId.SET_MEETING.id) {
+            return Constants.TemplateType.SET_MEETING.key;
+        } else if (feature.subId == Constants.AITemplateId.SAY_HI.id) {
+            return Constants.TemplateType.SAY_HI.key;
+        } else {
+            return Constants.TemplateType.SAY_THANKS.key;
+        }
     }
 
     private void setResultsVisibility() {

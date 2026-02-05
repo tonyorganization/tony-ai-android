@@ -48,9 +48,9 @@ import ton_core.ui.models.TongramAiFeatureModel;
 import ton_core.ui.models.TongramLanguageModel;
 import ton_core.ui.models.WritingAssistantResultModel;
 import ton_core.ui.screens.AIImproveFragment;
-import ton_core.ui.screens.AITranslationFragment;
 import ton_core.ui.screens.AISummaryFragment;
 import ton_core.ui.screens.AITemplateFragment;
+import ton_core.ui.screens.AITranslationFragment;
 
 public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITranslationFragment.IAITranslationDelegate,
         AITemplateFragment.IAITemplateDelegate,
@@ -66,7 +66,7 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITran
     private CharSequence translatedResult;
     public CharSequence input;
     public CharSequence transformInput;
-    public List<WritingAssistantResultModel> transformed;
+    public final LongSparseArray<List<WritingAssistantResultModel>> transformedList = new LongSparseArray<>();
 
     public CharSequence improveInput;
     private final LongSparseArray<List<WritingAssistantResultModel>> improvedList = new LongSparseArray<>();
@@ -84,14 +84,18 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITran
     }
 
     @Override
-    public void onTransformed(List<WritingAssistantResultModel> results) {
-        this.transformed = results;
-        setTextApply(getTransformedSelectedResult() != null);
+    public void onTransformed(List<WritingAssistantResultModel> results, int typeId) {
+        if (transformedList.get(typeId) == null) {
+            transformedList.put(typeId, results);
+        } else {
+            transformedList.replace(typeId, results);
+        }
+        setTextApply(getTransformedSelectedResult(typeId) != null);
     }
 
-    private WritingAssistantResultModel getTransformedSelectedResult() {
-        if (transformed == null) return null;
-        return transformed.stream().filter(e -> e.isSelected).findFirst().orElse(null);
+    private WritingAssistantResultModel getTransformedSelectedResult(int typeId) {
+        if (transformedList.get(typeId) == null) return null;
+        return Objects.requireNonNull(transformedList.get(typeId)).stream().filter(e -> e.isSelected).findFirst().orElse(null);
     }
 
     private WritingAssistantResultModel getImprovedSelectedResult(int typeId) {
@@ -114,7 +118,7 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITran
         public Fragment getItem(int i) {
             TongramAiFeatureModel feature = aiTabs.get(i);
             if (feature.id == Constants.AITypeId.TEMPLATE.id) {
-                return new AITemplateFragment(transformInput, AiEnhanceDialog.this, transformed, feature);
+                return new AITemplateFragment(transformInput, AiEnhanceDialog.this, transformedList.get(feature.subId), feature);
             } else if (feature.id == Constants.AITypeId.IMPROVE.id) {
                 return new AIImproveFragment(improveInput, improvedList.get(feature.subId), AiEnhanceDialog.this, feature);
             } else if (feature.id == Constants.AITypeId.SUMMARY.id) {
@@ -265,7 +269,7 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITran
             final TongramAiFeatureModel selectedFeature = aiTabs.stream().filter(e -> e.isSelected).findFirst().orElse(null);
             if (selectedFeature != null) {
                 if (selectedFeature.id == Constants.AITypeId.TEMPLATE.id) {
-                    final WritingAssistantResultModel result = getTransformedSelectedResult();
+                    final WritingAssistantResultModel result = getTransformedSelectedResult(selectedFeature.subId);
                     if (result == null) {
                         return;
                     }
@@ -343,7 +347,7 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITran
     private void checkCanApply(TongramAiFeatureModel model) {
         if (model.id == Constants.AITypeId.TEMPLATE.id) {
             tvApply.setVisibility(View.VISIBLE);
-            setTextApply(getTransformedSelectedResult() != null);
+            setTextApply(getTransformedSelectedResult(model.subId) != null);
         } else if (model.id == Constants.AITypeId.IMPROVE.id) {
             tvApply.setVisibility(View.VISIBLE);
             setTextApply(getImprovedSelectedResult(model.subId) != null);
