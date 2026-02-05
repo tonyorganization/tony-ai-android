@@ -49,13 +49,13 @@ import ton_core.ui.models.TongramLanguageModel;
 import ton_core.ui.models.WritingAssistantResultModel;
 import ton_core.ui.screens.AIImproveFragment;
 import ton_core.ui.screens.AITranslationFragment;
-import ton_core.ui.screens.AIUnreadSummaryFragment;
+import ton_core.ui.screens.AISummaryFragment;
 import ton_core.ui.screens.AITemplateFragment;
 
 public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITranslationFragment.IAITranslationDelegate,
         AITemplateFragment.IAITemplateDelegate,
         AIImproveFragment.IAIImproveDelegate,
-        AIUnreadSummaryFragment.IAIUnreadSummaryDelegate {
+        AISummaryFragment.IAIUnreadSummaryDelegate {
     private TextView tvApply;
     private final ITranslatedMessageRepository translatedMessageRepository;
     private final List<TongramLanguageModel> languageModels;
@@ -118,7 +118,7 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITran
             } else if (feature.id == Constants.AITypeId.IMPROVE.id) {
                 return new AIImproveFragment(improveInput, improvedList.get(feature.subId), AiEnhanceDialog.this, feature);
             } else if (feature.id == Constants.AITypeId.SUMMARY.id) {
-                return new AIUnreadSummaryFragment(unreadMessages, AiEnhanceDialog.this, summarized);
+                return new AISummaryFragment(unreadMessages, AiEnhanceDialog.this, summarized);
             } else {
                 return new AITranslationFragment(translatedMessageRepository, languageModels, AiEnhanceDialog.this, translatedResult, input);
             }

@@ -37,7 +37,7 @@ import ton_core.ui.adapters.WritingAssistantResultAdapter;
 import ton_core.ui.dialogs.LoadingDialog;
 import ton_core.ui.models.WritingAssistantResultModel;
 
-public class AIUnreadSummaryFragment extends Fragment implements WritingAssistantResultAdapter.IWritingAssistantResultDelegate {
+public class AISummaryFragment extends Fragment implements WritingAssistantResultAdapter.IWritingAssistantResultDelegate {
 
     private final List<MessageObject> unreadMessages;
     private final IAssistRepository assistRepository;
@@ -47,7 +47,7 @@ public class AIUnreadSummaryFragment extends Fragment implements WritingAssistan
     private final IAIUnreadSummaryDelegate delegate;
     private final LoadingDialog loadingDialog;
 
-    public AIUnreadSummaryFragment(List<MessageObject> unreadMessages, IAIUnreadSummaryDelegate delegate, WritingAssistantResultModel result) {
+    public AISummaryFragment(List<MessageObject> unreadMessages, IAIUnreadSummaryDelegate delegate, WritingAssistantResultModel result) {
         this.unreadMessages = unreadMessages;
         this.delegate = delegate;
         assistRepository = AssistRepository.getInstance();
@@ -73,8 +73,10 @@ public class AIUnreadSummaryFragment extends Fragment implements WritingAssistan
     private List<String> getSummarizedText() {
         List<String> messages = new ArrayList<>();
         for (MessageObject message : unreadMessages) {
-            if (message.messageText != null && !message.isOutOwner()) {
+            if (message.type == 0 && message.messageText != null) {
                 messages.add(message.messageText.toString());
+            } else if (message.type == 1) {
+                messages.add(message.caption.toString());
             }
         }
         return messages;
@@ -114,11 +116,10 @@ public class AIUnreadSummaryFragment extends Fragment implements WritingAssistan
                     btnSummarize.setVisibility(View.GONE);
                     llNoUnreadMessages.setVisibility(View.GONE);
 
-                    if (data != null && !data.getChoices().isEmpty()) {
-                        final Choice summarized = data.getChoices().get(0);
-                        final Message message = summarized.getMessage();
-                        if (message != null && !message.getContent().isEmpty()) {
-                            final WritingAssistantResultModel result = new WritingAssistantResultModel(1, message.getContent(), true);
+                    if (data != null && !data.getSummary().isEmpty()) {
+                        final String message = data.getSummary();
+                        if (message != null) {
+                            final WritingAssistantResultModel result = new WritingAssistantResultModel(1, message, true);
                             results.add(result);
                             resultAdapter.notifyDataSetChanged();
                             delegate.onSummarized(result);

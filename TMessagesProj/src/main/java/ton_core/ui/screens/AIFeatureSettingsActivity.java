@@ -86,6 +86,13 @@ public class AIFeatureSettingsActivity extends BaseFragment {
             final boolean isChecked = !switchTranslation.isChecked();
             switchTranslation.setChecked(isChecked);
             preferences.edit().putBoolean(Constants.ENABLE_AI_TRANSLATION, isChecked).apply();
+            if (!isChecked && !preferences.getBoolean(Constants.ENABLE_AI_WRITING_ASSISTANT, false) && !preferences.getBoolean(Constants.ENABLE_AI_CHAT_SUMMARY, false)) {
+                preferences.edit().putBoolean(Constants.ENABLE_AI_TONY, false).apply();
+                switchGeneral.setChecked(false);
+            } else {
+                preferences.edit().putBoolean(Constants.ENABLE_AI_TONY, true).apply();
+                switchGeneral.setChecked(true);
+            }
         });
 
         llPreferences.addView(switchTranslation, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
@@ -96,6 +103,13 @@ public class AIFeatureSettingsActivity extends BaseFragment {
             final boolean isChecked = !switchWritingAssistant.isChecked();
             switchWritingAssistant.setChecked(isChecked);
             preferences.edit().putBoolean(Constants.ENABLE_AI_WRITING_ASSISTANT, isChecked).apply();
+            if (!isChecked && !preferences.getBoolean(Constants.ENABLE_AI_TRANSLATION, false) && !preferences.getBoolean(Constants.ENABLE_AI_CHAT_SUMMARY, false)) {
+                preferences.edit().putBoolean(Constants.ENABLE_AI_TONY, false).apply();
+                switchGeneral.setChecked(false);
+            } else {
+                preferences.edit().putBoolean(Constants.ENABLE_AI_TONY, true).apply();
+                switchGeneral.setChecked(true);
+            }
         });
 
         llPreferences.addView(switchWritingAssistant, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
@@ -106,6 +120,13 @@ public class AIFeatureSettingsActivity extends BaseFragment {
             final boolean isChecked = !switchChatSummary.isChecked();
             switchChatSummary.setChecked(isChecked);
             preferences.edit().putBoolean(Constants.ENABLE_AI_CHAT_SUMMARY, isChecked).apply();
+            if (!isChecked && !preferences.getBoolean(Constants.ENABLE_AI_WRITING_ASSISTANT, false) && !preferences.getBoolean(Constants.ENABLE_AI_TRANSLATION, false)) {
+                preferences.edit().putBoolean(Constants.ENABLE_AI_TONY, false).apply();
+                switchGeneral.setChecked(false);
+            } else {
+                preferences.edit().putBoolean(Constants.ENABLE_AI_TONY, true).apply();
+                switchGeneral.setChecked(true);
+            }
         });
 
         llPreferences.addView(switchChatSummary, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));

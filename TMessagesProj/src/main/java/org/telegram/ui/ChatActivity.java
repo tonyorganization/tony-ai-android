@@ -130,6 +130,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
+import com.google.android.exoplayer2.util.Log;
 import com.google.zxing.common.detector.MathUtils;
 
 import org.telegram.PhoneFormat.PhoneFormat;
@@ -1460,14 +1461,13 @@ public class ChatActivity extends BaseFragment implements
     public void getLatestUnreadMessages() {
         unreadOnly.clear();
         TLRPC.Dialog dialog = getMessagesController().dialogs_dict.get(dialog_id);
-        if (dialog != null && dialog.unread_count > 0) {
-            int countToLoad = Math.min(dialog.unread_count, 100);
+        if (dialog != null) {
 
             getMessagesController().loadMessages(
                     dialog_id,
                     mergeDialogId,
                     false,
-                    countToLoad,
+                    300,
                     0,
                     0,
                     true,
@@ -19815,12 +19815,10 @@ public class ChatActivity extends BaseFragment implements
                 postponedScrollToLastMessageQueryIndex = 0;
             }
             ArrayList<MessageObject> messArr = (ArrayList<MessageObject>) args[2];
-            TLRPC.Dialog dialog = getMessagesController().dialogs_dict.get(dialog_id);
 
-            int unreadMaxId = (dialog != null) ? dialog.read_inbox_max_id : 0;
 
             for (MessageObject ms : messArr) {
-                if (ms.getId() > unreadMaxId && !ms.isOut() && ms.type == 0) {
+                if (!ms.isOut() && (ms.type == 0 || ms.type == 1 && ms.caption != null)) {
                     unreadOnly.add(ms);
                 }
             }

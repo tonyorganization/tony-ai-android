@@ -2580,7 +2580,7 @@ public class ChatActivityEnterView extends FrameLayout implements
         sendByEnter = preferences.getBoolean("send_by_enter", false);
 
         SharedPreferences tongramAiPreferences = ApplicationLoader.applicationContext.getSharedPreferences(Constants.TONGRAM_CONFIG, Activity.MODE_PRIVATE);
-        isEnableAiTranslation = tongramAiPreferences.getBoolean(Constants.IS_ENABLE_AI_TRANSLATION_KEY, true);
+        isEnableAiTranslation = tongramAiPreferences.getBoolean(Constants.ENABLE_AI_TONY, true);
 
         textFieldContainer = new FrameLayout(context) {
             @Override

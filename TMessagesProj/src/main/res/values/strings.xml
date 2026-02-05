@@ -10076,7 +10076,7 @@
     <string name="Improve">Improve</string>
     <string name="PleaseEnterTextToUseAI">Please enter text to use AI Tony’s %s feature.</string>
     <string name="ResultNumberWithType">Result %1$d - %2$s</string>
-    <string name="AnalyzingSummarizeChat">Analyzing %1$s unread messages....</string>
+    <string name="AnalyzingSummarizeChat">Analyzing %1$s messages....</string>
     <string name="History">History</string>
     <string name="IndividualSettings">Individual Settings</string>
     <string name="DisableAllAIFeature">Disable all features will turn off real-time suggestions and translation history across the app.</string>
