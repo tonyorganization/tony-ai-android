@@ -245,6 +245,7 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITran
         ImageView ivHistory = clHistory.findViewById(R.id.iv_ai_feature);
         ivHistory.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_icon_color), PorterDuff.Mode.SRC_IN));
         setItemBackground(ivHistory, false);
+        clHistory.setOnClickListener(v -> new HistoryDialog().show(getChildFragmentManager(), HistoryDialog.TAG));
 
         TextView tvTitle = view.findViewById(R.id.tv_tongram_ai);
         tvTitle.setTypeface(AndroidUtilities.bold());

@@ -58,7 +58,7 @@ public class LoadingDialog extends DialogFragment {
 
         Glide.with(this)
                 .asGif()
-                .load(R.drawable.gif_loading)
+                .load(R.drawable.star_loading)
                 .into(ivLoading);
 
         setCancelable(false);

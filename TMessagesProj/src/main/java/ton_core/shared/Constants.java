@@ -28,10 +28,10 @@ public class Constants {
     }
 
     public enum AITemplateId {
-        SET_MEETING(0),
-        SAY_HI(1),
-        SAY_THANKS(2),
-        WRITE_EMAIL(3);
+        SET_MEETING(8),
+        SAY_HI(9),
+        SAY_THANKS(10),
+        WRITE_EMAIL(11);
 
         public final int id;
         AITemplateId(int id) {
