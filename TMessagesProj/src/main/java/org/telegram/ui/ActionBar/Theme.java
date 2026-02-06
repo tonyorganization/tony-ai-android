@@ -3648,6 +3648,9 @@ public class Theme {
     public static final int key_chats_tabUnreadActiveBackground = colorsCount++;
     public static final int key_chats_tabUnreadUnactiveBackground = colorsCount++;
     public static final int key_folder_background_unselected = colorsCount++;
+    public static final int key_text_like_theme = colorsCount++;
+    public static final int key_background_delete_button = colorsCount++;
+    public static final int key_icon_black_blue = colorsCount++;
 
     public static final int key_chat_attachCheckBoxCheck = colorsCount++;
     public static final int key_chat_attachCheckBoxBackground = colorsCount++;
@@ -4037,6 +4040,8 @@ public class Theme {
 
     public static final int key_profile_creatorIcon = colorsCount++;
     public static final int key_profile_title = colorsCount++;
+    public static final int key_view_pager_title_color = colorsCount++;
+    public static final int key_background_selected = colorsCount++;
     public static final int key_profile_actionIcon = colorsCount++;
     public static final int key_profile_actionBackground = colorsCount++;
     public static final int key_profile_actionPressedBackground = colorsCount++;

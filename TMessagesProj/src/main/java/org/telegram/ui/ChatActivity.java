@@ -130,6 +130,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
+import com.google.android.exoplayer2.util.Log;
 import com.google.zxing.common.detector.MathUtils;
 
 import org.telegram.PhoneFormat.PhoneFormat;
@@ -1255,6 +1256,7 @@ public class ChatActivity extends BaseFragment implements
 
     private ValueAnimator searchExpandAnimator;
     private float searchExpandProgress;
+    ArrayList<MessageObject> unreadOnly = new ArrayList<>();
 
     public static ChatActivity of(long dialogId) {
         Bundle bundle = new Bundle();
@@ -1448,6 +1450,38 @@ public class ChatActivity extends BaseFragment implements
     public void onTranslatedApply(String text) {
         chatActivityEnterView.setFieldText(text);
         chatActivityEnterView.setAiEnhanceButtonDrawable(true);
+    }
+
+    @Override
+    public void onTransformApply(String text) {
+        chatActivityEnterView.setFieldText(text);
+        chatActivityEnterView.setAiEnhanceButtonDrawable(true);
+    }
+
+    public void getLatestUnreadMessages() {
+        unreadOnly.clear();
+        TLRPC.Dialog dialog = getMessagesController().dialogs_dict.get(dialog_id);
+        if (dialog != null) {
+
+            getMessagesController().loadMessages(
+                    dialog_id,
+                    mergeDialogId,
+                    false,
+                    300,
+                    0,
+                    0,
+                    true,
+                    0,
+                    classGuid,
+                    0,
+                    0,
+                    chatMode,
+                    threadMessageId,
+                    0,
+                    0,
+                    isTopic
+            );
+        }
     }
 
     private interface ChatActivityDelegate {
@@ -1980,7 +2014,7 @@ public class ChatActivity extends BaseFragment implements
             if (getParentActivity() instanceof androidx.fragment.app.FragmentActivity) {
                 androidx.fragment.app.FragmentManager fragmentManager =
                         ((androidx.fragment.app.FragmentActivity) getParentActivity()).getSupportFragmentManager();
-                AiEnhanceDialog.newInstance(ChatActivity.this, resourceProvider, tongramLanguages, translatedMessageRepository, text).show(fragmentManager, null);
+                AiEnhanceDialog.newInstance(ChatActivity.this, resourceProvider, tongramLanguages, translatedMessageRepository, text, unreadOnly).show(fragmentManager, null);
             }
         }
 
@@ -3076,6 +3110,8 @@ public class ChatActivity extends BaseFragment implements
         if (chatMode == MODE_SAVED) {
             getMessagesController().getSavedMessagesController().checkSavedDialogCount(getTopicId());
         }
+
+        getLatestUnreadMessages();
 
         return true;
     }
@@ -19779,6 +19815,13 @@ public class ChatActivity extends BaseFragment implements
                 postponedScrollToLastMessageQueryIndex = 0;
             }
             ArrayList<MessageObject> messArr = (ArrayList<MessageObject>) args[2];
+
+
+            for (MessageObject ms : messArr) {
+                if (!ms.isOut() && (ms.type == 0 || ms.type == 1 && ms.caption != null)) {
+                    unreadOnly.add(ms);
+                }
+            }
 
             boolean universalNotify = false;
             HashMap<Integer, MessageObject> oldMessages = null;

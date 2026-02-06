@@ -11,7 +11,7 @@ import java.util.List;
 import ton_core.daos.LanguageDao;
 import ton_core.database.TongramDatabase;
 import ton_core.entities.LanguageEntity;
-import ton_core.models.LanguageResponse;
+import ton_core.models.responses.LanguageResponse;
 import ton_core.services.IOnApiCallback;
 import ton_core.services.languages.ILanguageService;
 import ton_core.services.languages.LanguageService;

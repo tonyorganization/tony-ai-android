@@ -1,4 +1,4 @@
-package ton_core.models;
+package ton_core.models.requests;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -503,10 +503,10 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
                 SaveToGallerySettingsHelper.Settings settings = getSettings();
                 if (position == savePhotosRow) {
                     cell.setTextAndCheck(LocaleController.getString(R.string.SaveToGalleryPhotos), settings.savePhoto, true);
-                    cell.setColorfullIcon(getThemedColor(Theme.key_statisticChartLine_lightblue), R.drawable.msg_filled_data_photos);
+                    cell.setColorfullIcon(getThemedColor(Theme.key_statisticChartLine_lightblue), R.drawable.msg_filled_data_photos, true);
                 } else {
                     cell.setTextAndCheck(LocaleController.getString(R.string.SaveToGalleryVideos), settings.saveVideo, false);
-                    cell.setColorfullIcon(getThemedColor(Theme.key_statisticChartLine_green), R.drawable.msg_filled_data_videos);
+                    cell.setColorfullIcon(getThemedColor(Theme.key_statisticChartLine_green), R.drawable.msg_filled_data_videos, true);
                 }
 
             } else if (items.get(position).viewType == VIEW_TYPE_DIVIDER_INFO) {

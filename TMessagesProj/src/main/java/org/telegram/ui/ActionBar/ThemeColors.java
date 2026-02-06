@@ -838,6 +838,11 @@ public class ThemeColors {
         defaultColors[key_profile_drawer_background] = 0xFFFFFFFF;
         defaultColors[key_title_black_white] = 0xFF000000;
         defaultColors[key_icon_white_gray] = 0xFFffffff;
+        defaultColors[key_view_pager_title_color] = 0xFF000000;
+        defaultColors[key_background_selected] = 0xFFAFC8FF;
+        defaultColors[key_text_like_theme] = 0xFFFFFFFF;
+        defaultColors[key_background_delete_button] = 0xFF1A1F29;
+        defaultColors[key_icon_black_blue] = 0xFF000000;
 
         return defaultColors;
     }
@@ -1634,6 +1639,10 @@ public class ThemeColors {
         colorKeysMap.put(key_title_black_white, "title_black_white");
         colorKeysMap.put(key_folder_background_unselected, "folder_background_unselected");
         colorKeysMap.put(key_icon_white_gray, "icon_white_gray");
+        colorKeysMap.put(key_background_selected, "background_selected");
+        colorKeysMap.put(key_view_pager_title_color, "view_pager_title_color");
+        colorKeysMap.put(key_text_like_theme, "text_like_theme");
+        colorKeysMap.put(key_icon_black_blue, "icon_black_blue");
 
         return colorKeysMap;
     }

@@ -3,7 +3,7 @@ package ton_core.repositories.translated_message_repository;
 import androidx.lifecycle.LiveData;
 import java.util.List;
 import ton_core.entities.TranslatedMessageEntity;
-import ton_core.models.TranslateMessageResponse;
+import ton_core.models.responses.TranslateMessageResponse;
 import ton_core.services.IOnApiCallback;
 
 public interface ITranslatedMessageRepository {

@@ -1,4 +1,6 @@
-package ton_core.models;
+package ton_core.models.responses;
+
+import ton_core.models.TranslatedMessageResult;
 
 public class TranslateMessageResponse {
     private TranslatedMessageResult result;

@@ -17,6 +17,10 @@ pipeline {
         // Telegram configuration
         TOKEN = credentials('b4a49b21-4caa-4f7a-834b-ffa7d6b9c41e')
         CHAT_ID = credentials('69503db3-8106-40c6-8bd0-876b2eb2adb7')
+        TON_DEV_API_URL = credentials('ton-dev-api-url')
+        TON_PROD_API_URL = credentials('ton-prod-api-url')
+        TON_DEV_API_KEY = credentials('ton-dev-api-key')
+        TON_PROD_API_KEY = credentials('ton-prod-api-key')
     }
 
     stages {
@@ -50,6 +54,8 @@ pipeline {
                                     echo "Building Debug APK"
 
                                     ./gradlew assembleDebug \
+                                    -PtonDevAPIUrl='${env.TON_DEV_API_URL}' \
+                                    -PtonDevAPIKey='${env.TON_DEV_API_KEY}' \
                                     -Pandroid.injected.signing.store.file='$KEYSTORE_FILE' \
                                     -Pandroid.injected.signing.store.password='$STORE_PASS' \
                                     -Pandroid.injected.signing.key.alias='$KEY_ALIAS' \
@@ -61,6 +67,8 @@ pipeline {
                                     echo "Building Release APK"
 
                                     ./gradlew assembleRelease \
+                                    -PtonProdAPIUrl='${env.TON_PROD_API_URL}' \
+                                    -PtonProdAPIKey='${env.TON_PROD_API_KEY}' \
                                     -Pandroid.injected.signing.store.file='$KEYSTORE_FILE' \
                                     -Pandroid.injected.signing.store.password='$STORE_PASS' \
                                     -Pandroid.injected.signing.key.alias='$KEY_ALIAS' \
@@ -91,6 +99,8 @@ pipeline {
                         echo "Building Release AAB"
 
                         ./gradlew bundleRelease \
+                        -PtonProdAPIUrl='${env.TON_PROD_API_URL}' \
+                        -PtonProdAPIKey='${env.TON_PROD_API_KEY}' \
                         -Pandroid.injected.signing.store.file='$KEYSTORE_FILE' \
                         -Pandroid.injected.signing.store.password='$STORE_PASS' \
                         -Pandroid.injected.signing.key.alias='$KEY_ALIAS' \

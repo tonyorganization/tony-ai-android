@@ -1,4 +1,4 @@
-package ton_core.models;
+package ton_core.models.responses;
 
 public class LanguageResponse {
     public String code;

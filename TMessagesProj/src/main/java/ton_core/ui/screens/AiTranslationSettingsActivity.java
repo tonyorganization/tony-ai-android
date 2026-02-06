@@ -103,7 +103,7 @@ public class AiTranslationSettingsActivity extends BaseFragment implements Langu
         gb.setColor(Theme.getColor(Theme.key_chats_menuTopBackground));
         switchGeneral.setBackground(gb);
         switchGeneral.setTextAndCheck(LocaleController.getString(R.string.EnableAITranslation), isEnableTranslation, false);
-        switchGeneral.setColorfullIcon(Theme.getColor(Theme.key_icon_color), R.drawable.settings_translation);
+        switchGeneral.setColorfullIcon(Theme.getColor(Theme.key_icon_color), R.drawable.settings_translation, true);
         switchGeneral.setOnClickListener(v -> {
             switchGeneral.setChecked(!switchGeneral.isChecked());
             preferences.edit().putBoolean(Constants.IS_ENABLE_AI_TRANSLATION_KEY, switchGeneral.isChecked()).apply();

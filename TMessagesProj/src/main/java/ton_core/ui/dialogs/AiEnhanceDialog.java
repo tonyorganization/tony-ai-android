@@ -7,113 +7,183 @@ import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.collection.LongSparseArray;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.tabs.TabLayout;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
-import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.Components.BulletinFactory;
-import org.telegram.ui.LaunchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-import ton_core.models.TranslateMessageResponse;
-import ton_core.models.TranslatedChoice;
-import ton_core.models.TranslatedMessage;
-import ton_core.models.TranslatedMessageResult;
 import ton_core.repositories.translated_message_repository.ITranslatedMessageRepository;
-import ton_core.services.IOnApiCallback;
 import ton_core.shared.Constants;
-import ton_core.ui.adapters.TongramAIFeatureAdapter;
 import ton_core.ui.models.TongramAiFeatureModel;
 import ton_core.ui.models.TongramLanguageModel;
+import ton_core.ui.models.WritingAssistantResultModel;
+import ton_core.ui.screens.AIImproveFragment;
+import ton_core.ui.screens.AISummaryFragment;
+import ton_core.ui.screens.AITemplateFragment;
+import ton_core.ui.screens.AITranslationFragment;
 
-public class AiEnhanceDialog extends BottomSheetDialogFragment implements LanguagesDialog.Delegate {
-
-    private static class JumpSpan extends android.text.style.MetricAffectingSpan {
-        public float translationY;
-
-        @Override
-        public void updateMeasureState(android.text.TextPaint p) {
-            p.baselineShift += (int) translationY;
-        }
-
-        @Override
-        public void updateDrawState(android.text.TextPaint tp) {
-            tp.baselineShift += (int) translationY;
-        }
-    }
-
+public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITranslationFragment.IAITranslationDelegate,
+        AITemplateFragment.IAITemplateDelegate,
+        AIImproveFragment.IAIImproveDelegate,
+        AISummaryFragment.IAIUnreadSummaryDelegate {
     private TextView tvApply;
-    private TextView tvResult;
-    private TextView tvLanguage;
-    private final Theme.ResourcesProvider resourcesProvider;
-    private TongramLanguageModel selectedLanguage;
-    private final Delegate delegate;
-
-    public CharSequence input;
     private final ITranslatedMessageRepository translatedMessageRepository;
     private final List<TongramLanguageModel> languageModels;
-    private static final ExecutorService detectLanguageExecutor =
-            Executors.newFixedThreadPool(1);
-    private EditText edtInput;
-    private ImageView ivAction;
-    private android.animation.ValueAnimator resultJumpAnimator;
+    private final Theme.ResourcesProvider resourcesProvider;
+    private final ArrayList<MessageObject> unreadMessages;
+    private final Delegate delegate;
+    private final List<TongramAiFeatureModel> aiTabs;
+    private CharSequence translatedResult;
+    public CharSequence input;
+    public CharSequence transformInput;
+    public final LongSparseArray<List<WritingAssistantResultModel>> transformedList = new LongSparseArray<>();
+
+    public CharSequence improveInput;
+    private final LongSparseArray<List<WritingAssistantResultModel>> improvedList = new LongSparseArray<>();
+
+    public WritingAssistantResultModel summarized;
 
     @Override
-    public void onLanguageSelected(TongramLanguageModel language) {
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(Constants.TONGRAM_CONFIG, Activity.MODE_PRIVATE);
-        preferences.edit().putString(Constants.OUT_MESSAGE_LANG_CODE_KEY, language.languageCode).putString(Constants.OUT_MESSAGE_LANG_NAME_KEY, language.languageName).apply();
-
-        selectedLanguage = language;
-        tvLanguage.setText(language.languageName);
-        for (TongramLanguageModel languageModel : languageModels) {
-            languageModel.isSelected = languageModel.equals(language);
+    public void onImproved(List<WritingAssistantResultModel> results, int typeId) {
+        if (improvedList.get(typeId) == null) {
+            improvedList.put(typeId, results);
+        } else {
+            improvedList.replace(typeId, results);
         }
-        setStyleForSendButton();
+        setTextApply(getImprovedSelectedResult(typeId) != null);
+    }
+
+    @Override
+    public void onTransformed(List<WritingAssistantResultModel> results, int typeId) {
+        if (transformedList.get(typeId) == null) {
+            transformedList.put(typeId, results);
+        } else {
+            transformedList.replace(typeId, results);
+        }
+        setTextApply(getTransformedSelectedResult(typeId) != null);
+    }
+
+    private WritingAssistantResultModel getTransformedSelectedResult(int typeId) {
+        if (transformedList.get(typeId) == null) return null;
+        return Objects.requireNonNull(transformedList.get(typeId)).stream().filter(e -> e.isSelected).findFirst().orElse(null);
+    }
+
+    private WritingAssistantResultModel getImprovedSelectedResult(int typeId) {
+        if (improvedList.get(typeId) == null) return null;
+        return Objects.requireNonNull(improvedList.get(typeId)).stream().filter(e -> e.isSelected).findFirst().orElse(null);
+    }
+
+    @Override
+    public void onSummarized(WritingAssistantResultModel summarized) {
+        this.summarized = summarized;
+    }
+
+    public class AiPagerAdapter extends FragmentStatePagerAdapter {
+        public AiPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @NonNull
+        @Override
+        public Fragment getItem(int i) {
+            TongramAiFeatureModel feature = aiTabs.get(i);
+            if (feature.id == Constants.AITypeId.TEMPLATE.id) {
+                return new AITemplateFragment(transformInput, AiEnhanceDialog.this, transformedList.get(feature.subId), feature);
+            } else if (feature.id == Constants.AITypeId.IMPROVE.id) {
+                return new AIImproveFragment(improveInput, improvedList.get(feature.subId), AiEnhanceDialog.this, feature);
+            } else if (feature.id == Constants.AITypeId.SUMMARY.id) {
+                return new AISummaryFragment(unreadMessages, AiEnhanceDialog.this, summarized);
+            } else {
+                return new AITranslationFragment(translatedMessageRepository, languageModels, AiEnhanceDialog.this, translatedResult, input);
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return aiTabs.size();
+        }
     }
 
     public interface Delegate {
         void onTranslatedApply(String text);
+
+        void onTransformApply(String text);
     }
 
-    public AiEnhanceDialog(Delegate delegate, Theme.ResourcesProvider resourcesProvider, List<TongramLanguageModel> languageModels, ITranslatedMessageRepository translatedMessageRepository, CharSequence input) {
+    public AiEnhanceDialog(Delegate delegate, Theme.ResourcesProvider resourcesProvider, List<TongramLanguageModel> languageModels, ITranslatedMessageRepository translatedMessageRepository, CharSequence input, ArrayList<MessageObject> unreadMessages) {
         this.delegate = delegate;
         this.resourcesProvider = resourcesProvider;
-        this.languageModels = languageModels;
         this.translatedMessageRepository = translatedMessageRepository;
+        this.languageModels = languageModels;
+        this.unreadMessages = unreadMessages;
         this.input = input;
+        this.transformInput = input;
+        this.improveInput = input;
+        aiTabs = new ArrayList<>();
+
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(Constants.TONGRAM_CONFIG, Activity.MODE_PRIVATE);
+        final boolean isEnableTranslation = preferences.getBoolean(Constants.ENABLE_AI_TRANSLATION, false);
+        final boolean isEnableWritingAssistant = preferences.getBoolean(Constants.ENABLE_AI_WRITING_ASSISTANT, false);
+        final boolean isEnableChatSummary = preferences.getBoolean(Constants.ENABLE_AI_CHAT_SUMMARY, false);
+
+        boolean hasSelectedTab = false;
+        if (isEnableTranslation) {
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.TRANSLATION.id, Constants.AITypeId.TRANSLATION.id, R.drawable.ic_ai_translate, LocaleController.getString(R.string.PassportTranslation), false, true));
+            hasSelectedTab = true;
+        }
+        if (isEnableChatSummary) {
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.SUMMARY.id, Constants.AITypeId.SUMMARY.id, R.drawable.ic_summary, LocaleController.getString(R.string.Summarize), false, !hasSelectedTab));
+            hasSelectedTab = true;
+        }
+        if (isEnableWritingAssistant) {
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.IMPROVE.id, Constants.AIImproveId.FIX_GRAMMAR.id, R.drawable.ic_writing_assistant, LocaleController.getString(R.string.FixGrammar), false, !hasSelectedTab));
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.IMPROVE.id, Constants.AIImproveId.MAKE_FORMAL.id, R.drawable.ic_make_formal, LocaleController.getString(R.string.MakeFormal), false, false));
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.IMPROVE.id, Constants.AIImproveId.MAKE_FRIENDLY.id, R.drawable.ic_make_friendly, LocaleController.getString(R.string.MakeFriendly), false, false));
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.IMPROVE.id, Constants.AIImproveId.MAKE_POLITE.id, R.drawable.ic_make_polite, LocaleController.getString(R.string.MakePolite), false, false));
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.TEMPLATE.id, Constants.AITemplateId.SET_MEETING.id, R.drawable.ic_set_meeting, LocaleController.getString(R.string.SetMeeting), false, false));
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.TEMPLATE.id, Constants.AITemplateId.WRITE_EMAIL.id, R.drawable.ic_write_email, LocaleController.getString(R.string.WriteEmail), false, false));
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.TEMPLATE.id, Constants.AITemplateId.SAY_HI.id, R.drawable.ic_say_hi, LocaleController.getString(R.string.SayHi), false, false));
+            aiTabs.add(new TongramAiFeatureModel(Constants.AITypeId.TEMPLATE.id, Constants.AITemplateId.SAY_THANKS.id, R.drawable.ic_thanks, LocaleController.getString(R.string.ThankForNote), false, false));
+        }
     }
 
-    public synchronized static AiEnhanceDialog newInstance(Delegate delegate, Theme.ResourcesProvider resourcesProvider, List<TongramLanguageModel> languageModels, ITranslatedMessageRepository translatedMessageRepository, CharSequence input) {
-        return new AiEnhanceDialog(delegate, resourcesProvider, languageModels, translatedMessageRepository, input);
+    public synchronized static AiEnhanceDialog newInstance(Delegate delegate,
+                                                           Theme.ResourcesProvider resourcesProvider,
+                                                           List<TongramLanguageModel> languageModels,
+                                                           ITranslatedMessageRepository translatedMessageRepository,
+                                                           CharSequence input,
+                                                           ArrayList<MessageObject> unreadMessages) {
+        return new AiEnhanceDialog(delegate, resourcesProvider, languageModels, translatedMessageRepository, input, unreadMessages);
     }
 
     @Override
@@ -154,10 +224,6 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
 
     @Override
     public void dismiss() {
-        clearResult();
-        stopResultJumpAnimation();
-        edtInput.setText(null);
-        setStyleForSendButton();
         super.dismiss();
     }
 
@@ -194,8 +260,17 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
             background.setColorFilter(new PorterDuffColorFilter(themeColor, PorterDuff.Mode.SRC_IN));
         }
 
-        LinearLayout llInput = view.findViewById(R.id.ll_input);
-        llInput.setBackgroundColor(Theme.getColor(Theme.key_input_background, resourcesProvider));
+        ConstraintLayout clParentHistory = view.findViewById(R.id.cl_parent_history);
+        clParentHistory.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+        ConstraintLayout clHistory = view.findViewById(R.id.cl_history);
+        View divider = clHistory.findViewById(R.id.v_divider);
+        divider.setBackgroundColor(Theme.getColor(Theme.key_divider));
+        TextView tvHistory = clHistory.findViewById(R.id.tv_ai_feature);
+        tvHistory.setTextColor(Theme.getColor(Theme.key_profile_title));
+        ImageView ivHistory = clHistory.findViewById(R.id.iv_ai_feature);
+        ivHistory.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_icon_color), PorterDuff.Mode.SRC_IN));
+        setItemBackground(ivHistory, false);
+        clHistory.setOnClickListener(v -> new HistoryDialog().show(getChildFragmentManager(), HistoryDialog.TAG));
 
         TextView tvTitle = view.findViewById(R.id.tv_tongram_ai);
         tvTitle.setTypeface(AndroidUtilities.bold());
@@ -208,51 +283,79 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
             ivBack.setColorFilter(new PorterDuffColorFilter(themeColor, PorterDuff.Mode.SRC_IN));
         }
         ivBack.setOnClickListener(v -> dismiss());
-
-        View divider = view.findViewById(R.id.v_divider);
-        divider.setBackgroundColor(Theme.getColor(Theme.key_divider, resourcesProvider));
-
-        tvResult = view.findViewById(R.id.tv_result);
-        tvResult.setTextColor(Theme.getColor(Theme.key_profile_title, resourcesProvider));
-        tvResult.setText(LocaleController.getString(R.string.ThreeDot));
-
         tvApply = view.findViewById(R.id.tv_apply);
         tvApply.setTypeface(AndroidUtilities.bold());
         setTextApply(false);
         tvApply.setOnClickListener(v -> {
-            if (tvResult.getText() == null || tvResult.getText().toString().isEmpty() || tvResult.getText().equals(LocaleController.getString(R.string.ThreeDot)) || tvResult.getText().equals(LocaleController.getString(R.string.Translating))) {
-                return;
+            final TongramAiFeatureModel selectedFeature = aiTabs.stream().filter(e -> e.isSelected).findFirst().orElse(null);
+            if (selectedFeature != null) {
+                if (selectedFeature.id == Constants.AITypeId.TEMPLATE.id) {
+                    final WritingAssistantResultModel result = getTransformedSelectedResult(selectedFeature.subId);
+                    if (result == null) {
+                        return;
+                    }
+                    delegate.onTransformApply(result.message);
+                } else if (selectedFeature.id == Constants.AITypeId.IMPROVE.id) {
+                    final WritingAssistantResultModel result = getImprovedSelectedResult(selectedFeature.subId);
+                    if (result == null) {
+                        return;
+                    }
+                    delegate.onTransformApply(result.message);
+                } else if (selectedFeature.id == Constants.AITypeId.SUMMARY.id) {
+                    return;
+                } else {
+                    if (translatedResult == null || translatedResult.toString().isEmpty() || translatedResult.equals(LocaleController.getString(R.string.ThreeDot)) || translatedResult.equals(LocaleController.getString(R.string.Translating))) {
+                        return;
+                    }
+                    delegate.onTranslatedApply(translatedResult.toString());
+                }
             }
-            delegate.onTranslatedApply(tvResult.getText().toString());
             dismiss();
         });
 
-        tvLanguage = view.findViewById(R.id.tv_language);
-        tvLanguage.setTextColor(Theme.getColor(Theme.key_text_enable, resourcesProvider));
-        setLanguage();
+        ViewPager viewPager = view.findViewById(R.id.ai_view_pager);
+        AiPagerAdapter viewPagerAdapter = new AiPagerAdapter(getChildFragmentManager());
+        viewPager.setAdapter(viewPagerAdapter);
+        TabLayout tabLayout = view.findViewById(R.id.ai_tab_layout);
+        tabLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabTextColors(Theme.getColor(Theme.key_text_disable, resourcesProvider), Theme.getColor(Theme.key_text_enable, resourcesProvider));
+        for (int i = 0; i < aiTabs.size(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            TongramAiFeatureModel feature = aiTabs.get(i);
+            if (tab != null) {
+                ConstraintLayout tabView = (ConstraintLayout) LayoutInflater.from(getContext())
+                        .inflate(R.layout.custom_tab_item_layout, tabLayout, false);
+                tab.setCustomView(setTabDrawable(feature, tabView));
+            }
+        }
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                final TongramAiFeatureModel selectedFeature = aiTabs.get(tab.getPosition());
+                selectedFeature.isSelected = true;
+                View v = tab.getCustomView();
+                if (v != null) {
+                    tab.setCustomView(setTabDrawable(selectedFeature, v));
+                }
+                checkCanApply(selectedFeature);
+            }
 
-        LinearLayout llChooseLanguage = view.findViewById(R.id.ll_choose_language);
-        llChooseLanguage.setOnClickListener(v -> {
-            if (getContext() instanceof androidx.fragment.app.FragmentActivity) {
-                androidx.fragment.app.FragmentActivity activity = (androidx.fragment.app.FragmentActivity) getContext();
-                LanguagesDialog.newInstance(this, languageModels).show(activity.getSupportFragmentManager(), null);
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                final TongramAiFeatureModel unSelectedFeature = aiTabs.get(tab.getPosition());
+                unSelectedFeature.isSelected = false;
+                View v = tab.getCustomView();
+                if (v != null) {
+                    tab.setCustomView(setTabDrawable(unSelectedFeature, v));
+                }
+                checkCanApply(unSelectedFeature);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
-        List<TongramAiFeatureModel> tongramAiFeatures = new ArrayList<>();
-        tongramAiFeatures.add(new TongramAiFeatureModel(R.drawable.ic_ai_translate, LocaleController.getString(R.string.PassportTranslation), false, true));
-        tongramAiFeatures.add(new TongramAiFeatureModel(R.drawable.ic_writing_assistant, LocaleController.getString(R.string.WritingAssistant), true, false));
-
-        TongramAIFeatureAdapter tongramAiFeatureAdapter = new TongramAIFeatureAdapter(tongramAiFeatures);
-        RecyclerView rvFeatures = view.findViewById(R.id.rv_tongram_feature);
-        rvFeatures.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rvFeatures.setAdapter(tongramAiFeatureAdapter);
-
-        ivAction = view.findViewById(R.id.iv_action);
-        setStyleForSendButton();
-        ivAction.setOnClickListener(v -> handleTranslateMessage());
-
-        handleTranslateMessage();
 
         androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
             v.setPadding(0, 0, 0, insets.getSystemWindowInsetBottom());
@@ -262,44 +365,52 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
         return view;
     }
 
-    private void handleTranslateMessage() {
-        if (edtInput != null && !edtInput.getText().toString().isEmpty() && selectedLanguage != null) {
+    private void checkCanApply(TongramAiFeatureModel model) {
+        if (model.id == Constants.AITypeId.TEMPLATE.id) {
+            tvApply.setVisibility(View.VISIBLE);
+            setTextApply(getTransformedSelectedResult(model.subId) != null);
+        } else if (model.id == Constants.AITypeId.IMPROVE.id) {
+            tvApply.setVisibility(View.VISIBLE);
+            setTextApply(getImprovedSelectedResult(model.subId) != null);
+        } else if (model.id == Constants.AITypeId.SUMMARY.id) {
+            tvApply.setVisibility(View.GONE);
             setTextApply(false);
-            translateMessage();
-        }
-    }
-
-    private void setLanguage() {
-        for (TongramLanguageModel language : languageModels) {
-            if (language.isSelected) {
-                selectedLanguage = language;
-            }
-        }
-        if (selectedLanguage != null) {
-            tvLanguage.setText(selectedLanguage.languageName);
-            setStyleForSendButton();
-        }
-    }
-
-    private void setStyleForSendButton() {
-        if (ivAction == null) return;
-        int colorKey;
-        if (edtInput == null || edtInput.getText().toString().isEmpty() || selectedLanguage == null) {
-            colorKey = Theme.key_button_disable;
-            ivAction.setAlpha(0.5f);
         } else {
-            colorKey = Theme.key_button_enable;
-            ivAction.setAlpha(1f);
-        }
-        int color = Theme.getColor(colorKey);
-
-        Drawable background = ivAction.getBackground();
-        if (background != null) {
-            background.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+            tvApply.setVisibility(View.VISIBLE);
+            setTextApply(translatedResult != null && !translatedResult.toString().isEmpty());
         }
     }
 
-    private void setTextApply(boolean canApply) {
+    private View setTabDrawable(TongramAiFeatureModel feature, View tabView) {
+        TextView tabTitle = tabView.findViewById(R.id.tv_ai_feature);
+        tabTitle.setTextColor(Theme.getColor(Theme.key_profile_title));
+        tabTitle.setText(feature.title);
+
+        ImageView tabIcon = tabView.findViewById(R.id.iv_ai_feature);
+        tabIcon.setImageResource(feature.iconResource);
+
+        if (feature.isSelected) {
+            tabTitle.setTypeface(AndroidUtilities.bold());
+            tabIcon.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_view_pager_title_color), PorterDuff.Mode.SRC_IN));
+        } else {
+            tabTitle.setTypeface(Typeface.DEFAULT);
+            tabIcon.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_icon_color), PorterDuff.Mode.SRC_IN));
+        }
+
+        setItemBackground(tabIcon, feature.isSelected);
+        return tabView;
+    }
+
+    private void setItemBackground(View view, boolean isSelected) {
+        GradientDrawable inner = new GradientDrawable();
+        inner.setColor(Theme.getColor(isSelected ? Theme.key_icon_color : Theme.key_input_background));
+        inner.setCornerRadius(AndroidUtilities.dp(5));
+
+        view.setBackground(inner);
+    }
+
+    @Override
+    public void setTextApply(boolean canApply) {
         if (canApply) {
             tvApply.setTextColor(Theme.getColor(Theme.key_text_enable, resourcesProvider));
         } else {
@@ -307,104 +418,8 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements Langua
         }
     }
 
-    public void clearResult() {
-        tvResult.setText(LocaleController.getString(R.string.ThreeDot));
-    }
-
-    private void handleTranslateError(String message) {
-        BaseFragment lastFragment = LaunchActivity.getLastFragment();
-        BulletinFactory.of(lastFragment).createCopyBulletin(message).show();
-        clearResult();
-        stopResultJumpAnimation();
-    }
-
-    private void translateMessage() {
-        if (edtInput == null || edtInput.getText().toString().isEmpty()) return;
-        input = edtInput.getText();
-        edtInput.setText("");
-        setStyleForSendButton();
-        startResultJumpAnimation();
-        detectLanguageExecutor.execute(() -> LanguageDetector.detectLanguage(input.toString(), lng -> AndroidUtilities.runOnUIThread(() -> {
-            if (lng.equals(selectedLanguage.languageCode)) {
-                tvResult.setText(input);
-                stopResultJumpAnimation();
-                setTextApply(true);
-            } else {
-                translate();
-            }
-        }), err -> AndroidUtilities.runOnUIThread(() -> handleTranslateError(err.getMessage()))));
-    }
-
-    private void startResultJumpAnimation() {
-        stopResultJumpAnimation();
-
-        final String text = LocaleController.getString(R.string.Translating);
-        final android.text.SpannableString spannable = new android.text.SpannableString(text);
-        final JumpSpan[] spans = new JumpSpan[text.length()];
-
-        for (int i = 0; i < text.length(); i++) {
-            spans[i] = new JumpSpan();
-            spannable.setSpan(spans[i], i, i + 1, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-
-        resultJumpAnimator = android.animation.ValueAnimator.ofFloat(0, 1f);
-        resultJumpAnimator.setDuration(1000);
-        resultJumpAnimator.setRepeatCount(android.animation.ValueAnimator.INFINITE);
-        resultJumpAnimator.addUpdateListener(animation -> {
-            float phase = (float) animation.getAnimatedValue();
-            for (int i = 0; i < spans.length; i++) {
-                float startAt = i * 0.05f;
-                float endAt = startAt + 0.3f;
-
-                float charProgress = 0f;
-                if (phase >= startAt && phase <= endAt) {
-                    charProgress = (phase - startAt) / (endAt - startAt);
-                }
-
-                if (charProgress > 0) {
-                    spans[i].translationY = (float) Math.sin(charProgress * Math.PI) * -AndroidUtilities.dp(4);
-                } else {
-                    spans[i].translationY = 0;
-                }
-            }
-            tvResult.setText(spannable);
-        });
-        resultJumpAnimator.start();
-    }
-
-    private void stopResultJumpAnimation() {
-        if (resultJumpAnimator != null) {
-            resultJumpAnimator.cancel();
-            resultJumpAnimator = null;
-        }
-    }
-
-    private void translate() {
-        if (selectedLanguage == null) return;
-        translatedMessageRepository.draftTranslate(input.toString(), selectedLanguage.languageCode,
-                new IOnApiCallback<TranslateMessageResponse>() {
-                    @Override
-                    public void onSuccess(TranslateMessageResponse data) {
-                        stopResultJumpAnimation();
-                        final TranslatedMessageResult result = data.getResult();
-                        final List<TranslatedChoice> choices = result.getChoices();
-                        if (!choices.isEmpty()) {
-                            final TranslatedMessage translatedMessage = choices.get(0).getMessage();
-                            if (translatedMessage != null) {
-                                tvResult.setText(translatedMessage.getContent());
-                                setTextApply(true);
-                                return;
-                            }
-                        }
-                        handleTranslateError(getString(R.string.UnablePerformTranslation));
-                        setTextApply(false);
-                    }
-
-                    @Override
-                    public void onError(String errorMessage) {
-                        setTextApply(false);
-                        handleTranslateError(errorMessage);
-                    }
-                });
+    @Override
+    public void translated(CharSequence text) {
+        translatedResult = text;
     }
 }

@@ -6,13 +6,13 @@ import java.util.List;
 import ton_core.daos.TranslatedMessageDao;
 import ton_core.database.TongramDatabase;
 import ton_core.entities.TranslatedMessageEntity;
-import ton_core.models.TranslateMessageResponse;
+import ton_core.models.responses.TranslateMessageResponse;
 import ton_core.models.TranslatedChoice;
 import ton_core.models.TranslatedMessage;
 import ton_core.models.TranslatedMessageResult;
 import ton_core.services.IOnApiCallback;
-import ton_core.services.sample_service.ITranslateService;
-import ton_core.services.sample_service.TranslateService;
+import ton_core.services.translate_service.ITranslateService;
+import ton_core.services.translate_service.TranslateService;
 
 public class TranslatedMessageRepository implements ITranslatedMessageRepository {
     private static TranslatedMessageRepository INSTANCE;

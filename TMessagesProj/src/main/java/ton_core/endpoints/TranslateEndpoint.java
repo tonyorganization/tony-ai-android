@@ -4,8 +4,8 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-import ton_core.models.TranslateMessageResponse;
-import ton_core.models.TranslateRequest;
+import ton_core.models.responses.TranslateMessageResponse;
+import ton_core.models.requests.TranslateRequest;
 
 public interface TranslateEndpoint {
     @POST("translate-proxy")

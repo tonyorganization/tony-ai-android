@@ -1,10 +1,10 @@
-package ton_core.services.sample_service;
+package ton_core.services.translate_service;
 
 import org.telegram.messenger.BuildConfig;
 import ton_core.TonApiClient;
 import ton_core.endpoints.TranslateEndpoint;
-import ton_core.models.TranslateMessageResponse;
-import ton_core.models.TranslateRequest;
+import ton_core.models.responses.TranslateMessageResponse;
+import ton_core.models.requests.TranslateRequest;
 import ton_core.services.BaseService;
 import ton_core.services.IOnApiCallback;
 

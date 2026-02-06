@@ -80,6 +80,8 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:32.7.0')
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
 
 }
 
@@ -133,6 +135,34 @@ android {
         }
     }
 
+    def tonDevApiUrl
+    def tonDevApiKey
+
+    def tonProdApiUrl
+    def tonProdApiKey
+
+    def isBuildWithCICD = project.hasProperty('tonDevAPIUrl') || project.hasProperty('tonProdAPIUrl')
+
+    if (isBuildWithCICD) {
+        if (project.hasProperty('tonProdAPIUrl')) { //release
+            tonProdApiUrl = project.getProperty('tonProdAPIUrl') ?: ""
+            tonProdApiKey = project.getProperty('tonProdAPIKey') ?: ""
+        }
+        if (project.hasProperty('tonDevAPIUrl')) { //debug
+            tonDevApiUrl = project.getProperty('tonDevAPIUrl') ?: ""
+            tonDevApiKey = project.getProperty('tonDevAPIKey') ?: ""
+        }
+    } else {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+        tonDevApiUrl = properties.getProperty("TON_DEV_API_URL") ?: ""
+        tonDevApiKey = properties.getProperty('TON_DEV_API_KEY') ?: ""
+
+        tonProdApiUrl = properties.getProperty("TON_PROD_API_URL") ?: ""
+        tonProdApiKey = properties.getProperty("TON_PROD_API_KEY") ?: ""
+    }
+
     buildTypes {
         debug {
             jniDebuggable true
@@ -148,8 +178,8 @@ android {
             buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "true"
             buildConfigField "boolean", "BUILD_HOST_IS_WINDOWS", isWindows
             buildConfigField "int", "VERSION_NUM", "0"
-            buildConfigField "String", "TON_API_URL", "\"https://tongram-ai-dev-v2.motcaigido.xyz/ton-api/api/v1/\""
-            buildConfigField "String", "TON_API_KEY", "\"393a7937f6002ced4f9ad22d9421d3db\""
+            buildConfigField "String", "TON_API_URL", "\"${tonDevApiUrl}\""
+            buildConfigField "String", "TON_API_KEY", "\"${tonDevApiKey}\""
         }
 
         HA_private {
@@ -165,8 +195,8 @@ android {
             buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "true"
             buildConfigField "boolean", "BUILD_HOST_IS_WINDOWS", isWindows
             buildConfigField "int", "VERSION_NUM", "1"
-            buildConfigField "String", "TON_API_URL", "\"https://tongram-ai-dev-v2.motcaigido.xyz/ton-api/api/v1/\""
-            buildConfigField "String", "TON_API_KEY", "\"393a7937f6002ced4f9ad22d9421d3db\""
+            buildConfigField "String", "TON_API_URL", "\"${tonDevApiUrl}\""
+            buildConfigField "String", "TON_API_KEY", "\"${tonDevApiKey}\""
         }
 
         HA_public {
@@ -182,8 +212,8 @@ android {
             buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "false"
             buildConfigField "boolean", "BUILD_HOST_IS_WINDOWS", isWindows
             buildConfigField "int", "VERSION_NUM", "4"
-            buildConfigField "String", "TON_API_URL", "\"https://tongram-ai-dev-v2.motcaigido.xyz/ton-api/api/v1/\""
-            buildConfigField "String", "TON_API_KEY", "\"393a7937f6002ced4f9ad22d9421d3db\""
+            buildConfigField "String", "TON_API_URL", "\"${tonDevApiUrl}\""
+            buildConfigField "String", "TON_API_KEY", "\"${tonDevApiKey}\""
         }
 
         HA_hardcore {
@@ -199,8 +229,8 @@ android {
             buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "true"
             buildConfigField "boolean", "BUILD_HOST_IS_WINDOWS", isWindows
             buildConfigField "int", "VERSION_NUM", "5"
-            buildConfigField "String", "TON_API_URL", "\"https://tongram-ai-dev-v2.motcaigido.xyz/ton-api/api/v1/\""
-            buildConfigField "String", "TON_API_KEY", "\"393a7937f6002ced4f9ad22d9421d3db\""
+            buildConfigField "String", "TON_API_URL", "\"${tonDevApiUrl}\""
+            buildConfigField "String", "TON_API_KEY", "\"${tonDevApiKey}\""
         }
 
         standalone {
@@ -216,8 +246,8 @@ android {
             buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "false"
             buildConfigField "boolean", "BUILD_HOST_IS_WINDOWS", isWindows
             buildConfigField "int", "VERSION_NUM", "6"
-            buildConfigField "String", "TON_API_URL", "\"https://tongramai-services.tongram.app/ton-api/api/v1/\""
-            buildConfigField "String", "TON_API_KEY", "\"7aff3c66fd29e56901e731e7ab7cfc6d\""
+            buildConfigField "String", "TON_API_URL", "\"${tonProdApiUrl}\""
+            buildConfigField "String", "TON_API_KEY", "\"${tonProdApiKey}\""
         }
 
         release {
@@ -234,8 +264,8 @@ android {
             buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "false"
             buildConfigField "boolean", "BUILD_HOST_IS_WINDOWS", isWindows
             buildConfigField "int", "VERSION_NUM", "7"
-            buildConfigField "String", "TON_API_URL", "\"https://tongramai-services.tongram.app/ton-api/api/v1/\""
-            buildConfigField "String", "TON_API_KEY", "\"7aff3c66fd29e56901e731e7ab7cfc6d\""
+            buildConfigField "String", "TON_API_URL", "\"${tonProdApiUrl}\""
+            buildConfigField "String", "TON_API_KEY", "\"${tonProdApiKey}\""
         }
     }
 

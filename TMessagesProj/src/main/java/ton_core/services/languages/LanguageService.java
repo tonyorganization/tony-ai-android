@@ -6,7 +6,7 @@ import java.util.List;
 
 import ton_core.TonApiClient;
 import ton_core.endpoints.LanguageEndpoint;
-import ton_core.models.LanguageResponse;
+import ton_core.models.responses.LanguageResponse;
 import ton_core.services.BaseService;
 import ton_core.services.IOnApiCallback;
 

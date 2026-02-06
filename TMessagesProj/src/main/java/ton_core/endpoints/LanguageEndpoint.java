@@ -5,7 +5,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import ton_core.models.LanguageResponse;
+import ton_core.models.responses.LanguageResponse;
 
 public interface LanguageEndpoint {
     @GET("list-languages")

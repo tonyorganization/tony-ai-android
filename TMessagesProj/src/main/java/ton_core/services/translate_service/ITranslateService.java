@@ -1,6 +1,6 @@
-package ton_core.services.sample_service;
+package ton_core.services.translate_service;
 
-import ton_core.models.TranslateMessageResponse;
+import ton_core.models.responses.TranslateMessageResponse;
 import ton_core.services.IOnApiCallback;
 
 public interface ITranslateService {
