@@ -17,10 +17,10 @@ pipeline {
         // Telegram configuration
         TOKEN = credentials('b4a49b21-4caa-4f7a-834b-ffa7d6b9c41e')
         CHAT_ID = credentials('69503db3-8106-40c6-8bd0-876b2eb2adb7')
-        TON_DEV_API_URL = 'https://tongram-ai-dev-v2.motcaigido.xyz/ton-api/api/v1/'
-        TON_PROD_API_URL = 'https://tongramai-services.tongram.app/ton-api/api/v1/'
-        TON_DEV_API_KEY = '393a7937f6002ced4f9ad22d9421d3db'
-        TON_PROD_API_KEY = '7aff3c66fd29e56901e731e7ab7cfc6d'
+        TON_DEV_API_URL = credentials('ton-dev-api-url')
+        TON_PROD_API_URL = credentials('ton-prod-api-url')
+        TON_DEV_API_KEY = credentials('ton-dev-api-key')
+        TON_PROD_API_KEY = credentials('ton-prod-api-key')
     }
 
     stages {
