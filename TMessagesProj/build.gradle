@@ -141,12 +141,17 @@ android {
     def tonProdApiUrl
     def tonProdApiKey
 
-    if (project.hasProperty('tonDevAPIUrl') || project.hasProperty('tonProdAPIUrl')) {
-        tonDevApiUrl = project.getProperty('tonDevAPIUrl') ?: ""
-        tonDevApiKey = project.getProperty('tonDevAPIKey') ?: ""
+    def isBuildWithCICD = project.hasProperty('tonDevAPIUrl') || project.hasProperty('tonProdAPIUrl')
 
-        tonProdApiUrl = project.getProperty('tonProdAPIUrl') ?: ""
-        tonProdApiKey = project.getProperty('tonProdAPIKey') ?: ""
+    if (isBuildWithCICD) {
+        if (project.hasProperty('tonProdAPIUrl')) { //release
+            tonProdApiUrl = project.getProperty('tonProdAPIUrl') ?: ""
+            tonProdApiKey = project.getProperty('tonProdAPIKey') ?: ""
+        }
+        if (project.hasProperty('tonDevAPIUrl')) { //debug
+            tonDevApiUrl = project.getProperty('tonDevAPIUrl') ?: ""
+            tonDevApiKey = project.getProperty('tonDevAPIKey') ?: ""
+        }
     } else {
         Properties properties = new Properties()
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
