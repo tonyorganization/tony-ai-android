@@ -143,10 +143,10 @@ android {
 
     if (project.hasProperty('tonDevAPIUrl') || project.hasProperty('tonProdAPIUrl')) {
         tonDevApiUrl = project.getProperty('tonDevAPIUrl') ?: ""
-        tonDevApiKey = project.getProperty('tonDevApiKey') ?: ""
+        tonDevApiKey = project.getProperty('tonDevAPIKey') ?: ""
 
         tonProdApiUrl = project.getProperty('tonProdAPIUrl') ?: ""
-        tonProdApiKey = project.getProperty('tonProdApiKey') ?: ""
+        tonProdApiKey = project.getProperty('tonProdAPIKey') ?: ""
     } else {
         Properties properties = new Properties()
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
