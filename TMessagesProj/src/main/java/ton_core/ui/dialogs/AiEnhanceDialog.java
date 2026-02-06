@@ -232,6 +232,27 @@ public class AiEnhanceDialog extends BottomSheetDialogFragment implements AITran
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tongram_ai_layout, container, false);
 
+        edtInput = view.findViewById(R.id.edt_input);
+        edtInput.requestFocus();
+        edtInput.setTextColor(Theme.getColor(Theme.key_profile_title, resourcesProvider));
+        edtInput.setText(input);
+        edtInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                setStyleForSendButton();
+            }
+        });
+
         Drawable background = view.findViewById(R.id.cl_root).getBackground();
 
         if (background != null) {
