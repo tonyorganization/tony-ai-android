@@ -135,24 +135,28 @@ android {
         }
     }
 
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    def tonDevApiUrl
+    def tonDevApiKey
 
-    def tonDevApiUrl = project.hasProperty('tonDevAPIUrl') ?
-            project.getProperty('apiUrl') :
-            properties.getProperty("TON_DEV_API_URL") ?: ""
+    def tonProdApiUrl
+    def tonProdApiKey
 
-    def tonDevApiKey = project.hasProperty('tonDevApiKey') ?
-            project.getProperty('tonDevApiKey') :
-            properties.getProperty("TON_DEV_API_KEY") ?: ""
+    if (project.hasProperty('tonDevAPIUrl') || project.hasProperty('tonProdAPIUrl')) {
+        tonDevApiUrl = project.getProperty('tonDevAPIUrl') ?: ""
+        tonDevApiKey = project.getProperty('tonDevApiKey') ?: ""
 
-    def tonProdApiUrl = project.hasProperty('tonProdAPIUrl') ?
-            project.getProperty('tonProdAPIUrl') :
-            properties.getProperty("TON_PROD_API_URL") ?: ""
+        tonProdApiUrl = project.getProperty('tonProdAPIUrl') ?: ""
+        tonProdApiKey = project.getProperty('tonProdApiKey') ?: ""
+    } else {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
-    def tonProdApiKey = project.hasProperty('tonProdApiKey') ?
-            project.getProperty('tonProdApiKey') :
-            properties.getProperty("TON_PROD_API_KEY") ?: ""
+        tonDevApiUrl = properties.getProperty("TON_DEV_API_URL") ?: ""
+        tonDevApiKey = properties.getProperty('TON_DEV_API_KEY') ?: ""
+
+        tonProdApiUrl = properties.getProperty("TON_PROD_API_URL") ?: ""
+        tonProdApiKey = properties.getProperty("TON_PROD_API_KEY") ?: ""
+    }
 
     buildTypes {
         debug {
