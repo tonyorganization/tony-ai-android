@@ -4235,6 +4235,56 @@ public class Theme {
     public static final int key_profile_drawer_background = colorsCount++;
     public static final int key_title_black_white = colorsCount++;
     public static final int key_icon_white_gray = colorsCount++;
+<<<<<<< HEAD
+=======
+    public static final int key_text_black_primary_color = colorsCount++;
+    public static final int key_profile_section_background = colorsCount++;
+    public static final int key_icon_black_yellow = colorsCount++;
+    public static final int key_background_selected = colorsCount++;
+    public static final int key_background_unselected = colorsCount++;
+    public static final int key_view_pager_title_color = colorsCount++;
+    public static final int key_text_like_theme = colorsCount++;
+    public static final int key_background_delete_button = colorsCount++;
+    public static final int key_bottom_navigation_background = colorsCount++;
+    public static final int keyTonyAiFeatureBackground = colorsCount++;
+    public static final int keyTonyAiFeatureIconBackground = colorsCount++;
+    public static final int keyTonyAiFeatureIcon = colorsCount++;
+    public static final int keyTonyAiFeatureDescription = colorsCount++;
+    public static final int keyExploreArticleBackground = colorsCount++;
+    public static final int keyExploreArticleTechCategoryBackground = colorsCount++;
+    public static final int keyExploreArticleBusinessCategoryBackground = colorsCount++;
+    public static final int keyExploreArticleWorldCategoryBackground = colorsCount++;
+    public static final int keyExploreArticleEntertainmentCategoryBackground = colorsCount++;
+    public static final int keyExploreArticleSportCategoryBackground = colorsCount++;
+    public static final int keyExploreArticleDescription = colorsCount++;
+    public static final int keyExploreArticleCategoryText = colorsCount++;
+    public static final int keyExploreArticleReadMoreText = colorsCount++;
+    public static final int keyExploreArticleReadMoreBackground = colorsCount++;
+    public static final int keyExploreArticleIconBackground = colorsCount++;
+    public static final int keyExploreCategoryBackgroundDefault = colorsCount++;
+    public static final int keyExploreCategoryBackgroundActive = colorsCount++;
+    public static final int keyExploreCategoryTextDefault = colorsCount++;
+    public static final int keyExploreCategoryTextActive = colorsCount++;
+    public static final int keyWarningLoginButtonBackground = colorsCount++;
+    public static final int keyWarningLoginCancelButtonBackground = colorsCount++;
+    public static final int keyWarningLoginDescription = colorsCount++;
+    public static final int keyWarningLoginIconBackground = colorsCount++;
+    public static final int keyWarningLoginIcon = colorsCount++;
+    public static final int keyWarningLoginTextButton = colorsCount++;
+    public static final int keyIntroNextTextButton = colorsCount++;
+    public static final int keyIntroStartedTextButton = colorsCount++;
+    public static final int keyAiFeatureBackgroundTabActive = colorsCount++;
+    public static final int keyAiFeatureBackgroundTabDefault = colorsCount++;
+    public static final int keyAiFeatureBackgroundOriginalResult = colorsCount++;
+    public static final int keyAiFeatureBackgroundEnhanceResult = colorsCount++;
+    public static final int keyAiFeatureTextEnhanceResult = colorsCount++;
+    public static final int keyAiFeatureTextOriginalResult = colorsCount++;
+    public static final int keyAiFeatureActionCardBackground = colorsCount++;
+    public static final int keyAiFeatureActionCardStroke = colorsCount++;
+    public static final int keyAiFeatureActionCardText = colorsCount++;
+    public static final int keyAiFeatureTranslatorTabActiveIcon = colorsCount++;
+    public static final int keyAiFeatureTranslatorTabDefaultIcon = colorsCount++;
+>>>>>>> 34912c1a (Update dark mode & fix UI for AI Writer, Translator Screen)
 
     public static final String key_drawable_botInline = "drawableBotInline";
     public static final String key_drawable_botLink = "drawableBotLink";

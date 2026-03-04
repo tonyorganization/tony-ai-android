@@ -199,7 +199,14 @@ chat_TextSelectionCursor=-11028499
 chat_inSiteNameText=-8796932
 chat_linkSelectBackground=1516415459
 chats_archivePullDownBackground=-14145496
+<<<<<<< HEAD
 windowBackgroundWhiteBlueText=-5256961
+=======
+windowBackgroundWhiteBlueText=-14517549
+aiFeatureBackgroundTabActive=-1
+aiFeatureBackgroundTabDefault=-15724528
+introNextAndStartedTextButton=-1
+>>>>>>> 34912c1a (Update dark mode & fix UI for AI Writer, Translator Screen)
 avatar_nameInMessageCyan=-11285306
 chat_inLocationBackground=-12829636
 radioBackground=-10461088
@@ -500,9 +507,22 @@ share_linkBackground=352321535
 glass_defaultIcon=-1593835521
 glass_defaultText=-1593835521
 coming_soon=-2412496
-input_background=-15065303
+input_background=-14606047
+aiFeatureBackgroundOriginalResult=-15724528
+aiFeatureBackgroundEnhanceResult=-14606047
 stroke_default=-12105913
+<<<<<<< HEAD
 text_enable=-5256961
+=======
+aiFeatureTextEnhanceResult=-1
+aiFeatureTextOriginalResult=-10526881
+aiFeatureActionCardBackground=-15724528
+aiFeatureActionCardStroke=-14606047
+aiFeatureActionCardText=-1
+aiFeatureTranslatorTabActiveIcon=-16777216
+aiFeatureTranslatorTabDefaultIcon=-1
+text_enable=-16777216
+>>>>>>> 34912c1a (Update dark mode & fix UI for AI Writer, Translator Screen)
 input_text=-1
 dialogGiftsBackground=-15789278
 actionBarBrowser=-15789278

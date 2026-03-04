@@ -10088,4 +10088,46 @@
     <string name="AITonyHistory">AI Tony History</string>
     <string name="ClearAIHistory">Clear History</string>
     <string name="HistoryDetailWithFeature">%s Details</string>
+<<<<<<< HEAD
+=======
+    <string name="Explore">Explore</string>
+    <string name="TonyAI">Tony AI</string>
+    <string name="what_can_i_help_you_with">What can I help you with?</string>
+    <string name="ai_writer">AI Writer</string>
+    <string name="translator">Translator</string>
+    <string name="remove_background">Remove Background</string>
+    <string name="upscale">Upscale</string>
+    <string name="remove_text">Remove Text</string>
+    <string name="ai_generate">AI Generate</string>
+    <string name="fix_grammar_adjust_tone">Fix grammar, adjust tone...</string>
+    <string name="translate_text_to_100">Translate text to 100+ languages</string>
+    <string name="remove_background_instantly">Remove Background instantly</string>
+    <string name="enhance_phot_resolution_2x">Enhance phot resolution 2x</string>
+    <string name="erase_text_from_any_image">Erase text from any image</string>
+    <string name="mix_two_emojis_into_fun_combos">Mix two emojis into fun combos</string>
+    <string name="login_with_telegram_to_continue">Login With Telegram To Continue</string>
+    <string name="login_with_telegram_content">Create an account to unlock messaging, AI features, and more</string>
+    <string name="private_messaging_with_end_to_end_encryption">Private messaging with end-to-end encryption</string>
+    <string name="ai_powered_translate_summarize_more"><![CDATA[AI-powered translate, summarize & more]]></string>
+    <string name="login">Login</string>
+    <string name="auto_detect">Auto Detect</string>
+    <string name="ImageGenerate">Image Generate</string>
+    <string name="generate_image_suggestion_1">Create an image of a futuristic city at night.</string>
+    <string name="generate_image_suggestion_2">Create an image of a magical forest.</string>
+    <string name="generate_image_suggestion_3">Create an image of a flying car.</string>
+    <string name="generate_image_suggestion_4">Create an image of a robot chef cooking in a kitchen.</string>
+    <string name="hint_generate_image_from_text">Describe the image you want to create...</string>
+    <string name="ImageCopied">Image copied to clipboard</string>
+    <string name="ImageSaved">Image saved</string>
+    <string name="tap_to_select_an_image">Tap to select an image</string>
+    <string name="explore_category_all">All</string>
+    <string name="explore_category_tech">Tech</string>
+    <string name="explore_category_business">Business</string>
+    <string name="explore_category_world">World</string>
+    <string name="explore_category_entertainment">Entertainment</string>
+    <string name="explore_category_sport">Sport</string>
+    <string name="ArticleDetail">Article Detail</string>
+    <string name="HintInputMessage">Message...</string>
+
+>>>>>>> 34912c1a (Update dark mode & fix UI for AI Writer, Translator Screen)
 </resources>

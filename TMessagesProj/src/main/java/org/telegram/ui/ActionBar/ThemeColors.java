@@ -844,6 +844,19 @@ public class ThemeColors {
         defaultColors[key_background_delete_button] = 0xFF1A1F29;
         defaultColors[key_icon_black_blue] = 0xFF000000;
 
+        //AI Writer
+        defaultColors[keyAiFeatureBackgroundTabActive] = 0xFF000000;
+        defaultColors[keyAiFeatureBackgroundTabDefault] = 0xFFFFFFFF;
+        defaultColors[keyAiFeatureBackgroundOriginalResult] = 0xFFE9E9E9;
+        defaultColors[keyAiFeatureBackgroundEnhanceResult] = 0xFFFFFFFF;
+        defaultColors[keyAiFeatureTextEnhanceResult] = 0xFF000000;
+        defaultColors[keyAiFeatureTextOriginalResult] = 0xFF8C8C8C;
+        defaultColors[keyAiFeatureActionCardBackground] = 0xffF2F2F2;
+        defaultColors[keyAiFeatureActionCardStroke] = 0xFF5F5F5F;
+        defaultColors[keyAiFeatureActionCardText] = 0xFF000000;
+        defaultColors[keyAiFeatureTranslatorTabActiveIcon] = 0xFFFFFFFF;
+        defaultColors[keyAiFeatureTranslatorTabDefaultIcon] = 0xFF000000;
+
         return defaultColors;
     }
 
@@ -1642,8 +1655,38 @@ public class ThemeColors {
         colorKeysMap.put(key_background_selected, "background_selected");
         colorKeysMap.put(key_view_pager_title_color, "view_pager_title_color");
         colorKeysMap.put(key_text_like_theme, "text_like_theme");
+<<<<<<< HEAD
         colorKeysMap.put(key_icon_black_blue, "icon_black_blue");
 
+=======
+        colorKeysMap.put(keyTonyAiFeatureBackground, "tonyAiFeatureBackground");
+        colorKeysMap.put(keyTonyAiFeatureIconBackground, "tonyAiFeatureIconBackground");
+        colorKeysMap.put(keyTonyAiFeatureIcon, "tonyAiFeatureIcon");
+        colorKeysMap.put(keyTonyAiFeatureDescription, "tonyAiFeatureDescription");
+        colorKeysMap.put(keyExploreArticleBackground, "exploreArticleBackground");
+        colorKeysMap.put(keyExploreArticleDescription, "exploreArticleDescription");
+        colorKeysMap.put(keyExploreArticleReadMoreBackground, "exploreArticleReadMoreBackground");
+        colorKeysMap.put(keyExploreArticleIconBackground, "exploreArticleIconBackground");
+        colorKeysMap.put(keyExploreCategoryBackgroundActive, "exploreCategoryBackgroundActive");
+        colorKeysMap.put(keyExploreCategoryBackgroundDefault, "exploreCategoryBackgroundDefault");
+        colorKeysMap.put(keyExploreCategoryTextActive, "exploreCategoryTextActive");
+        colorKeysMap.put(keyExploreCategoryTextDefault, "exploreCategoryTextDefault");
+        colorKeysMap.put(keyWarningLoginDescription, "warningLoginDescription");
+        colorKeysMap.put(keyWarningLoginIcon, "warningLoginIcon");
+        colorKeysMap.put(keyWarningLoginCancelButtonBackground, "warningLoginCancelButtonBackground");
+        colorKeysMap.put(keyIntroNextTextButton, "introNextAndStartedTextButton");
+        colorKeysMap.put(keyAiFeatureBackgroundTabDefault, "aiFeatureBackgroundTabDefault");
+        colorKeysMap.put(keyAiFeatureBackgroundTabActive, "aiFeatureBackgroundTabActive");
+        colorKeysMap.put(keyAiFeatureBackgroundOriginalResult, "aiFeatureBackgroundOriginalResult");
+        colorKeysMap.put(keyAiFeatureBackgroundEnhanceResult, "aiFeatureBackgroundEnhanceResult");
+        colorKeysMap.put(keyAiFeatureTextEnhanceResult, "aiFeatureTextEnhanceResult");
+        colorKeysMap.put(keyAiFeatureTextOriginalResult, "aiFeatureTextOriginalResult");
+        colorKeysMap.put(keyAiFeatureActionCardBackground, "aiFeatureActionCardBackground");
+        colorKeysMap.put(keyAiFeatureActionCardStroke, "aiFeatureActionCardStroke");
+        colorKeysMap.put(keyAiFeatureActionCardText, "aiFeatureActionCardText");
+        colorKeysMap.put(keyAiFeatureTranslatorTabActiveIcon, "aiFeatureTranslatorTabActiveIcon");
+        colorKeysMap.put(keyAiFeatureTranslatorTabDefaultIcon, "aiFeatureTranslatorTabDefaultIcon");
+>>>>>>> 34912c1a (Update dark mode & fix UI for AI Writer, Translator Screen)
         return colorKeysMap;
     }
 

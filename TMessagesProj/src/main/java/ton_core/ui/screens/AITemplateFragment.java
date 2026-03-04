@@ -1,9 +1,11 @@
 package ton_core.ui.screens;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -162,9 +164,67 @@ public class AITemplateFragment extends Fragment implements WritingAssistantResu
         final ImageView ivEmpty = view.findViewById(R.id.iv_empty);
         ivEmpty.setColorFilter(Theme.getColor(Theme.key_text_disable));
 
+<<<<<<< HEAD
+=======
+        llResultActions = view.findViewById(R.id.ic_result_actions);
+        CardView cvUndo = llResultActions.findViewById(R.id.cvUndo);
+        cvUndo.setBackground(createActionDrawable());
+        cvUndo.setOnClickListener(v -> {
+            if (!results.isEmpty()) {
+                edtInput.setText(results.get(0).message);
+                edtInput.setSelection(edtInput.length());
+
+                results.clear();
+                resultAdapter.notifyDataSetChanged();
+                setResultsVisibility();
+            }
+        });
+        TextView tvUndo = llResultActions.findViewById(R.id.tv_undo);
+        tvUndo.setTextColor(Theme.getColor(Theme.keyAiFeatureActionCardText));
+
+        CardView cvCopy = llResultActions.findViewById(R.id.cvCopy);
+        cvCopy.setBackground(createActionDrawable());
+        cvCopy.setOnClickListener(v -> {
+            AndroidUtilities.addToClipboard(results.get(1).message);
+            Toast.makeText(requireContext(), LocaleController.getString(R.string.TextCopied), Toast.LENGTH_SHORT).show();
+        });
+        TextView tvCopy = llResultActions.findViewById(R.id.tv_copy);
+        tvCopy.setTextColor(Theme.getColor(Theme.keyAiFeatureActionCardText));
+
+        CardView cvShare = llResultActions.findViewById(R.id.cvShare);
+        cvShare.setBackground(createActionDrawable());
+        cvShare.setOnClickListener(v -> {
+            String translatedText = results.get(1).message;
+            try {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, translatedText);
+
+                startActivity(Intent.createChooser(shareIntent, LocaleController.getString(R.string.ShareFile)));
+            } catch (Exception ignored) {
+            }
+        });
+        TextView tvShare = llResultActions.findViewById(R.id.tv_share);
+        tvShare.setTextColor(Theme.getColor(Theme.keyAiFeatureActionCardText));
+
+>>>>>>> 34912c1a (Update dark mode & fix UI for AI Writer, Translator Screen)
         setResultsVisibility();
 
         return view;
+    }
+
+    private Drawable createActionDrawable() {
+        final GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(GradientDrawable.RECTANGLE);
+
+        drawable.setColor(Theme.getColor(Theme.keyAiFeatureActionCardBackground));
+        int strokeWidth = AndroidUtilities.dp(1);
+        int strokeColor = Theme.getColor(Theme.keyAiFeatureActionCardStroke);
+        drawable.setStroke(strokeWidth, strokeColor);
+
+        drawable.setCornerRadius(AndroidUtilities.dp(100));
+
+        return drawable;
     }
 
     private String getTemplateType() {
