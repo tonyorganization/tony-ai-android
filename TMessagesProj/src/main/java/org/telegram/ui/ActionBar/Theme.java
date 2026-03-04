@@ -4284,7 +4284,13 @@ public class Theme {
     public static final int keyAiFeatureActionCardText = colorsCount++;
     public static final int keyAiFeatureTranslatorTabActiveIcon = colorsCount++;
     public static final int keyAiFeatureTranslatorTabDefaultIcon = colorsCount++;
+<<<<<<< HEAD
 >>>>>>> 34912c1a (Update dark mode & fix UI for AI Writer, Translator Screen)
+=======
+    public static final int keyAiFeatureImageHelperPickImageText = colorsCount++;
+    public static final int keyAiFeatureImageHelperActionText = colorsCount++;
+    public static final int keyAiFeatureImageHelperActionBackground = colorsCount++;
+>>>>>>> 45de00bc (Update dark mode & fix UI for AI Image Helper Screen)
 
     public static final String key_drawable_botInline = "drawableBotInline";
     public static final String key_drawable_botLink = "drawableBotLink";

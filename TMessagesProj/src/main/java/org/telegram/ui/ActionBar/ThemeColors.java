@@ -856,6 +856,9 @@ public class ThemeColors {
         defaultColors[keyAiFeatureActionCardText] = 0xFF000000;
         defaultColors[keyAiFeatureTranslatorTabActiveIcon] = 0xFFFFFFFF;
         defaultColors[keyAiFeatureTranslatorTabDefaultIcon] = 0xFF000000;
+        defaultColors[keyAiFeatureImageHelperPickImageText] = 0xFF82848A;
+        defaultColors[keyAiFeatureImageHelperActionText] = 0xFF000000;
+        defaultColors[keyAiFeatureImageHelperActionBackground] = 0xFFFFE902;
 
         return defaultColors;
     }
